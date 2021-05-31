@@ -1,14 +1,14 @@
 stages:
-  # - test
+  - test
   - deploy
 
-# lint-test:
-#   image: node:10.15.3-alpine
-#   stage: test
-#   script:
-#     - npm i yarn
-#     - yarn
-#     - yarn lint && echo "linting test passed!"
+lint-test:
+  image: node:10.15.3-alpine
+  stage: test
+  script:
+    - npm i yarn
+    - yarn
+    - yarn lint && echo "linting test passed!"
 
 heroku-deploy:
   image: ruby:3.0.1

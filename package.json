@@ -6,8 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
-    "start": "yarn serve"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "element-plus": "^1.0.2-beta.45",
