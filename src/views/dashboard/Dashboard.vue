@@ -1,20 +1,21 @@
 <template>
   <h1>this is a dashboard page where u see a list of spaces to join</h1>
-  <!-- <a-icon type="mail" /> icon not loaded from antd-->
-  <a-row type="flex" justify="space-around" style="margin-top: 100px">
-    <a-card
-      hoverable
+
+  <el-row :gutter="20">
+    <el-col
+      span="6"
+      class="box-card"
       v-for="item in items"
       :key="item"
       :title="`${item} space`"
-      style="width: 300px"
+      style="cursor: pointer"
       @click="jumpToSpace(item)"
     >
-      <p>card content</p>
-      <p>card content</p>
-      <p>card content</p>
-    </a-card>
-  </a-row>
+      <el-card style="color: red">
+        {{ "List item " + item }}
+      </el-card>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">
@@ -23,6 +24,7 @@ import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Dashboard",
+  components: {},
   setup() {
     const router = useRouter();
     return {
