@@ -1,6 +1,6 @@
 stages:
   - test
-  # - deploy
+  - deploy
 
 lint-test:
   image: node:10.15.3-alpine
@@ -9,3 +9,12 @@ lint-test:
     - npm i yarn
     - yarn
     - yarn lint && echo "linting test passed!"
+
+heroku-deploy:
+  image: ruby:3.0.1
+  stage: deploy
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=niched --api-key=$HEROKU_SERVER_API_KEY
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
