@@ -17,5 +17,5 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.template
 # COPY default.conf.template /etc/nginx/conf.d/default.conf.template
-RUN /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.template > /etc/nginx/conf.d/default.conf" 
+RUN /bin/sh -c "envsubst '\$PORT' < /etc/nginx/conf.template > /etc/nginx/conf.d/default.conf" 
 CMD ["nginx", "-g", "daemon off;"]
