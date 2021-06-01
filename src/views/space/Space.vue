@@ -1,5 +1,5 @@
 <template>
-  <h1>landing page for the space: {{ $route.params.id }}</h1>
+  <h1>landing page for the spacee: {{ $route.params.id }}</h1>
   <span>{{ foo }}</span>
 </template>
 
