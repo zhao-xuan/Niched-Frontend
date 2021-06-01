@@ -1,7 +1,7 @@
 # develop stage
 FROM node:12.2.0-alpine as develop-stage
 WORKDIR /app
-#add /app/node_modules/.bin to $PATH
+ENV PORT=80
 ENV PATH /app/node_modules/ .bin:$PATH 
 COPY package*.json .
 RUN yarn
