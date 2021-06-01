@@ -1,10 +1,11 @@
 # develop stage
 FROM node:12.2.0-alpine as develop-stage
 WORKDIR /app
-COPY package*.json ./
-RUN yarn install
 #add /app/node_modules/.bin to $PATH
-ENV PATH /app/node_modules .bin:$PATH 
+ENV PATH /app/node_modules/ .bin:$PATH 
+COPY package*.json ./
+RUN yarn
+RUN yarn global add @vue/cli
 COPY . .
 # build stage
 FROM develop-stage as build-stage
