@@ -10,6 +10,14 @@ lint-test:
     - yarn
     - yarn lint && echo "linting test passed!"
 
+unit-test:
+  image: node:12.2.0-alpine
+  stage: test
+  script:
+    - npm i yarn
+    - yarn
+    - yarn test:unit && echo "unit test passed!"
+
 heroku-deploy:
   image: ruby:3.0.1
   stage: deploy
