@@ -15,6 +15,7 @@ FROM nginx:1.16.0-alpine as production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 # for vue router 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
-ENV PORT=80
+COPY nginx/nginx.conf /etc/nginx/conf.template
+# COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+RUN /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.template > /etc/nginx/conf.d/default.conf" 
 CMD ["nginx", "-g", "daemon off;"]
