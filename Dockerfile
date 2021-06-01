@@ -18,4 +18,6 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.template
 # COPY default.conf.template /etc/nginx/conf.d/default.conf.template
 RUN /bin/sh -c "envsubst '\$PORT' < /etc/nginx/conf.template > /etc/nginx/conf.d/default.conf" 
+RUN echo "==========================================================================="
+RUN echo $PORT
 CMD ["nginx", "-g", "daemon off;"]
