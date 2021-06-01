@@ -3,7 +3,7 @@ FROM node:12.2.0-alpine as develop-stage
 WORKDIR /app
 #add /app/node_modules/.bin to $PATH
 ENV PATH /app/node_modules/ .bin:$PATH 
-COPY package*.json ./
+COPY package*.json .
 RUN yarn
 RUN yarn global add @vue/cli
 COPY . .
@@ -13,7 +13,7 @@ RUN yarn build
 # production stage
 FROM nginx:1.16.0-alpine as production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-# vue router rqueres
+# for vue router 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
 EXPOSE 80
