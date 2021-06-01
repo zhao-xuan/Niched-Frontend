@@ -16,6 +16,5 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 # for vue router 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
-EXPOSE 80
-# RUN iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 8080
+ENV PORT=80
 CMD ["nginx", "-g", "daemon off;"]
