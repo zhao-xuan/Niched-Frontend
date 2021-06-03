@@ -31,6 +31,7 @@
 .niche-card-image {
   width: 80px;
   height: 80px;
+  border-radius : 10px
 }
 
 .niche-card {
