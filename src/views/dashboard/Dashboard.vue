@@ -1,8 +1,13 @@
 <template>
   <el-container>
     <el-main>
-      <SpaceGroup :spacelist=recommend title="Today's Recommended Niches" />
-      <SpaceGroup v-for="item in niches" :key="item" :spacelist="item.spaces" :title="item.tagName" />
+      <SpaceGroup :spacelist="recommend" title="Today's Recommended Niches" />
+      <SpaceGroup
+        v-for="item in niches"
+        :key="item"
+        :spacelist="item.spaces"
+        :title="item.tagName"
+      />
     </el-main>
     <el-aside width="30%">
       <div style="margin: 40px">
@@ -46,7 +51,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import SpaceGroup from './SpaceGroup.vue'
+import SpaceGroup from "./SpaceGroup.vue";
 
 export default defineComponent({
   name: "Dashboard",
@@ -153,9 +158,6 @@ export default defineComponent({
           location: "Ichiran London",
         },
       ],
-      jumpToSpace(item: string) {
-        router.push({ name: "Space", params: { id: item } });
-      },
     };
   },
 });
