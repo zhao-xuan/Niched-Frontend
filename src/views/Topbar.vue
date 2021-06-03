@@ -1,9 +1,12 @@
 <template>
-  <nav class="navbar navbar-expand-sm" style="background-color: rgb(144, 180, 251)">
+  <nav
+    class="navbar navbar-expand-sm"
+    style="background-color: rgb(144, 180, 251)"
+  >
     <div class="container-fluid">
       <a class="navbar-brand" href="/"
         ><h1 class="text-light ml-0 pl-0">niched</h1>
-        </a>
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -23,7 +26,9 @@
           @input="onChange"
         />
         <div class="mr-sm-5">
-          <button class="btn btn-outline-success">create space</button>
+          <button class="btn btn-outline-success" @click="jumpToCreateSpace">
+            create space
+          </button>
         </div>
         <div>
           <el-avatar icon="el-icon-user-solid"></el-avatar>
@@ -35,13 +40,21 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 export default defineComponent({
   emits: ["input"],
   setup(_, { emit }) {
     const onChange = (e: Event) => {
       emit("input", (e.target as HTMLInputElement).value);
     };
-    return { onChange };
+    const router = useRouter();
+
+    return {
+      onChange,
+      jumpToCreateSpace() {
+        router.push({ name: "CreateSpace" });
+      },
+    };
   },
 });
 </script>
