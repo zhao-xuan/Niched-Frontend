@@ -28,6 +28,18 @@
       </el-row>
       <el-row :gutter="20" class="m-3">
         <el-col :span="6"
+          ><div class="ml-3 flex-shrink-0">
+            <h3 class="text-white">Image Url</h3>
+          </div></el-col
+        >
+        <el-col :span="18"
+          ><div class="mw-3">
+            <el-input placeholder="name" v-model="imgUrl" class="w-25" clearable>
+            </el-input></div
+        ></el-col>
+      </el-row>
+      <el-row :gutter="20" class="m-3">
+        <el-col :span="6"
           ><div class="ml-3">
             <h3 class="text-white">description</h3>
           </div></el-col
@@ -44,7 +56,7 @@
             </el-input>
             <el-row type="flex" justify="end" class="mt-5">
               <div>
-                <el-button @click="onSubmit(name, description)"
+                <el-button @click="onSubmit(id, name, description, imgUrl)"
                   >Submit</el-button
                 >
               </div>
@@ -66,26 +78,33 @@ export default defineComponent({
     const id = ref("");
     const name = ref("");
     const description = ref("");
-    const onSubmit = async (id: string, name: string, description: string) => {
-      if (!id || !name || !description) {
+    const imgUrl = ref("");
+    const onSubmit = async (id: string, name: string, description: string, imgUrl : string) => {
+      if (!id || !name || !description || !imgUrl) {
         alert("name and description required!");
         return;
       }
-      const res = await axios.post(
-        "http://niched-api.herokuapp.com/group/new",
-        {
-          name,
-          description,
+      axios
+        .post("http://niched-api.herokuapp.com/group/new", {
+          name: name,
+          description: description,
           group_id: id,
-          image_url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F827043919050719118%2F&psig=AOvVaw0FQo23kP6jX5eW1KFe9fXF&ust=1622828634333000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPjCoPWB_PACFQAAAAAdAAAAABAO",
-        },
-        { withCredentials: true }
-      );
+          image_url: imgUrl,
+        })
+        .then(
+          (res) => {
+            alert("success!");
+          },
+          (rej) => {
+            alert(rej);
+          }
+        );
     };
     return {
       id,
       name,
       description,
+      imgUrl,
       onSubmit,
     };
   },
