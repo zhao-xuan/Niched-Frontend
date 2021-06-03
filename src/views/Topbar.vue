@@ -1,9 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-sm bg-dark">
+  <nav class="navbar navbar-expand-sm" style="background-color: rgb(144, 180, 251)">
     <div class="container-fluid">
       <a class="navbar-brand" href="/"
-        ><h1 class="text-light ml-0 pl-0">niched</h1></a
-      >
+        ><h1 class="text-light ml-0 pl-0">niched</h1>
+        </a>
       <button
         class="navbar-toggler"
         type="button"
