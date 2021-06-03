@@ -50,7 +50,9 @@ export default defineComponent({
     setup() {
         const router = useRouter();
         return {
-
+          jumpToSpace(item: string) {
+            router.push({ name: "Space", params: { id: item } });
+          },
         }
     },
 })

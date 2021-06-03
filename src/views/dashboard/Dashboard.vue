@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <SpaceGroup :spacelist=recommend title="Today's Recommended Niches" />
+      <SpaceGroup v-bind:spacelist="recommend" title="Today's Recommended Niches" />
       <SpaceGroup v-for="item in niches" :key="item" :spacelist="item.spaces" :title="item.tagName" />
     </el-main>
     <el-aside width="30%">
@@ -44,48 +44,26 @@
 </style>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-import SpaceGroup from './SpaceGroup.vue'
+import SpaceGroup from './SpaceGroup.vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: "Dashboard",
   components: { SpaceGroup },
   setup() {
     const router = useRouter();
+    const recommend = ref([
+      {
+          title: "Ramen tasting",
+          detail: "Exploring London for the best Ramen shop",
+          imgUrl:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+        }
+    ]);
     return {
-      recommend: [
-        {
-          title: "Ramen tasting",
-          detail: "Exploring London for the best Ramen shop",
-          imgUrl:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        },
-        {
-          title: "Ramen tasting",
-          detail: "Exploring London for the best Ramen shop",
-          imgUrl:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        },
-        {
-          title: "Ramen tasting",
-          detail: "Exploring London for the best Ramen shop",
-          imgUrl:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        },
-        {
-          title: "Ramen tasting",
-          detail: "Exploring London for the best Ramen shop",
-          imgUrl:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        },
-        {
-          title: "Ramen tasting",
-          detail: "Exploring London for the best Ramen shop",
-          imgUrl:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        },
-      ],
+      recommend,
       niches: [
         {
           tagName: "Ramen",
@@ -153,10 +131,29 @@ export default defineComponent({
           location: "Ichiran London",
         },
       ],
-      jumpToSpace(item: string) {
-        router.push({ name: "Space", params: { id: item } });
-      },
     };
+  },
+  mounted() {
+    console.log()
+    this.recommend.push({
+          title: "Ramen tasting",
+          detail: "Exploring London for the best Ramen shop",
+          imgUrl:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+        })
+    axios.get("http://niched-api.herokuapp.com/group/all").then(res => {
+      const data = res.data;
+      const new_recommend = [];
+      for (var i in res.data) {
+        new_recommend.push({
+          title : data[i]["name"],
+          detail : data[i]["description"],
+          imgUrl : data[i]["image_url"]
+        })
+      }
+      this.recommend = new_recommend;
+      console.log(this.recommend)
+    });
   },
 });
 </script>
