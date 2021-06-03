@@ -72,12 +72,12 @@ export default defineComponent({
         return;
       }
       const res = await axios.post(
-        "https://127.0.0.1:3000/group/new",
+        "http://niched-api.herokuapp.com/group/new",
         {
           name,
           description,
           group_id: id,
-          image_url: "https://example.com",
+          image_url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F827043919050719118%2F&psig=AOvVaw0FQo23kP6jX5eW1KFe9fXF&ust=1622828634333000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPjCoPWB_PACFQAAAAAdAAAAABAO",
         },
         { withCredentials: true }
       );
