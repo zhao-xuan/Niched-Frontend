@@ -75,6 +75,7 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
 
@@ -85,6 +86,7 @@ export default defineComponent({
     const name = ref("");
     const description = ref("");
     const imgUrl = ref("");
+    const router = useRouter();
     const onSubmit = async (
       id: string,
       name: string,
@@ -104,7 +106,8 @@ export default defineComponent({
         })
         .then(
           (res) => {
-            alert("success!");
+            alert("ur new space:" + name + " has been created!");
+            router.push({ name: "Home" });
           },
           (rej) => {
             alert(rej);

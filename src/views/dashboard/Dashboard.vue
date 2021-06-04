@@ -68,17 +68,17 @@ export default defineComponent({
     const { fetched, data } = useFetch<SpacesResponse>(fetchSpaces, true);
     watchEffect(() => {
       if (fetched.value) {
-        Object.values(data.value || {}).forEach(
-          ({ name, description, image_url }) => {
-            recommend.value.push({
-              title: name,
-              detail: description,
-              imgUrl:
-                image_url ||
-                "https://res.cloudinary.com/duu3v9gfg/image/fetch/t_fit_1920/https://78884ca60822a34fb0e6-082b8fd5551e97bc65e327988b444396.ssl.cf3.rackcdn.com/up/2019/08/Mount-Fuji-1565615301-1565615301.jpg",
-            });
-          }
+        const items = Object.values(data.value || {}).map(
+          ({ name, description, image_url }) => ({
+            title: name,
+            detail: description,
+            imgUrl:
+              image_url ||
+              "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dG9reW98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+          })
         );
+
+        recommend.value = items;
       }
     });
     return {
