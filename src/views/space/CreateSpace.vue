@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-info mh-100" style="height: 1000px">
+  <div class="mh-100" style="height: 1000px">
     <div class="p-5">
-      <h1 class="text-white">create new space!</h1>
+      <h1 class="text-white">create your new space!</h1>
       <el-row :gutter="20" class="m-3">
         <el-col :span="6"
           ><div class="ml-3 flex-shrink-0">
@@ -93,8 +93,8 @@ export default defineComponent({
       description: string,
       imgUrl: string
     ) => {
-      if (!id || !name || !description || !imgUrl) {
-        alert("name and description required!");
+      if (!id || !name || !description) {
+        alert("group id, name and description are required!");
         return;
       }
       axios

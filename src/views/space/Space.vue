@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watchEffect, toRefs } from "vue";
+import { defineComponent, ref, watchEffect, toRefs } from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { fetchSpace, Space } from "@/api/dashboard/space";
 import { useRoute } from "vue-router";
@@ -124,12 +124,5 @@ export default defineComponent({
 .cover {
   background-size: cover;
   background-repeat: no-repeat;
-}
-
-body {
-  background: #654ea3;
-  background: linear-gradient(to right, #32b368, #329eb3);
-  /* min-height: 100vh; */
-  overflow-x: hidden;
 }
 </style>
