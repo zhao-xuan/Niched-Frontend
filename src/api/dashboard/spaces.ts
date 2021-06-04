@@ -1,13 +1,6 @@
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
-
-export type Space = {
-  group_id: string;
-  name: string;
-  description: string;
-  image_url?: string;
-  creation_data: string;
-};
+import { Space } from "./space";
 
 export type SpacesResponse = { [index: string]: Space };
 

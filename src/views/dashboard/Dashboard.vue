@@ -69,7 +69,8 @@ export default defineComponent({
     watchEffect(() => {
       if (fetched.value) {
         const items = Object.values(data.value || {}).map(
-          ({ name, description, image_url }) => ({
+          ({ group_id, name, description, image_url }) => ({
+            groupId: group_id,
             title: name,
             detail: description,
             imgUrl:

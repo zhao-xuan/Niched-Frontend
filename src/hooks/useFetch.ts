@@ -8,6 +8,7 @@ export const useFetch = <Response>(
   fetching: Ref<boolean>;
   fetched: Ref<boolean>;
   error: Ref<any>;
+  doFetch: () => void;
 } => {
   const data = ref<Response | null>(null);
   const fetching = ref<boolean>(false);
@@ -29,5 +30,5 @@ export const useFetch = <Response>(
     if (!immediate) return;
     doFetch();
   });
-  return { data, fetching, fetched, error };
+  return { data, fetching, fetched, doFetch, error };
 };
