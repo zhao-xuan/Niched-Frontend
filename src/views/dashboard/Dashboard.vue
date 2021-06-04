@@ -52,31 +52,61 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, onMounted, toRefs, reactive } from "vue";
+import { defineComponent, onMounted, toRefs, reactive, watchEffect } from "vue";
 import SpaceGroup from "./SpaceGroup.vue";
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
+import { useFetch } from "@/hooks/useFetch";
 import { dashboardFixture } from "./fixtures";
+type Response = {
+  group_id: string;
+  name: string;
+  description: string;
+  image_url?: string;
+  creation_data: string;
+};
 
 export default defineComponent({
   name: "Dashboard",
   components: { SpaceGroup },
   setup() {
     const { recommend, niches, events } = toRefs(reactive(dashboardFixture));
-    onMounted(() => {
-      axios.get(`${SERVER_URL}/group/all`).then((res) => {
-        const data = res.data;
-        for (var i in res.data) {
-          recommend.value.push({
-            title: data[i]["name"],
-            detail: data[i]["description"],
-            imgUrl:
-              data[i]["image_url"] ||
-              "https://res.cloudinary.com/duu3v9gfg/image/fetch/t_fit_1920/https://78884ca60822a34fb0e6-082b8fd5551e97bc65e327988b444396.ssl.cf3.rackcdn.com/up/2019/08/Mount-Fuji-1565615301-1565615301.jpg",
-          });
-        }
-      });
+    const getSpaces = async (): Promise<{ [index: string]: Response }> => {
+      const res = await axios.get(`${SERVER_URL}/group/all`);
+      return res.data;
+    };
+    const { fetching, fetched, data } = useFetch<{ [index: string]: Response }>(
+      getSpaces,
+      true
+    );
+    watchEffect(() => {
+      if (fetched) {
+        Object.values(data.value || {}).forEach(
+          ({ name, description, image_url }) => {
+            recommend.value.push({
+              title: name,
+              detail: description,
+              imgUrl:
+                image_url ||
+                "https://res.cloudinary.com/duu3v9gfg/image/fetch/t_fit_1920/https://78884ca60822a34fb0e6-082b8fd5551e97bc65e327988b444396.ssl.cf3.rackcdn.com/up/2019/08/Mount-Fuji-1565615301-1565615301.jpg",
+            });
+          }
+        );
+      }
     });
+    // axios.get().then((res) => {
+    //   const data = res.data;
+    //   for (var i in res.data) {
+    //     recommend.value.push({
+    //       title: data[i]["name"],
+    //       detail: data[i]["description"],
+    //       imgUrl:
+    //         data[i]["image_url"] ||
+    //         "https://res.cloudinary.com/duu3v9gfg/image/fetch/t_fit_1920/https://78884ca60822a34fb0e6-082b8fd5551e97bc65e327988b444396.ssl.cf3.rackcdn.com/up/2019/08/Mount-Fuji-1565615301-1565615301.jpg",
+    //     });
+    //   }
+    // });
+
     return {
       recommend,
       niches,
