@@ -25,13 +25,16 @@
           placeholder="Search"
           @input="onChange"
         />
-        <div class="mr-sm-5">
+        <div class="mr-3">
           <button class="btn btn-outline-success" @click="jumpToCreateSpace">
             create space
           </button>
         </div>
-        <div>
-          <el-avatar icon="el-icon-user-solid"></el-avatar>
+        <div class="mx-2">
+          <div class="text-center" @click="jumpToProfile('leo')">
+            <el-avatar icon="el-icon-user-solid">user</el-avatar>
+            leo
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +56,9 @@ export default defineComponent({
       onChange,
       jumpToCreateSpace() {
         router.push({ name: "CreateSpace" });
+      },
+      jumpToProfile(id: string) {
+        router.push({ name: "Profile", params: { id } });
       },
     };
   },
