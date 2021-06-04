@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-info mh-100" style="height: 1000px">
+  <div class="mh-100" style="height: 1000px">
     <div class="p-5">
-      <h1 class="text-white">create new space!</h1>
+      <h1 class="text-white">create your new space!</h1>
       <el-row :gutter="20" class="m-3">
         <el-col :span="6"
           ><div class="ml-3 flex-shrink-0">
@@ -34,7 +34,12 @@
         >
         <el-col :span="18"
           ><div class="mw-3">
-            <el-input placeholder="name" v-model="imgUrl" class="w-25" clearable>
+            <el-input
+              placeholder="cover photo"
+              v-model="imgUrl"
+              class="w-25"
+              clearable
+            >
             </el-input></div
         ></el-col>
       </el-row>
@@ -70,7 +75,9 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
+import { SERVER_URL } from "@/api/constant";
 
 export default defineComponent({
   name: "CreateSpace",
@@ -79,13 +86,19 @@ export default defineComponent({
     const name = ref("");
     const description = ref("");
     const imgUrl = ref("");
-    const onSubmit = async (id: string, name: string, description: string, imgUrl : string) => {
-      if (!id || !name || !description || !imgUrl) {
-        alert("name and description required!");
+    const router = useRouter();
+    const onSubmit = async (
+      id: string,
+      name: string,
+      description: string,
+      imgUrl: string
+    ) => {
+      if (!id || !name || !description) {
+        alert("group id, name and description are required!");
         return;
       }
       axios
-        .post("http://niched-api.herokuapp.com/group/new", {
+        .post(`${SERVER_URL}/group/new`, {
           name: name,
           description: description,
           group_id: id,
@@ -93,7 +106,8 @@ export default defineComponent({
         })
         .then(
           (res) => {
-            alert("success!");
+            alert("ur new space:" + name + " has been created!");
+            router.push({ name: "Home" });
           },
           (rej) => {
             alert(rej);
