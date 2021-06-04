@@ -34,7 +34,12 @@
         >
         <el-col :span="18"
           ><div class="mw-3">
-            <el-input placeholder="name" v-model="imgUrl" class="w-25" clearable>
+            <el-input
+              placeholder="cover photo"
+              v-model="imgUrl"
+              class="w-25"
+              clearable
+            >
             </el-input></div
         ></el-col>
       </el-row>
@@ -71,6 +76,7 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import axios from "axios";
+import { SERVER_URL } from "@/api/constant";
 
 export default defineComponent({
   name: "CreateSpace",
@@ -79,13 +85,18 @@ export default defineComponent({
     const name = ref("");
     const description = ref("");
     const imgUrl = ref("");
-    const onSubmit = async (id: string, name: string, description: string, imgUrl : string) => {
+    const onSubmit = async (
+      id: string,
+      name: string,
+      description: string,
+      imgUrl: string
+    ) => {
       if (!id || !name || !description || !imgUrl) {
         alert("name and description required!");
         return;
       }
       axios
-        .post("http://niched-api.herokuapp.com/group/new", {
+        .post(`${SERVER_URL}/group/new`, {
           name: name,
           description: description,
           group_id: id,
