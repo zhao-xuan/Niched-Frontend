@@ -11,7 +11,7 @@
         :key="niche"
         :title="`${niche} space`"
         style="cursor: pointer"
-        @click="jumpToSpace(niche.title)"
+        @click="jumpToSpace(niche.groupId)"
       >
         <el-card style="border-radius: 20px">
           <div style="display: flex; flex-direction: row">
@@ -44,16 +44,16 @@ import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-    name : "SpaceGroup",
-    components : {},
-    props : ["title", "spacelist"],
-    setup() {
-        const router = useRouter();
-        return {
-          jumpToSpace(item: string) {
-            router.push({ name: "Space", params: { id: item } });
-          },
-        }
-    },
-})
+  name: "SpaceGroup",
+  components: {},
+  props: ["title", "spacelist"],
+  setup() {
+    const router = useRouter();
+    return {
+      jumpToSpace(item: string) {
+        router.push({ name: "Space", params: { id: item } });
+      },
+    };
+  },
+});
 </script>

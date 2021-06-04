@@ -24,9 +24,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/space/:id",
     name: "Space",
     component: Space,
-    props: {
-      foo: "FOO",
-    },
   },
 ];
 
