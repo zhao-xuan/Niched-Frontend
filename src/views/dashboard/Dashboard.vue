@@ -1,8 +1,16 @@
 <template>
   <el-container>
     <el-main>
-      <SpaceGroup v-bind:spacelist="recommend" title="Today's Recommended Niches" />
-      <SpaceGroup v-for="item in niches" :key="item" :spacelist="item.spaces" :title="item.tagName" />
+      <SpaceGroup
+        v-bind:spacelist="recommend"
+        title="Today's Recommended Niches"
+      />
+      <SpaceGroup
+        v-for="item in niches"
+        :key="item"
+        :spacelist="item.spaces"
+        :title="item.tagName"
+      />
     </el-main>
     <el-aside width="30%">
       <div style="margin: 40px">
@@ -44,116 +52,41 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
-import SpaceGroup from './SpaceGroup.vue';
-import axios from 'axios';
+import { defineComponent, toRefs, reactive, watchEffect } from "vue";
+import SpaceGroup from "./SpaceGroup.vue";
+import { useFetch } from "@/hooks/useFetch";
+import { useIsMountedRef } from "@/hooks/useIsMountedRef";
+import { dashboardFixture } from "./fixtures";
+import { SpacesResponse, fetchSpaces } from "@/api/dashboard/spaces";
 
 export default defineComponent({
   name: "Dashboard",
   components: { SpaceGroup },
   setup() {
-    const router = useRouter();
-    const recommend = ref([
-      {
-          title: "Ramen tasting",
-          detail: "Exploring London for the best Ramen shop",
-          imgUrl:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        }
-    ]);
+    const { recommend, niches, events } = toRefs(reactive(dashboardFixture));
+
+    const { fetched, data } = useFetch<SpacesResponse>(fetchSpaces, true);
+    watchEffect(() => {
+      if (fetched.value) {
+        const items = Object.values(data.value || {}).map(
+          ({ group_id, name, description, image_url }) => ({
+            groupId: group_id,
+            title: name,
+            detail: description,
+            imgUrl:
+              image_url ||
+              "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dG9reW98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+          })
+        );
+
+        recommend.value = items;
+      }
+    });
     return {
       recommend,
-      niches: [
-        {
-          tagName: "Ramen",
-          spaces: [
-            {
-              title: "Ramen tasting",
-              detail: "Exploring London for the best Ramen shop",
-              imgUrl:
-                "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-            },
-            {
-              title: "Ramen tasting",
-              detail: "Exploring London for the best Ramen shop",
-              imgUrl:
-                "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-            },
-          ],
-        },
-        {
-          tagName: "Ramen",
-          spaces: [
-            {
-              title: "Ramen tasting",
-              detail: "Exploring London for the best Ramen shop",
-              imgUrl:
-                "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-            },
-            {
-              title: "Ramen tasting",
-              detail: "Exploring London for the best Ramen shop",
-              imgUrl:
-                "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-            },
-          ],
-        },
-        {
-          tagName: "Ramen",
-          spaces: [
-            {
-              title: "Ramen tasting",
-              detail: "Exploring London for the best Ramen shop",
-              imgUrl:
-                "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-            },
-            {
-              title: "Ramen tasting",
-              detail: "Exploring London for the best Ramen shop",
-              imgUrl:
-                "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-            },
-          ],
-        },
-      ],
-      events: [
-        {
-          title: "Sunday afternoon",
-          detail: "Bring your money and come",
-          datetime: "12:00PM June 3 2021",
-          location: "Ichiran London",
-        },
-        {
-          title: "Sunday afternoon",
-          detail: "Bring your money and come",
-          datetime: "12:00PM June 3 2021",
-          location: "Ichiran London",
-        },
-      ],
+      niches,
+      events,
     };
-  },
-  mounted() {
-    console.log()
-    this.recommend.push({
-          title: "Ramen tasting",
-          detail: "Exploring London for the best Ramen shop",
-          imgUrl:
-            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-        })
-    axios.get("http://niched-api.herokuapp.com/group/all").then(res => {
-      const data = res.data;
-      const new_recommend = [];
-      for (var i in res.data) {
-        new_recommend.push({
-          title : data[i]["name"],
-          detail : data[i]["description"],
-          imgUrl : data[i]["image_url"]
-        })
-      }
-      this.recommend = new_recommend;
-      console.log(this.recommend)
-    });
   },
 });
 </script>
