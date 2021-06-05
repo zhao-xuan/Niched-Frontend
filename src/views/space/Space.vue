@@ -112,17 +112,6 @@ export default defineComponent({
       true
     );
 
-    // watch([fetched, isMounted], (val, prev) => {
-    //   if (val[0] && val[1]) {
-    //     name.value = data.value?.name || "";
-    //     description.value = data.value?.description || "";
-    //     imageUrl.value =
-    //       data.value?.image_url ||
-    //       "https://blackmantkd.com/wp-content/uploads/2017/04/default-image-620x600.jpg";
-    //   }
-    // });
-
-    //doesnt work
     watchEffect(() => {
       if (fetched) {
         name.value = data.value?.name || "";
