@@ -1,4 +1,4 @@
-import { ref, Ref, UnwrapRef, watchEffect } from "vue";
+import { onMounted, ref, Ref, UnwrapRef } from "vue";
 
 export const useFetch = <Response>(
   request: () => Promise<Response>,
@@ -26,9 +26,9 @@ export const useFetch = <Response>(
     fetching.value = false;
   };
 
-  watchEffect(() => {
-    if (!immediate) return;
+  onMounted(() => {
     doFetch();
   });
+
   return { data, fetching, fetched, doFetch, error };
 };

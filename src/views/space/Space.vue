@@ -85,10 +85,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect, toRefs } from "vue";
+import {
+  defineComponent,
+  ref,
+  watchEffect,
+  watch,
+  onUnmounted,
+  onBeforeUnmount,
+} from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { fetchSpace, Space } from "@/api/dashboard/space";
 import { useRoute } from "vue-router";
+import { useIsMountedRef } from "@/hooks/useIsMountedRef";
 
 export default defineComponent({
   name: "Space",
@@ -97,11 +105,24 @@ export default defineComponent({
     const name = ref("");
     const imageUrl = ref("");
     const description = ref("");
+    const isMounted = useIsMountedRef();
 
     const { data, fetched } = useFetch<Space>(
       () => fetchSpace(route.params.id as string),
       true
     );
+
+    // watch([fetched, isMounted], (val, prev) => {
+    //   if (val[0] && val[1]) {
+    //     name.value = data.value?.name || "";
+    //     description.value = data.value?.description || "";
+    //     imageUrl.value =
+    //       data.value?.image_url ||
+    //       "https://blackmantkd.com/wp-content/uploads/2017/04/default-image-620x600.jpg";
+    //   }
+    // });
+
+    //doesnt work
     watchEffect(() => {
       if (fetched) {
         name.value = data.value?.name || "";
