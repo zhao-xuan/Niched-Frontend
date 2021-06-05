@@ -1,74 +1,70 @@
 <template>
-  <div class="mh-100" style="height: 1000px">
-    <div class="p-5">
-      <h1 class="text-white">create your new space!</h1>
-      <el-row :gutter="20" class="m-3">
-        <el-col :span="6"
-          ><div class="ml-3 flex-shrink-0">
-            <h3 class="text-white">space id</h3>
-          </div></el-col
+  <div class="container text-white">
+    <div class="row py-5 px-3">
+      <div class="col-md-10 mx-auto px-0">
+        <h1>create a new space!</h1>
+      </div>
+      <div class="bg-success col-md-10 mx-auto shadow rounded overflow-hidden">
+        <div class="row mt-3 mb-5 align-items-center">
+          <div class="col-12 col-md-4"><h3>space id</h3></div>
+          <div class="col-12 col-md-8">
+            <div class="my-auto">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="id"
+                v-model="id"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row my-5 align-items-center">
+          <div class="col-12 col-md-4"><h3>space name</h3></div>
+          <div class="col-12 col-md-8">
+            <div class="my-auto">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="name"
+                v-model="name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row my-3 align-items-center">
+          <div class="col-12 col-md-4"><h3>image url</h3></div>
+          <div class="col-12 col-md-8">
+            <div class="my-auto">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="http://.."
+                v-model="imgUrl"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5 mb-3 align-items-start">
+          <div class="col-12 col-md-4"><h3>description</h3></div>
+          <div class="col-12 col-md-8">
+            <div class="my-auto">
+              <textarea
+                class="form-control"
+                placeholder="describe your space here..."
+                maxlength="50"
+                v-model="description"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-md-10 mx-auto justify-content-end mt-3 pr-0">
+        <el-button
+          class="bg-success text-white"
+          @click="onSubmit(id, name, description, imgUrl)"
+          >Submit</el-button
         >
-        <el-col :span="18"
-          ><div class="mw-3">
-            <el-input placeholder="id" v-model="id" class="w-25" clearable>
-            </el-input></div
-        ></el-col>
-      </el-row>
-      <el-row :gutter="20" class="m-3">
-        <el-col :span="6"
-          ><div class="ml-3 flex-shrink-0">
-            <h3 class="text-white">space name</h3>
-          </div></el-col
-        >
-        <el-col :span="18"
-          ><div class="mw-3">
-            <el-input placeholder="name" v-model="name" class="w-25" clearable>
-            </el-input></div
-        ></el-col>
-      </el-row>
-      <el-row :gutter="20" class="m-3">
-        <el-col :span="6"
-          ><div class="ml-3 flex-shrink-0">
-            <h3 class="text-white">Image Url</h3>
-          </div></el-col
-        >
-        <el-col :span="18"
-          ><div class="mw-3">
-            <el-input
-              placeholder="cover photo"
-              v-model="imgUrl"
-              class="w-25"
-              clearable
-            >
-            </el-input></div
-        ></el-col>
-      </el-row>
-      <el-row :gutter="20" class="m-3">
-        <el-col :span="6"
-          ><div class="ml-3">
-            <h3 class="text-white">description</h3>
-          </div></el-col
-        >
-        <el-col :span="18"
-          ><div class="w-75">
-            <el-input
-              type="textarea"
-              placeholder="Please input"
-              v-model="description"
-              maxlength="50"
-              show-word-limit
-            >
-            </el-input>
-            <el-row type="flex" justify="end" class="mt-5">
-              <div>
-                <el-button @click="onSubmit(id, name, description, imgUrl)"
-                  >Submit</el-button
-                >
-              </div>
-            </el-row>
-          </div></el-col
-        >
-      </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -90,8 +86,8 @@ export default defineComponent({
     const onSubmit = async (
       id: string,
       name: string,
-      description: string,
-      imgUrl: string
+      imgUrl: string,
+      description: string
     ) => {
       if (!id || !name || !description) {
         alert("group id, name and description are required!");
