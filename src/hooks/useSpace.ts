@@ -31,5 +31,5 @@ export const useSpace = (spaceId: string, immediate: boolean): ReturnType => {
     }
   });
 
-  return { ...toRefs(state), doFetch, ...toRefs(res) };
+  return { ...toRefs(state), doFetch, ...res };
 };
