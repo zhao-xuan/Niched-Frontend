@@ -1,16 +1,23 @@
-import { onMounted, ref, Ref, UnwrapRef } from "vue";
+import { onMounted, Ref, ref, ToRefs } from "vue";
+
+export type FetchType = {
+  fetching: boolean;
+  fetched: boolean;
+  error: any;
+};
+
+export type FetchingDataType<T> = {
+  doFetch: () => void;
+  data: Ref<T | undefined>;
+};
+
+type ReturnType<T> = ToRefs<FetchType> & FetchingDataType<T>;
 
 export const useFetch = <Response>(
   request: () => Promise<Response>,
   immediate = false
-): {
-  data: Ref<UnwrapRef<Response> | null>;
-  fetching: Ref<boolean>;
-  fetched: Ref<boolean>;
-  error: Ref<any>;
-  doFetch: () => void;
-} => {
-  const data = ref<Response | null>(null);
+): ReturnType<Response> => {
+  const data = ref<Response>();
   const fetching = ref<boolean>(false);
   const fetched = ref<boolean>(false);
   const error = ref<any>(null);
@@ -18,7 +25,7 @@ export const useFetch = <Response>(
   const doFetch = async () => {
     fetching.value = true;
     try {
-      data.value = (await request()) as UnwrapRef<Response>;
+      data.value = await request();
       fetched.value = true;
     } catch (err) {
       error.value = err;
@@ -31,6 +38,5 @@ export const useFetch = <Response>(
       doFetch();
     }
   });
-
-  return { data, fetching, fetched, doFetch, error };
+  return { data, fetched, fetching, error, doFetch };
 };
