@@ -85,33 +85,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from "vue";
-import { useFetch } from "@/hooks/useFetch";
-import { fetchSpace, Space } from "@/api/dashboard/space";
+import { defineComponent } from "vue";
+import { useSpace } from "@/hooks/useSpace";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Space",
   setup() {
     const route = useRoute();
-    const name = ref("");
-    const imageUrl = ref("");
-    const description = ref("");
-
-    const { data, fetched } = useFetch<Space>(
-      () => fetchSpace(route.params.id as string),
-      true
-    );
-
-    watchEffect(() => {
-      if (fetched) {
-        name.value = data.value?.name || "";
-        description.value = data.value?.description || "";
-        imageUrl.value =
-          data.value?.image_url ||
-          "https://blackmantkd.com/wp-content/uploads/2017/04/default-image-620x600.jpg";
-      }
-    });
+    const groupId = route.params.id as string;
+    const { name, imageUrl, description } = useSpace(groupId, true);
 
     return {
       name,
