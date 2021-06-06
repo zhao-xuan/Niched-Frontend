@@ -27,7 +27,9 @@ export const useFetch = <Response>(
   };
 
   onMounted(() => {
-    doFetch();
+    if (immediate) {
+      doFetch();
+    }
   });
 
   return { data, fetching, fetched, doFetch, error };
