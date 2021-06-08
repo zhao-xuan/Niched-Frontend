@@ -86,8 +86,8 @@ export default defineComponent({
     const onSubmit = async (
       id: string,
       name: string,
-      imgUrl: string,
-      description: string
+      description: string,
+      imgUrl: string
     ) => {
       if (!id || !name || !description) {
         alert("group id, name and description are required!");
