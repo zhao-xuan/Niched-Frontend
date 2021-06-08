@@ -45,7 +45,7 @@
     <div class="col-md-4 order-1">
       <el-card style="margin: 20px auto;">
           <div>
-            <h3>Welcome, Hoang</h3>
+            <h3>Welcome, Hoang and {{ username }}</h3>
             <p>
               Your personalized Niched homepage. Come here to check in with your
               favorite communities
@@ -81,11 +81,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive } from "vue";
+import { defineComponent, toRefs, reactive, watchEffect } from "vue";
 import SpaceGroup from "../dashboard/SpaceGroup.vue";
 import { useRoute } from "vue-router";
+import { useFetch } from "@/hooks/useFetch";
 import TopBar from "../Topbar.vue";
 import { dashboardFixture } from "../dashboard/fixtures"
+import { ProfileResponse, fetchAlice, fetchUser } from "@/api/profile";
 import axios from "axios";
 
 export default defineComponent({
@@ -93,9 +95,48 @@ export default defineComponent({
   components: { TopBar },
   setup() {
     const { niches, events } = toRefs(reactive(dashboardFixture));
+
+    // const profile_info = fetchUser('alice');
+    // console.log("HELLO WORLD 2");
+    // console.log(profile_info);
+
+    let username = "";
+    // const mail: string;
+    // const age: string;
+    // const subscribed_groups: [string];
+    // const interests: [string];
+    // const password: string;
+
+    fetchUser('alice').then((res) => {
+      console.log(res);
+      console.log(res.username);
+      username = res.username;
+      console.log("WHY IS THIS NOT WORKING")
+    })
+
+    // console.log(profile_info.username);
+    // const { fetched, data } = useFetch<ProfileResponse>(fetchAlice, true);
+    // watchEffect(() => {
+    //   if (fetched.value) {
+    //     console.log(data);
+    //     console.log("HELLO WORLD MY NAME IS Leo");
+    //     // const items = Object.values(data.value || {}).map(
+    //     //   ({ username, mail, age, subscribed_groups, interests, password }) => ({
+    //     //     username: username,
+    //     //     mail: mail,
+    //     //     age: age,
+    //     //     subscribed_groups: subscribed_groups,
+    //     //     interests: interests,
+    //     //     password: password,
+    //     //   })
+    //     // );
+    //     console.log("HELLO")
+    //   }
+    // });
     return {
       niches,
       events,
+      username,
     };
   },
 });
