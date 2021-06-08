@@ -1,8 +1,9 @@
 <template>
   <TopBar />
-  <el-container>
-    <el-main>
-      <el-card style="margin: 20px auto; width: 80%; float: right;">
+  <div class="container">
+  <div class="row">
+    <div class="col-md-8 order-0">
+      <el-card style="margin: 20px auto;">
         <template #header>
           <div>
             <span>Introduction</span>
@@ -11,10 +12,15 @@
             >
           </div>
         </template>
-        <div class="text item">This is Leo the genius :)</div>
+        <div class="text item">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          <br>
+          <br>
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
       </el-card>
 
-      <el-card style="margin: 20px auto; width: 80%; float: right;%">
+      <el-card style="margin: 20px auto;">
         <template #header>
           <div>
             <span>Following Spaces</span>
@@ -24,62 +30,20 @@
           </div>
         </template>
         <p> HELLO WORLD </p>
-        <SpaceGroup
+        <!-- <SpaceGroup
           v-for="item in niches"
           :key="item"
           :spacelist="item.spaces"
           :title="item.tagName"
-        />
+        /> -->
         <div v-for="o in 4" :key="o" class="text item">
           {{ "List item " + o }}
         </div>
       </el-card>
+    </div>
 
-      <el-card style="margin: 20px auto; width: 80%; float: right;">
-        <template #header>
-          <div>
-            <span>About Hoang</span>
-            <el-button type="text" style="float: right; margin-top: -10px"
-              >Edit</el-button
-            >
-          </div>
-        </template>
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ "List item " + o }}
-        </div>
-      </el-card>
-
-      <el-card style="margin: 20px auto; width: 80%; float: right;">
-        <template #header>
-          <div>
-            <span>Intro</span>
-            <el-button type="text" style="float: right; margin-top: -10px"
-              >Edit</el-button
-            >
-          </div>
-        </template>
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ "List item " + o }}
-        </div>
-      </el-card>
-
-      <el-card style="margin: 20px auto; width: 80%; float: right;">
-        <template #header>
-          <div>
-            <span>Intro</span>
-            <el-button type="text" style="float: right; margin-top: -10px"
-              >Edit</el-button
-            >
-          </div>
-        </template>
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ "List item " + o }}
-        </div>
-      </el-card>
-    </el-main>
-    <el-aside width="30%;">
-      <div style="margin: 40px">
-        <el-card style="margin: 20px auto; width: 60%">
+    <div class="col-md-4 order-1">
+      <el-card style="margin: 20px auto;">
           <div>
             <h3>Welcome, Hoang</h3>
             <p>
@@ -95,10 +59,10 @@
             </div>
           </div>
         </el-card>
-        <el-card style="margin: 20px auto; width: 60%">
+        <el-card style="margin: 20px auto">
           <div>
-            <h3>Your Niches</h3>
-            <p>Keep up to date with the things you're interested in!</p>
+            <h3>Your Events</h3>
+            <p>Check out the latest events you've signed up for here!</p>
             <el-card
               style="border-radius: 10px; margin-bottom: 10px"
               v-for="event in events"
@@ -110,9 +74,10 @@
             </el-card>
           </div>
         </el-card>
-      </div>
-    </el-aside>
-  </el-container>
+    </div>
+  </div>
+</div>
+
 </template>
 
 <script lang="ts">
@@ -128,27 +93,10 @@ export default defineComponent({
   components: { TopBar },
   setup() {
     const { niches, events } = toRefs(reactive(dashboardFixture));
-    // const route = useRoute();
-    // return {
-    //   id: route.params.id,
-    // };
     return {
       niches,
       events,
     };
   },
-  // mounted() {
-  //   // this is a test
-  //   axios
-  //     .get("http://127.0.0.1:8080/group/somepeople", {
-  //       // group_id: "somepeople",
-  //       // name: "tom space",
-  //       // description: "this is a space created by tom",
-  //       // image_url: "https://www.w3.org/Style/Woolly/woolly-mc.png"
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //     });
-  // },
 });
 </script>

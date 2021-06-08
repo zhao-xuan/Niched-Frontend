@@ -24,12 +24,12 @@
           </div>
         </template>
         <p> HELLO WORLD </p>
-        <SpaceGroup
+        <!-- <SpaceGroup
           v-for="item in niches"
           :key="item"
           :spacelist="item.spaces"
           :title="item.tagName"
-        />
+        /> -->
         <div v-for="o in 4" :key="o" class="text item">
           {{ "List item " + o }}
         </div>
