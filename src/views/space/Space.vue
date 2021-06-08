@@ -2,22 +2,26 @@
   <div class="row py-5 px-4">
     <div class="col-md-5 mx-auto">
       <!-- Profile widget -->
-      <div class="bg-white shadow rounded overflow-hidden">
+      <div class="bg-white shadow rounded overflow-hidden mt-3s">
         <div
-          class="px-4 pt-0 pb-4 cover"
+          class="px-4 pt-0 pb-5 cover"
           :style="{
             backgroundImage: 'url(' + imageUrl + ')',
           }"
         >
+          <div class="mb-2 text-white d-flex justify-content-center">
+            <div class="px-4">
+              <h2 class="pt-5 my-4">
+                {{ name }}
+              </h2>
+            </div>
+            <p class="small mb-4"></p>
+          </div>
           <div class="media align-items-end profile-head">
             <div class="profile mr-3">
               <a href="#" class="btn btn-dark btn-sm btn-block"
                 >Join the space!</a
               >
-            </div>
-            <div class="media-body mb-5 text-white">
-              <h1 class="pb-5 pt-2 my-4">{{ name }}</h1>
-              <p class="small mb-4"></p>
             </div>
           </div>
         </div>
@@ -81,32 +85,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect, toRefs } from "vue";
-import { useFetch } from "@/hooks/useFetch";
-import { fetchSpace, Space } from "@/api/dashboard/space";
+import { defineComponent } from "vue";
+import { useSpace } from "@/hooks/useSpace";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Space",
   setup() {
     const route = useRoute();
-    const name = ref("");
-    const imageUrl = ref("");
-    const description = ref("");
-
-    const { data, fetched } = useFetch<Space>(
-      () => fetchSpace(route.params.id as string),
-      true
-    );
-    watchEffect(() => {
-      if (fetched) {
-        name.value = data.value?.name || "";
-        description.value = data.value?.description || "";
-        imageUrl.value =
-          data.value?.image_url ||
-          "https://blackmantkd.com/wp-content/uploads/2017/04/default-image-620x600.jpg";
-      }
-    });
+    const groupId = route.params.id as string;
+    const { name, imageUrl, description } = useSpace(groupId, true);
 
     return {
       name,

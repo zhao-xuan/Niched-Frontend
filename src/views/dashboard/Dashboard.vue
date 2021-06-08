@@ -55,9 +55,8 @@
 import { defineComponent, toRefs, reactive, watchEffect } from "vue";
 import SpaceGroup from "./SpaceGroup.vue";
 import { useFetch } from "@/hooks/useFetch";
-import { useIsMountedRef } from "@/hooks/useIsMountedRef";
 import { dashboardFixture } from "./fixtures";
-import { SpacesResponse, fetchSpaces } from "@/api/dashboard/spaces";
+import { SpacesResponse, fetchSpaces } from "@/api/spaces";
 
 export default defineComponent({
   name: "Dashboard",
