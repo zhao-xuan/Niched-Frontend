@@ -4,10 +4,22 @@ import Profile from "../views/users/Profile.vue";
 import Space from "../views/space/Space.vue";
 import CreateSpace from "../views/space/CreateSpace.vue";
 import Event from "../views/space/Event.vue";
+import Login from "../views/Login.vue";
+import Register from "../views/Register.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
+  },
+  {
+    path: "/home",
     name: "Home",
     component: Home,
   },
