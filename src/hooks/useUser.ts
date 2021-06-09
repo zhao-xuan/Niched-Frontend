@@ -20,7 +20,6 @@ export const useUser = (userName: string, immediate: boolean): ReturnType => {
   watch(userData, () => {
     if (userData && userData.value) {
       state.userName = userData.value.user_name;
-      console.log(state.userName, "USERNAME");
       state.email = userData.value.email;
       state.bio = userData.value.bio;
       state.subscribedGroups = userData.value.subscribed_groups;
