@@ -6,7 +6,8 @@
         <div
           class="px-4 pt-0 pb-5 cover"
           :style="{
-            backgroundImage: 'url(https://www.apple.com/v/home/hc/images/overview/macos_hw_02__fxfwijtx516q_large_2x.png)',
+            backgroundImage:
+              'url(https://www.apple.com/v/home/hc/images/overview/macos_hw_02__fxfwijtx516q_large_2x.png)',
           }"
         >
           <div class="mb-2 text-white d-flex justify-content-center">
@@ -19,22 +20,16 @@
           </div>
         </div>
         <div class="media align-items-end profile-head">
-            <div class="profile m-3">
-              <a href="#" class="btn btn-dark btn-sm btn-block"
-                >Interested</a
-              >
-            </div>
-            <div class="profile m-3">
-              <a href="#" class="btn btn-dark btn-sm btn-block"
-                >Going</a
-              >
-            </div>
-            <div class="profile m-3">
-              <a href="#" class="btn btn-dark btn-sm btn-block"
-                >Comment</a
-              >
-            </div>
+          <div class="profile m-3">
+            <a href="#" class="btn btn-dark btn-sm btn-block">Interested</a>
           </div>
+          <div class="profile m-3">
+            <a href="#" class="btn btn-dark btn-sm btn-block">Going</a>
+          </div>
+          <div class="profile m-3">
+            <a href="#" class="btn btn-dark btn-sm btn-block">Comment</a>
+          </div>
+        </div>
         <div class="bg-light p-4 d-flex justify-content-end text-center">
           <ul class="list-inline mb-0">
             <li class="list-inline-item">
@@ -62,15 +57,21 @@
         <div class="px-4 py-3">
           <h5 class="mb-0">About</h5>
           <div class="p-4 rounded shadow-sm bg-light">
-            <p>This is an example event. This is an example event. This is an example event. 
-              This is an example event. This is an example event. This is an example event. </p>
+            <p>
+              This is an example event. This is an example event. This is an
+              example event. This is an example event. This is an example event.
+              This is an example event.
+            </p>
           </div>
         </div>
         <div class="px-4 py-3">
           <h5 class="mb-0">Comment Thread</h5>
           <div class="p-4 rounded shadow-sm bg-light">
-            <p>This is an example event. This is an example event. This is an example event. 
-              This is an example event. This is an example event. This is an example event. </p>
+            <p>
+              This is an example event. This is an example event. This is an
+              example event. This is an example event. This is an example event.
+              This is an example event.
+            </p>
           </div>
         </div>
         <div class="py-4 px-4">
