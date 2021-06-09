@@ -1,8 +1,8 @@
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
 
-type GroupId = string;
-type Hashtag = string;
+export type GroupId = string;
+export type Hashtag = string;
 export type UserResponse = {
   user_name: string;
   email?: string;
