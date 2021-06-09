@@ -11,10 +11,15 @@
   <div class="main">
     <div class="col-md-6 col-sm-12">
       <div class="login-form">
-        <form>
+        <form @submit.prevent>
           <div class="form-group">
             <label>User Name</label>
-            <input type="text" class="form-control" placeholder="User Name" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="User Name"
+              v-model="userNameInput"
+            />
           </div>
           <div class="form-group">
             <label>Password</label>
@@ -24,8 +29,8 @@
               placeholder="Password"
             />
           </div>
-          <button type="submit" class="btn btn-primary m-2">Login</button>
-          <button type="submit" class="btn btn-white m-2">Register</button>
+          <button class="btn btn-primary m-2" @click="onLogIn">Login</button>
+          <button class="btn btn-white m-2">Register</button>
         </form>
       </div>
     </div>
@@ -108,18 +113,44 @@ body {
 </style>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-
+import { ref, defineComponent } from "vue";
+import { useRouter } from "vue-router";
+import { useState } from "@/state";
+import { fetchUser } from "@/api/user";
+import { AxiosError } from "axios";
 export default defineComponent({
   name: "Login",
   setup() {
-    const onSearchSpace = (searchString: string) => {
-      //TODO: fetch spaces
-      console.log(searchString);
+    const userNameInput = ref("");
+    const {
+      setUserName,
+      setLoggedIn,
+      setEmail,
+      setBio,
+      setInterests,
+      setSubscribedGroups,
+    } = useState();
+    const router = useRouter();
+    const onLogIn = async () => {
+      try {
+        const { user_name, email, bio, interests, subscribed_groups } =
+          await fetchUser(userNameInput.value);
+        setUserName(user_name);
+        setInterests(interests);
+        setSubscribedGroups(subscribed_groups);
+        setBio(bio || "");
+        setEmail(email || "");
+        setLoggedIn(true);
+        alert("login success!");
+        router.push({ name: "Home" });
+      } catch (err) {
+        const error = err as AxiosError;
+        console.log(error.response?.status);
+        alert(error.response?.statusText);
+      }
     };
-    return {
-      onSearchSpace,
-    };
+
+    return { userNameInput, onLogIn };
   },
 });
 </script>
