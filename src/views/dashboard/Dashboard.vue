@@ -1,43 +1,45 @@
 <template>
-  <el-container>
-    <el-main>
-      <SpaceGroup
-        v-bind:spacelist="recommend"
-        title="Today's Recommended Niches"
-      />
-      <SpaceGroup
-        v-for="item in niches"
-        :key="item"
-        :spacelist="item.spaces"
-        :title="item.tagName"
-      />
-    </el-main>
-    <el-aside width="30%">
-      <div style="margin: 40px">
-        <el-card style="border-radius: 20px">
-          <div>
-            <h3>Home</h3>
-            <p>
-              Your personalized Niched homepage. Come here to check in with your
-              favorite communities
-            </p>
-          </div>
-          <div>
-            <h3>Event</h3>
-            <el-card
-              style="border-radius: 10px; margin-bottom: 10px"
-              v-for="event in events"
-              :key="event"
-            >
-              <h5>{{ event.title + " @ " + event.location }}</h5>
-              <p>{{ event.datetime }}</p>
-              <p>{{ event.detail }}</p>
-            </el-card>
-          </div>
-        </el-card>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <SpaceGroup
+          v-bind:spacelist="recommend"
+          title="Today's Recommended Niches"
+        />
+        <SpaceGroup
+          v-for="item in niches"
+          :key="item"
+          :spacelist="item.spaces"
+          :title="item.tagName"
+        />
       </div>
-    </el-aside>
-  </el-container>
+      <div class="col-md-5">
+        <div style="margin: 40px 0px">
+          <el-card style="border-radius: 20px">
+            <div>
+              <h3>Home</h3>
+              <p>
+                Your personalized Niched homepage. Come here to check in with
+                your favorite communities
+              </p>
+            </div>
+            <div>
+              <h3>Event</h3>
+              <el-card
+                style="border-radius: 10px; margin-bottom: 10px"
+                v-for="event in events"
+                :key="event"
+              >
+                <h5>{{ event.title + " @ " + event.location }}</h5>
+                <p>{{ event.datetime }}</p>
+                <p>{{ event.detail }}</p>
+              </el-card>
+            </div>
+          </el-card>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
@@ -79,6 +81,7 @@ export default defineComponent({
         );
 
         recommend.value = items;
+        
       }
     });
     return {

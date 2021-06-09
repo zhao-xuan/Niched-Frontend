@@ -1,6 +1,29 @@
 <template>
-  <router-view />
+  <StateProvider :state="state">
+    <router-view />
+  </StateProvider>
 </template>
+
+<script lang="ts">
+import { defineComponent, reactive } from "vue";
+import StateProvider from "./StateProvider.vue";
+import { State } from "./state";
+
+export default defineComponent({
+  name: "App",
+  components: { StateProvider },
+  setup() {
+    const state: State = {
+      loggedIn: false,
+      userName: "",
+      subscribedGroups: [],
+      interests: [],
+    };
+
+    return { state };
+  },
+});
+</script>
 
 <style>
 body {

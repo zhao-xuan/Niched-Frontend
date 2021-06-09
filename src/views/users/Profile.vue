@@ -1,24 +1,26 @@
 <template>
   <TopBar />
-  <div class="container">
-  <div class="row">
-    <div class="col-md-8 order-0">
-      <el-card style="margin: 20px auto;">
-        <template #header>
-          <div>
-            <span>Introduction</span>
-            <el-button type="text" style="float: right; margin-top: -10px"
-              >Edit</el-button
-            >
-          </div>
-        </template>
-        <div class="text item">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          <br>
-          <br>
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-      </el-card>
+  <div style="background-color: rgb(212, 225, 253)">
+    <div style="width: 150px; margin: auto">
+      <el-avatar
+        :size="150"
+        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        style="margin-top: 40px; margin-bottom: 40px; width: 100%"
+      ></el-avatar>
+    </div>
+  </div>
+
+  <el-card style="margin: 20px auto; width: 60%">
+    <template #header>
+      <div>
+        <span>Intro</span>
+        <el-button type="text" style="float: right; margin-top: -10px"
+          >Edit</el-button
+        >
+      </div>
+    </template>
+    <div class="text item">this is {{ userName }}</div>
+  </el-card>
 
       <el-card style="margin: 20px auto;">
         <template #header>
@@ -81,62 +83,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, watchEffect } from "vue";
-import SpaceGroup from "../dashboard/SpaceGroup.vue";
-import { useRoute } from "vue-router";
-import { useFetch } from "@/hooks/useFetch";
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
-import { dashboardFixture } from "../dashboard/fixtures"
-import { ProfileResponse, fetchAlice, fetchUser } from "@/api/profile";
-import axios from "axios";
+import { useState } from "@/state";
 
 export default defineComponent({
   name: "Profile",
   components: { TopBar },
   setup() {
-    const { niches, events } = toRefs(reactive(dashboardFixture));
-
-    // const profile_info = fetchUser('alice');
-    // console.log("HELLO WORLD 2");
-    // console.log(profile_info);
-
-    let username = "";
-    // const mail: string;
-    // const age: string;
-    // const subscribed_groups: [string];
-    // const interests: [string];
-    // const password: string;
-
-    fetchUser('alice').then((res) => {
-      console.log(res);
-      console.log(res.username);
-      username = res.username;
-      console.log("WHY IS THIS NOT WORKING")
-    })
-
-    // console.log(profile_info.username);
-    // const { fetched, data } = useFetch<ProfileResponse>(fetchAlice, true);
-    // watchEffect(() => {
-    //   if (fetched.value) {
-    //     console.log(data);
-    //     console.log("HELLO WORLD MY NAME IS Leo");
-    //     // const items = Object.values(data.value || {}).map(
-    //     //   ({ username, mail, age, subscribed_groups, interests, password }) => ({
-    //     //     username: username,
-    //     //     mail: mail,
-    //     //     age: age,
-    //     //     subscribed_groups: subscribed_groups,
-    //     //     interests: interests,
-    //     //     password: password,
-    //     //   })
-    //     // );
-    //     console.log("HELLO")
-    //   }
-    // });
+    const router = useRouter();
+    const { userName, loggedIn } = useState();
+    if (!loggedIn.value) {
+      router.push({ name: "Login" });
+    }
     return {
-      niches,
-      events,
-      username,
+      userName,
     };
   },
 });
