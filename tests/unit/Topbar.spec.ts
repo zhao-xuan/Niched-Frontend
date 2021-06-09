@@ -18,6 +18,8 @@ describe("Topbar.vue", () => {
       // check for event payload
       expect(TopbarMock.emitted().input[0]).toEqual([]);
       expect(TopbarMock.emitted().input[1]).toEqual([searchString]);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   });
 });
