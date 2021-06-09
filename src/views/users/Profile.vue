@@ -1,26 +1,24 @@
 <template>
   <TopBar />
-  <div style="background-color: rgb(212, 225, 253)">
-    <div style="width: 150px; margin: auto">
-      <el-avatar
-        :size="150"
-        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-        style="margin-top: 40px; margin-bottom: 40px; width: 100%"
-      ></el-avatar>
-    </div>
-  </div>
-
-  <el-card style="margin: 20px auto; width: 60%">
-    <template #header>
-      <div>
-        <span>Intro</span>
-        <el-button type="text" style="float: right; margin-top: -10px"
-          >Edit</el-button
-        >
-      </div>
-    </template>
-    <div class="text item">this is {{ userName }}</div>
-  </el-card>
+  <div class="container">
+  <div class="row">
+    <div class="col-md-8 order-0">
+      <el-card style="margin: 20px auto;">
+        <template #header>
+          <div>
+            <span>Introduction</span>
+            <el-button type="text" style="float: right; margin-top: -10px"
+              >Edit</el-button
+            >
+          </div>
+        </template>
+        <div class="text item">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          <br>
+          <br>
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </el-card>
 
       <el-card style="margin: 20px auto;">
         <template #header>
@@ -47,7 +45,7 @@
     <div class="col-md-4 order-1">
       <el-card style="margin: 20px auto;">
           <div>
-            <h3>Welcome, Hoang and {{ username }}</h3>
+            <h3>Welcome, Hoang</h3>
             <p>
               Your personalized Niched homepage. Come here to check in with your
               favorite communities
@@ -76,29 +74,34 @@
             </el-card>
           </div>
         </el-card>
+      </div>
     </div>
   </div>
-</div>
 
 </template>
 
+
+
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, toRefs, reactive } from "vue";
 import { useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
 import { useState } from "@/state";
+import { dashboardFixture } from "../dashboard/fixtures"
 
 export default defineComponent({
   name: "Profile",
   components: { TopBar },
   setup() {
     const router = useRouter();
+    const { niches, events } = toRefs(reactive(dashboardFixture));
     const { userName, loggedIn } = useState();
-    if (!loggedIn.value) {
-      router.push({ name: "Login" });
-    }
+    // if (!loggedIn.value) {
+    //   router.push({ name: "Login" });
+    // }
     return {
       userName,
+      events,
     };
   },
 });
