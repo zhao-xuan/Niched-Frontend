@@ -6,7 +6,7 @@
       <el-card style="margin: 20px auto;">
         <template #header>
           <div>
-            <span>Introduction</span>
+            <span><b>Introduction</b></span>
             <el-button type="text" style="float: right; margin-top: -10px"
               >Edit</el-button
             >
@@ -23,13 +23,31 @@
       <el-card style="margin: 20px auto;">
         <template #header>
           <div>
-            <span>Following Spaces</span>
+            <span>@{{userName}}'s <b>Interests</b></span>
             <el-button type="text" style="float: right; margin-top: -10px"
               >Edit</el-button
             >
           </div>
         </template>
-        <p> HELLO WORLD </p>
+        <p> {{interests}} </p>
+        <!-- <SpaceGroup
+          v-for="item in niches"
+          :key="item"
+          :spacelist="item.spaces"
+          :title="item.tagName"
+        /> -->
+      </el-card>
+
+      <el-card style="margin: 20px auto;">
+        <template #header>
+          <div>
+            <span>@{{userName}}'s <b>Spaces</b></span>
+            <el-button type="text" style="float: right; margin-top: -10px"
+              >Edit</el-button
+            >
+          </div>
+        </template>
+        <p> {{subscribedGroups}} </p>
         <!-- <SpaceGroup
           v-for="item in niches"
           :key="item"
@@ -45,7 +63,7 @@
     <div class="col-md-4 order-1">
       <el-card style="margin: 20px auto;">
           <div>
-            <h3>Welcome, Hoang</h3>
+            <h3>Welcome, @{{userName}}</h3>
             <p>
               Your personalized Niched homepage. Come here to check in with your
               favorite communities
@@ -95,12 +113,14 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const { niches, events } = toRefs(reactive(dashboardFixture));
-    const { userName, loggedIn } = useState();
-    // if (!loggedIn.value) {
-    //   router.push({ name: "Login" });
-    // }
+    const { loggedIn, userName, subscribedGroups, interests } = useState();
+    if (!loggedIn.value) {
+      router.push({ name: "Login" });
+    }
     return {
       userName,
+      subscribedGroups,
+      interests,
       events,
     };
   },

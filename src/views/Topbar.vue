@@ -4,7 +4,7 @@
     style="background-color: rgb(144, 180, 251)"
   >
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"
+      <a class="navbar-brand" href="/home"
         ><h1 class="text-light ml-0 pl-0">niched</h1>
       </a>
       <button
