@@ -39,6 +39,7 @@
           type="search"
           placeholder="Search"
           aria-label="Search"
+          @input="onChange"
         />
         <button class="btn btn-outline-success m-2 my-sm-0" type="submit">
           Search
@@ -70,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watchEffect } from "vue";
+import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useState } from "@/state";
 export default defineComponent({
