@@ -19,7 +19,7 @@
         >
       </div>
     </template>
-    <div class="text item">This is Leo the genius :)</div>
+    <div class="text item">this is {{ userName }}</div>
   </el-card>
 
   <el-card style="margin: 20px auto; width: 60%">
@@ -81,31 +81,22 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
-import axios from "axios";
+import { useState } from "@/state";
 
 export default defineComponent({
   name: "Profile",
   components: { TopBar },
   setup() {
-    const route = useRoute();
+    const router = useRouter();
+    const { userName, loggedIn } = useState();
+    if (!loggedIn.value) {
+      router.push({ name: "Login" });
+    }
     return {
-      id: route.params.id,
+      userName,
     };
-  },
-  mounted() {
-    // this is a test
-    axios
-      .get("http://127.0.0.1:8080/group/somepeople", {
-        // group_id: "somepeople",
-        // name: "tom space",
-        // description: "this is a space created by tom",
-        // image_url: "https://www.w3.org/Style/Woolly/woolly-mc.png"
-      })
-      .then((res) => {
-        console.log(res);
-      });
   },
 });
 </script>

@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: "/users/:id",
+    path: "/users/:userName",
     name: "Profile",
     component: Profile,
   },
@@ -41,8 +41,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/event/:id",
     name: "Event",
-    component: Event
-  }
+    component: Event,
+  },
 ];
 
 const router = createRouter({

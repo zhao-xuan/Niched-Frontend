@@ -35,21 +35,36 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success m-2 my-sm-0" type="submit">
-            Search
-          </button>
-          <button class="btn btn-outline-success m-2 my-sm-0" @click="jumpToCreateSpace">
-            Create Space
-          </button>
-          <button class="btn btn-link m-2 my-sm-0 d-flex flex-row justify-content-around" @click="jumpToProfile('leo')">
-            <el-avatar icon="el-icon-user-solid">user</el-avatar>
-            <span class="my-2 ml-3">Leo Unoki</span>
-          </button>
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          @input="onChange"
+        />
+        <button class="btn btn-outline-success m-2 my-sm-0" type="submit">
+          Search
+        </button>
+        <button
+          class="btn btn-outline-success m-2 my-sm-0"
+          @click="jumpToCreateSpace"
+        >
+          Create Space
+        </button>
+        <button
+          class="
+            btn btn-link
+            m-2
+            my-sm-0
+            d-flex
+            flex-row
+            justify-content-around
+          "
+          @click="jumpToProfile"
+        >
+          <el-avatar v-show="loggedIn" icon="el-icon-user-solid" />
+          <span v-show="loggedIn" class="my-2 ml-3">{{ userName }}</span>
+          <div v-show="!loggedIn">sign up!</div>
+        </button>
       </div>
     </div>
   </nav>
@@ -58,6 +73,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { useState } from "@/state";
 export default defineComponent({
   emits: ["input"],
   setup(_, { emit }) {
@@ -66,14 +82,28 @@ export default defineComponent({
     };
     const router = useRouter();
 
+    const { userName, loggedIn } = useState();
     return {
       onChange,
       jumpToCreateSpace() {
-        router.push({ name: "CreateSpace" });
+        if (!loggedIn.value) {
+          router.push({ name: "Login" });
+        } else {
+          router.push({ name: "CreateSpace" });
+        }
       },
-      jumpToProfile(id: string) {
-        router.push({ name: "Profile", params: { id } });
+      jumpToProfile() {
+        if (!loggedIn.value) {
+          router.push({ name: "Login" });
+        } else {
+          router.push({
+            name: "Profile",
+            params: { userName: userName.value },
+          });
+        }
       },
+      loggedIn,
+      userName,
     };
   },
 });
