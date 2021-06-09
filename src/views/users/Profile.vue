@@ -1,69 +1,74 @@
 <template>
   <TopBar />
   <div class="container">
-  <div class="row">
-    <div class="col-md-8 order-0">
-      <el-card style="margin: 20px auto;">
-        <template #header>
-          <div>
-            <span><b>Introduction</b></span>
-            <el-button type="text" style="float: right; margin-top: -10px"
-              >Edit</el-button
-            >
+    <div class="row">
+      <div class="col-md-8 order-0">
+        <el-card style="margin: 20px auto">
+          <template #header>
+            <div>
+              <span><b>Introduction</b></span>
+              <el-button type="text" style="float: right; margin-top: -10px"
+                >Edit</el-button
+              >
+            </div>
+          </template>
+          <div class="text item">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <br />
+            <br />
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
           </div>
-        </template>
-        <div class="text item">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          <br>
-          <br>
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-      </el-card>
+        </el-card>
 
-      <el-card style="margin: 20px auto;">
-        <template #header>
-          <div>
-            <span>@{{userName}}'s <b>Interests</b></span>
-            <el-button type="text" style="float: right; margin-top: -10px"
-              >Edit</el-button
-            >
-          </div>
-        </template>
-        <p> {{interests}} </p>
-        <!-- <SpaceGroup
+        <el-card style="margin: 20px auto">
+          <template #header>
+            <div>
+              <span>@{{ userName }}'s <b>Interests</b></span>
+              <el-button type="text" style="float: right; margin-top: -10px"
+                >Edit</el-button
+              >
+            </div>
+          </template>
+          <p>{{ interests }}</p>
+          <!-- <SpaceGroup
           v-for="item in niches"
           :key="item"
           :spacelist="item.spaces"
           :title="item.tagName"
         /> -->
-      </el-card>
+        </el-card>
 
-      <el-card style="margin: 20px auto;">
-        <template #header>
-          <div>
-            <span>@{{userName}}'s <b>Spaces</b></span>
-            <el-button type="text" style="float: right; margin-top: -10px"
-              >Edit</el-button
-            >
-          </div>
-        </template>
-        <p> {{subscribedGroups}} </p>
-        <!-- <SpaceGroup
+        <el-card style="margin: 20px auto">
+          <template #header>
+            <div>
+              <span>@{{ userName }}'s <b>Spaces</b></span>
+              <el-button type="text" style="float: right; margin-top: -10px"
+                >Edit</el-button
+              >
+            </div>
+          </template>
+          <p>{{ subscribedGroups }}</p>
+          <!-- <SpaceGroup
           v-for="item in niches"
           :key="item"
           :spacelist="item.spaces"
           :title="item.tagName"
         /> -->
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ "List item " + o }}
-        </div>
-      </el-card>
-    </div>
+          <div v-for="o in 4" :key="o" class="text item">
+            {{ "List item " + o }}
+          </div>
+        </el-card>
+      </div>
 
-    <div class="col-md-4 order-1">
-      <el-card style="margin: 20px auto;">
+      <div class="col-md-4 order-1">
+        <el-card style="margin: 20px auto">
           <div>
-            <h3>Welcome, @{{userName}}</h3>
+            <h3>Welcome, @{{ userName }}</h3>
             <p>
               Your personalized Niched homepage. Come here to check in with your
               favorite communities
@@ -95,17 +100,14 @@
       </div>
     </div>
   </div>
-
 </template>
-
-
 
 <script lang="ts">
 import { defineComponent, toRefs, reactive } from "vue";
 import { useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
 import { useState } from "@/state";
-import { dashboardFixture } from "../dashboard/fixtures"
+import { dashboardFixture } from "../dashboard/fixtures";
 
 export default defineComponent({
   name: "Profile",

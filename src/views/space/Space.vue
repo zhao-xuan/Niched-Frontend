@@ -19,12 +19,12 @@
           </div>
         </div>
         <div class="media align-items-end profile-head">
-            <div class="profile m-3">
-              <a href="#" class="btn btn-dark btn-sm btn-block"
-                >Join the space!</a
-              >
-            </div>
+          <div class="profile m-3">
+            <a href="#" class="btn btn-dark btn-sm btn-block"
+              >Join the space!</a
+            >
           </div>
+        </div>
         <div class="bg-light p-4 d-flex justify-content-end text-center">
           <ul class="list-inline mb-0">
             <li class="list-inline-item">
