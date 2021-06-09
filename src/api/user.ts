@@ -19,7 +19,7 @@ export type User = {
   interests: Hashtag[];
 };
 
-export const fetchSpace = async (userName: string): Promise<UserResponse> => {
+export const fetchUser = async (userName: string): Promise<UserResponse> => {
   const res = await axios.get(`${SERVER_URL}/profile/${userName}`);
   return res.data;
 };
