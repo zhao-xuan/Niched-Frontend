@@ -81,7 +81,6 @@ export default defineComponent({
         );
 
         recommend.value = items;
-        
       }
     });
     return {

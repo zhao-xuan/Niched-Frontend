@@ -6,6 +6,7 @@ import CreateSpace from "../views/space/CreateSpace.vue";
 import Event from "../views/space/Event.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import Playground from "../views/space/Playground.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -42,6 +43,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/event/:id",
     name: "Event",
     component: Event,
+  },
+  {
+    path: "/playground",
+    name: "Playground",
+    component: Playground,
   },
 ];
 
