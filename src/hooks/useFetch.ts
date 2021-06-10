@@ -1,4 +1,5 @@
-import { onMounted, Ref, ref, ToRefs } from "vue";
+import { onMounted, Ref, ref, ToRefs, watch } from "vue";
+import { AxiosError } from "axios";
 
 export type FetchType = {
   fetching: boolean;
@@ -22,7 +23,28 @@ export const useFetch = <Response>(
   const fetched = ref<boolean>(false);
   const error = ref<any>(null);
 
+  const init = () => {
+    data.value = undefined;
+    fetching.value = false;
+    fetched.value = false;
+    error.value = null;
+  };
+
+  watch(error, () => {
+    if (error.value) {
+      if (error.value.isAxiosError) {
+        const axiosError: AxiosError = error.value as AxiosError;
+        if (axiosError.response?.data) {
+          alert(axiosError.response?.data?.detail[0].msg);
+        }
+      } else {
+        alert(error.value.message);
+      }
+    }
+  });
+
   const doFetch = async () => {
+    init();
     fetching.value = true;
     try {
       data.value = await request();

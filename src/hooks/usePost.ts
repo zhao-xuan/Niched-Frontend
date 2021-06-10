@@ -1,4 +1,5 @@
-import { Ref, ref, ToRefs } from "vue";
+import { Ref, ref, ToRefs, watch } from "vue";
+import { AxiosError } from "axios";
 
 export type PostType = {
   posting: boolean;
@@ -21,7 +22,28 @@ export const usePost = <Request, Response>(
   const posted = ref<boolean>(false);
   const error = ref<any>(null);
 
+  const init = () => {
+    data.value = undefined;
+    posted.value = false;
+    posting.value = false;
+    error.value = null;
+  };
+
+  watch(error, () => {
+    if (error.value) {
+      if (error.value.isAxiosError) {
+        const axiosError: AxiosError = error.value as AxiosError;
+        if (axiosError.response?.data) {
+          alert(axiosError.response?.data?.detail[0].msg);
+        }
+      } else {
+        alert(error.value.message);
+      }
+    }
+  });
+
   const doPost = async (req: Request) => {
+    init();
     posting.value = true;
     try {
       data.value = await request(req);
