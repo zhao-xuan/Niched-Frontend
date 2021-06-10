@@ -35,7 +35,8 @@ export const useFetch = <Response>(
       if (error.value.isAxiosError) {
         const axiosError: AxiosError = error.value as AxiosError;
         if (axiosError.response?.data) {
-          alert(axiosError.response?.data?.detail[0].msg);
+          console.log(axiosError.response?.data?.detail);
+          alert(axiosError.response?.data?.detail.msg);
         }
       } else {
         alert(error.value.message);
