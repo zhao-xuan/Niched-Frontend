@@ -3,16 +3,20 @@ import { SERVER_URL } from "@/api/constant";
 
 export type SpaceResponse = {
   group_id: string;
+  author_id: string;
   name: string;
   description: string;
+  members: string[];
   image_url?: string;
   creation_date: string;
 };
 
 export type Space = {
   groupId: string;
+  authorId: string;
   name: string;
   description: string;
+  members: string[];
   imageUrl?: string;
   creationDate: string;
 };

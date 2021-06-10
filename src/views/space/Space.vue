@@ -36,7 +36,9 @@
             <div class="px-4 py-3 d-flex justify-content-end text-center">
               <ul class="list-inline mb-0">
                 <li class="list-inline-item">
-                  <h5 class="font-weight-bold mb-0 d-block">40</h5>
+                  <h5 class="font-weight-bold mb-0 d-block">
+                    {{ members.length }}
+                  </h5>
                   <small class="text-muted">
                     <i class="fas fa-user mr-1"></i>Members</small
                   >
@@ -52,15 +54,17 @@
           </div>
         </div>
 
-        
         <div class="row pb-4 px-4">
           <div class="col-md-8 order-0">
-            <el-card style="margin: 20px auto; background-color: #FFE8E0;">
+            <el-card style="margin: 20px auto; background-color: #ffe8e0">
               <template #header>
                 <div>
                   <span>
                     <a href="https://www.google.co.uk">
-                      <b><font color="#FF7744">Event: </font>Let’s go to Ichiran Ramen!</b>
+                      <b
+                        ><font color="#FF7744">Event: </font>Let’s go to Ichiran
+                        Ramen!</b
+                      >
                     </a>
                   </span>
                   <el-button type="text" style="float: right; margin-top: -10px"
@@ -69,70 +73,92 @@
                 </div>
               </template>
               <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested? 
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to 
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people 
-                this time!
+                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds
+                good. Anyone interested? We can go together. Meeting at the
+                Imperial College Central Library. Anyone is welcome to join, and
+                please remember to bring you’re friends along too! Hoping to get
+                over 10 people this time!
               </div>
             </el-card>
 
             <el-card style="margin: 20px auto">
               <template #header>
                 <div>
-                  <span><b>What’s your favourite Ramen shop in London?</b></span>
+                  <span
+                    ><b>What’s your favourite Ramen shop in London?</b></span
+                  >
                   <el-button type="text" style="float: right; margin-top: -10px"
                     >More</el-button
                   >
                 </div>
               </template>
               <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people
-                this time! Please remember to bring you’re friends along and...
+                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds
+                good. Anyone interested? We can go together. Meeting at the
+                Imperial College Central Library. Anyone is welcome to join, and
+                please remember to bring you’re friends along too! Hoping to get
+                over 10 people this time! Please remember to bring you’re
+                friends along and...
               </div>
             </el-card>
 
             <el-card style="margin: 20px auto">
               <template #header>
                 <div>
-                  <span><b>Ramen really is better in Japan than in London! Today I found out that...</b></span>
+                  <span
+                    ><b
+                      >Ramen really is better in Japan than in London! Today I
+                      found out that...</b
+                    ></span
+                  >
                   <el-button type="text" style="float: right; margin-top: -10px"
                     >More</el-button
                   >
                 </div>
               </template>
               <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people
-                this time! Please remember to bring you’re friends along and...
+                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds
+                good. Anyone interested? We can go together. Meeting at the
+                Imperial College Central Library. Anyone is welcome to join, and
+                please remember to bring you’re friends along too! Hoping to get
+                over 10 people this time! Please remember to bring you’re
+                friends along and...
               </div>
             </el-card>
 
             <el-card style="margin: 20px auto">
               <template #header>
                 <div>
-                  <span><b>My friend Leo’s birthday is coming up soon! What do you recommend?</b></span>
+                  <span
+                    ><b
+                      >My friend Leo’s birthday is coming up soon! What do you
+                      recommend?</b
+                    ></span
+                  >
                   <el-button type="text" style="float: right; margin-top: -10px"
                     >More</el-button
                   >
                 </div>
               </template>
               <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people
-                this time! Please remember to bring you’re friends along and...
+                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds
+                good. Anyone interested? We can go together. Meeting at the
+                Imperial College Central Library. Anyone is welcome to join, and
+                please remember to bring you’re friends along too! Hoping to get
+                over 10 people this time! Please remember to bring you’re
+                friends along and...
               </div>
             </el-card>
-            
-            <el-card style="margin: 20px auto; background-color: #FFE8E0;">
+
+            <el-card style="margin: 20px auto; background-color: #ffe8e0">
               <template #header>
                 <div>
                   <span>
                     <a href="https://www.google.co.uk">
-                      <b><font color="#FF7744">Event: </font>Want to try Chinese DanDan Noodle too?</b>
+                      <b
+                        ><font color="#FF7744">Event: </font>Want to try Chinese
+                        DanDan Noodle too?</b
+                      >
                     </a>
                   </span>
                   <el-button type="text" style="float: right; margin-top: -10px"
@@ -141,13 +167,13 @@
                 </div>
               </template>
               <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested? 
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to 
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people 
-                this time!
+                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds
+                good. Anyone interested? We can go together. Meeting at the
+                Imperial College Central Library. Anyone is welcome to join, and
+                please remember to bring you’re friends along too! Hoping to get
+                over 10 people this time!
               </div>
             </el-card>
-
           </div>
 
           <div class="col-md-4 order-1">
@@ -156,13 +182,25 @@
                 <h3>Create a new Post</h3>
                 <form class="pt-2">
                   <div class="form-group">
-                    <input type="email" class="form-control" id="postTitle" placeholder="Post Title">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="postTitle"
+                      placeholder="Post Title"
+                    />
                   </div>
                   <div class="form-group">
-                    <textarea class="form-control" id="postDescription" rows="3" placeholder="Post Details"></textarea>
+                    <textarea
+                      class="form-control"
+                      id="postDescription"
+                      rows="3"
+                      placeholder="Post Details"
+                    ></textarea>
                   </div>
-                  <div class="form-group" style="float: right;">
-                    <button type="submit" class="btn btn-primary mb-2">Create Post</button>
+                  <div class="form-group" style="float: right">
+                    <button type="submit" class="btn btn-primary mb-2">
+                      Create Post
+                    </button>
                   </div>
                 </form>
               </div>
@@ -173,28 +211,59 @@
                 <h3>Organise a new Event!</h3>
                 <form class="pt-2">
                   <div class="form-group">
-                    <input type="email" class="form-control" id="eventTitle" placeholder="Event Title">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="eventTitle"
+                      placeholder="Event Title"
+                    />
                   </div>
                   <div class="form-group row">
-                    <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                    <label for="example-date-input" class="col-2 col-form-label"
+                      >Date</label
+                    >
                     <div class="col-10">
-                      <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                      <input
+                        class="form-control"
+                        type="date"
+                        value="2011-08-19"
+                        id="example-date-input"
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="example-time-input" class="col-2 col-form-label">Time</label>
+                    <label for="example-time-input" class="col-2 col-form-label"
+                      >Time</label
+                    >
                     <div class="col-10">
-                      <input class="form-control" type="time" value="13:45:00" id="example-time-input">
+                      <input
+                        class="form-control"
+                        type="time"
+                        value="13:45:00"
+                        id="example-time-input"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <textarea class="form-control" id="eventDescription" rows="3" placeholder="Event Details"></textarea>
+                    <textarea
+                      class="form-control"
+                      id="eventDescription"
+                      rows="3"
+                      placeholder="Event Details"
+                    ></textarea>
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" id="eventMemberCount" placeholder="Member Count (Optional)">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="eventMemberCount"
+                      placeholder="Member Count (Optional)"
+                    />
                   </div>
-                  <div class="form-group" style="float: right;">
-                    <button type="submit" class="btn btn-primary mb-2">Create Post</button>
+                  <div class="form-group" style="float: right">
+                    <button type="submit" class="btn btn-primary mb-2">
+                      Create Post
+                    </button>
                   </div>
                 </form>
               </div>
@@ -218,12 +287,13 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const groupId = route.params.id as string;
-    const { name, imageUrl, description } = useSpace(groupId, true);
+    const { name, imageUrl, description, members } = useSpace(groupId, true);
 
     return {
       name,
       imageUrl,
       description,
+      members,
     };
   },
 });
