@@ -32,7 +32,7 @@
         </span>
       </button>
 
-      <div class="collapse navbar-collapse px-2 min-vw-100" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse px-2" id="navbarSupportedContent">
         <input
           class="form-control mr-sm-2"
           type="search"
