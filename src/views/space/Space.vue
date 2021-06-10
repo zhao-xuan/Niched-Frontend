@@ -183,10 +183,11 @@
                 <form class="pt-2" @submit.prevent>
                   <div class="form-group">
                     <input
-                      type="email"
+                      type="text"
                       class="form-control"
                       id="postTitle"
                       placeholder="Post Title"
+                      v-model="postTitle"
                     />
                   </div>
                   <div class="form-group">
@@ -195,10 +196,14 @@
                       id="postDescription"
                       rows="3"
                       placeholder="Post Details"
+                      v-model="postDescription"
                     ></textarea>
                   </div>
                   <div class="form-group" style="float: right">
-                    <button type="submit" class="btn btn-primary mb-2">
+                    <button
+                      type="submit"
+                      class="btn btn-primary mb-2"
+                      @click="OnSubmitThread">
                       Create Post
                     </button>
                   </div>
@@ -285,30 +290,35 @@
 import { defineComponent, ref } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { usePost } from "@/hooks/usePost";
+import { useFetch } from "@/hooks/useFetch";
 import { useRoute } from "vue-router";
 import { useState } from "@/state";
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
 import { postEventCreation } from "@/api/event";
+import { postThreadCreation } from "@/api/thread";
 
 export default defineComponent({
   name: "Space",
-  // components: { TopBar },
   setup() {
+    const postTitle = ref("");
+    const postDescription = ref("");
+
     const eventTitle = ref("");
     const eventDescription = ref("");
     const eventDate = ref("");
     const eventTime = ref("");
+
     const route = useRoute();
     const groupId = route.params.id as string;
     const { name, imageUrl, description, members } = useSpace(groupId, true);
     const { userName, loggedIn } = useState();
 
-    const { doPost } = usePost(postEventCreation);
-
     const onSubmitEvent = async () => {
+      const { doPost } = usePost(postEventCreation);
+
       if (!loggedIn.value) {
-        alert("plz login first");
+        alert("Please login first");
       }
 
       doPost({
@@ -321,20 +331,40 @@ export default defineComponent({
       });
     };
 
+    const OnSubmitThread = async () => {
+      console.log("GOT TO SUBMIT THREAD BUTTON")
+      const { doPost } = usePost(postThreadCreation);
+
+      if (!loggedIn.value) {
+        alert("Please login first");
+      }
+
+      doPost({
+        group_id: groupId,
+        author_id: userName.value,
+        description: postDescription.value,
+        title: postTitle.value,
+      });
+    };
+
     return {
       name,
       imageUrl,
       description,
       members,
+      postTitle,
+      postDescription,
       eventTitle,
       eventDescription,
       eventDate,
       eventTime,
       onSubmitEvent,
+      OnSubmitThread,
     };
   },
 });
 </script>
+
 <style>
 .profile-head {
   transform: translateY(5rem);
