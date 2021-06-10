@@ -212,10 +212,11 @@
                 <form class="pt-2">
                   <div class="form-group">
                     <input
-                      type="email"
+                      type="text"
                       class="form-control"
                       id="eventTitle"
                       placeholder="Event Title"
+                      v-model="eventTitle"
                     />
                   </div>
                   <div class="form-group row">
@@ -226,8 +227,8 @@
                       <input
                         class="form-control"
                         type="date"
-                        value="2011-08-19"
                         id="example-date-input"
+                        v-model="eventDate"
                       />
                     </div>
                   </div>
@@ -239,17 +240,18 @@
                       <input
                         class="form-control"
                         type="time"
-                        value="13:45:00"
                         id="example-time-input"
+                        v-model="eventTime"
                       />
                     </div>
                   </div>
                   <div class="form-group">
                     <textarea
+                      type="text"
                       class="form-control"
-                      id="eventDescription"
                       rows="3"
                       placeholder="Event Details"
+                      v-model="eventDescription"
                     ></textarea>
                   </div>
                   <div class="form-group">
@@ -261,8 +263,19 @@
                     />
                   </div>
                   <div class="form-group" style="float: right">
-                    <button type="submit" class="btn btn-primary mb-2">
-                      Create Post
+                    <button
+                      type="submit"
+                      class="btn btn-primary mb-2"
+                      @click="
+                        onSubmitEvent(
+                          eventTitle,
+                          eventDescription,
+                          eventDate,
+                          eventTime
+                        )
+                      "
+                    >
+                      Create Event
                     </button>
                   </div>
                 </form>
@@ -277,23 +290,67 @@
 
 <script lang="ts">
 // import TopBar from "../Topbar.vue";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useRoute } from "vue-router";
+import { useState } from "@/state";
+import router from "@/router";
+import axios from "axios";
+import { SERVER_URL } from "@/api/constant";
 
 export default defineComponent({
   name: "Space",
   // components: { TopBar },
   setup() {
+    const eventTitle = ref("");
+    const eventDescription = ref("");
+    const eventDate = ref("");
+    const eventTime = ref("");
     const route = useRoute();
     const groupId = route.params.id as string;
     const { name, imageUrl, description, members } = useSpace(groupId, true);
+    const { userName, loggedIn } = useState();
+
+    const onSubmitEvent = async (
+      eventTitle: string,
+      eventDescription: string,
+      eventDate: string,
+      eventTime: string
+    ) => {
+      if (!loggedIn.value) {
+        router.push({ name: "Login" });
+        return;
+      }
+
+      axios
+        .post(`${SERVER_URL}/event/`, {
+          group_id: groupId,
+          author_id: userName.value,
+          description: eventDescription,
+          title: eventTitle,
+          tags: [],
+          event_time: `${eventDate}T${eventTime}:00Z`,
+        })
+        .then(
+          (res) => {
+            alert("Event created successfully!");
+          },
+          (rej) => {
+            alert(rej);
+          }
+        );
+    };
 
     return {
       name,
       imageUrl,
       description,
       members,
+      eventTitle,
+      eventDescription,
+      eventDate,
+      eventTime,
+      onSubmitEvent,
     };
   },
 });
