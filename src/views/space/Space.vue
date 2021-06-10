@@ -44,7 +44,7 @@
                 <li class="list-inline-item">
                   <h5 class="font-weight-bold mb-0 d-block">23</h5>
                   <small class="text-muted">
-                    <i class="fas fa-user mr-1"></i>Posts</small
+                    <i class="fas fa-user mr-1"></i>Threads</small
                   >
                 </li>
               </ul>
@@ -55,104 +55,160 @@
         
         <div class="row pb-4 px-4">
           <div class="col-md-8 order-0">
+
+
+            <el-tabs type="border-card">
+
+              <el-tab-pane label="Threads">
+                <el-card style="margin: 20px auto">
+                  <template #header>
+                    <div>
+                      <span><b>What’s your favourite Ramen shop in London?</b></span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
+                    We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
+                    join, and please remember to bring you’re friends along too! Hoping to get over 10 people
+                    this time! Please remember to bring you’re friends along and...
+                  </div>
+                </el-card>
+                <el-card style="margin: 20px auto">
+                  <template #header>
+                    <div>
+                      <span><b>Ramen really is better in Japan than in London! Today I found out that...</b></span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
+                    We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
+                    join, and please remember to bring you’re friends along too! Hoping to get over 10 people
+                    this time! Please remember to bring you’re friends along and...
+                  </div>
+                </el-card>
+                <el-card style="margin: 20px auto">
+                  <template #header>
+                    <div>
+                      <span><b>My friend Leo’s birthday is coming up soon! What do you recommend?</b></span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
+                    We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
+                    join, and please remember to bring you’re friends along too! Anyone is welcome to join, and
+                    please remember and please remember and please remember...
+                  </div>
+                </el-card>
+                <el-card style="margin: 20px auto">
+                  <template #header>
+                    <div>
+                      <span><b>Today I tried Hangzhou Lamian - very good</b></span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    Anyone is welcome to
+                    join, and please remember to bring you’re friends along too! Anyone is welcome to join, and
+                    please remember and please remember and please remember.
+                  </div>
+                </el-card>
+                <el-card style="margin: 20px auto">
+                  <template #header>
+                    <div>
+                      <span><b>Ramen really is better in Japan than in London! Today I found out that...</b></span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
+                    We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
+                    join, and please remember to bring you’re friends along too! Hoping to get over 10 people
+                    this time! Please remember to bring you’re friends along and...
+                  </div>
+                </el-card>
+                <el-card style="margin: 20px auto">
+                  <template #header>
+                    <div>
+                      <span><b>What’s your favourite Ramen shop in London?</b></span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
+                    We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
+                    join, and please remember to bring you’re friends along too! Hoping to get over 10 people
+                    this time! Please remember to bring you’re friends along and...
+                  </div>
+                </el-card>
+              </el-tab-pane>              
+
+              <el-tab-pane label="Events">
+                <el-card style="margin: 20px auto; background-color: #FFE8E0;">
+                  <template #header>
+                    <div>
+                      <span>
+                        <a href="https://www.google.co.uk">
+                          <b><font color="#FF7744">Event: </font>Let’s go to Ichiran Ramen!</b>
+                        </a>
+                      </span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested? 
+                    We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to 
+                    join, and please remember to bring you’re friends along too! Hoping to get over 10 people 
+                    this time!
+                  </div>
+                </el-card>
+                <el-card style="margin: 20px auto; background-color: #FFE8E0;">
+                  <template #header>
+                    <div>
+                      <span>
+                        <a href="https://www.google.co.uk">
+                          <b><font color="#FF7744">Event: </font>Want to try Chinese DanDan Noodle too?</b>
+                        </a>
+                      </span>
+                      <el-button type="text" style="float: right; margin-top: -10px; text-align: right;"
+                        >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >
+                    </div>
+                  </template>
+                  <div class="text item">
+                    There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested? 
+                    We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to 
+                    join, and please remember to bring you’re friends along too! Hoping to get over 10 people 
+                    this time!
+                  </div>
+                </el-card>
+              </el-tab-pane>
+
+              <el-tab-pane label="Popular">Role</el-tab-pane>
+              <el-tab-pane label="Members">Task</el-tab-pane>
+            </el-tabs>
             
-            <el-card style="margin: 20px auto; background-color: #FFE8E0;">
-              <template #header>
-                <div>
-                  <span>
-                    <a href="https://www.google.co.uk">
-                      <b><font color="#FF7744">Event: </font>Let’s go to Ichiran Ramen!</b>
-                    </a>
-                  </span>
-                  <el-button type="text" style="float: right; margin-top: -10px"
-                    >Sunday 15/06/2021 @ 12:00PM</el-button
-                  >
-                </div>
-              </template>
-              <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested? 
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to 
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people 
-                this time!
-              </div>
-            </el-card>
-
-            <el-card style="margin: 20px auto">
-              <template #header>
-                <div>
-                  <span><b>What’s your favourite Ramen shop in London?</b></span>
-                  <el-button type="text" style="float: right; margin-top: -10px"
-                    >More</el-button
-                  >
-                </div>
-              </template>
-              <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people
-                this time! Please remember to bring you’re friends along and...
-              </div>
-            </el-card>
-
-            <el-card style="margin: 20px auto">
-              <template #header>
-                <div>
-                  <span><b>Ramen really is better in Japan than in London! Today I found out that...</b></span>
-                  <el-button type="text" style="float: right; margin-top: -10px"
-                    >More</el-button
-                  >
-                </div>
-              </template>
-              <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people
-                this time! Please remember to bring you’re friends along and...
-              </div>
-            </el-card>
-
-            <el-card style="margin: 20px auto">
-              <template #header>
-                <div>
-                  <span><b>My friend Leo’s birthday is coming up soon! What do you recommend?</b></span>
-                  <el-button type="text" style="float: right; margin-top: -10px"
-                    >More</el-button
-                  >
-                </div>
-              </template>
-              <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested?
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people
-                this time! Please remember to bring you’re friends along and...
-              </div>
-            </el-card>
-            
-            <el-card style="margin: 20px auto; background-color: #FFE8E0;">
-              <template #header>
-                <div>
-                  <span>
-                    <a href="https://www.google.co.uk">
-                      <b><font color="#FF7744">Event: </font>Want to try Chinese DanDan Noodle too?</b>
-                    </a>
-                  </span>
-                  <el-button type="text" style="float: right; margin-top: -10px"
-                    >Sunday 15/06/2021 @ 12:00PM</el-button
-                  >
-                </div>
-              </template>
-              <div class="text item">
-                There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good. Anyone interested? 
-                We can go together. Meeting at the Imperial College Central Library. Anyone is welcome to 
-                join, and please remember to bring you’re friends along too! Hoping to get over 10 people 
-                this time!
-              </div>
-            </el-card>
 
           </div>
 
           <div class="col-md-4 order-1">
-            <el-card style="margin: 20px auto">
+            <el-card>
               <div>
                 <h3>Create a new Thread</h3>
                 <form class="pt-2">
