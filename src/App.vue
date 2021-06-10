@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
-import StateProvider from "./StateProvider.vue";
+import { defineComponent } from "vue";
+import StateProvider from "./hooks/providers/StateProvider.vue";
 import { State } from "./state";
 
 export default defineComponent({
