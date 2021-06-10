@@ -83,22 +83,17 @@ export default defineComponent({
     const description = ref("");
     const imgUrl = ref("");
     const { userName } = useState();
-    const { doPost, posting, posted, error } = usePost(postSpaceCreation);
+    const { doPost, error, posted } = usePost(postSpaceCreation);
+    const router = useRouter();
 
-    watch(error, () => {
-      if (error.value) {
-        if (error.value.isAxiosError) {
-          const axiosError: AxiosError = error.value as AxiosError;
-          if (axiosError.response?.data) {
-            alert(axiosError.response?.data?.detail[0].msg);
-          }
-        } else {
-          alert(error.message);
-        }
+    watch([error, posted], () => {
+      if (!error.value && posted.value) {
+        alert("success");
+        router.push({ name: "Home" });
       }
     });
 
-    const onSubmit = async () => {
+    const onSubmit = () => {
       if (!id.value || !name.value || !description.value) {
         alert("group id, name and description are required!");
         return;
