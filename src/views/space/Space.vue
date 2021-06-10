@@ -25,10 +25,6 @@
           <div class="col-sm-6">
             <div class="px-4 pt-3 d-flex text-left">
               <h2>{{ name }}</h2>
-              <!-- Join space should change to leave space if user is already part of this space -->
-              <div class="pl-3">
-                <button type="submit" class="btn btn-primary mb-2">Join Space</button>
-              </div>
             </div>
           </div>
           <div class="col-sm-4">
@@ -219,12 +215,6 @@ import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Space",
-
-  data() {
-    return {
-      activeName: 'first'
-    };
-  },  
   // components: { TopBar },
   setup() {
     const route = useRoute();
@@ -237,11 +227,6 @@ export default defineComponent({
       description,
     };
   },
-  methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    }
-  }
   
 });
 </script>
