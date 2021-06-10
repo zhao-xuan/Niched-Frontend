@@ -1,6 +1,6 @@
 <template>
   <!-- <TopBar /> -->
-  <div class="row py-5 px-4">
+  <div class="row py-5 px-4 niched-bg">
     <div class="col-md-10 mx-auto">
       <!-- Profile widget -->
       <div class="bg-light shadow rounded overflow-hidden mt-3s">
@@ -25,6 +25,10 @@
           <div class="col-sm-6">
             <div class="px-4 pt-3 d-flex text-left">
               <h2>{{ name }}</h2>
+              <!-- Join space should change to leave space if user is already part of this space -->
+              <div class="pl-3">
+                <button type="submit" class="btn btn-primary mb-2">Join Space</button>
+              </div>
             </div>
           </div>
           <div class="col-sm-4">
@@ -55,6 +59,7 @@
         
         <div class="row pb-4 px-4">
           <div class="col-md-8 order-0">
+            
             <el-card style="margin: 20px auto; background-color: #FFE8E0;">
               <template #header>
                 <div>
@@ -153,16 +158,16 @@
           <div class="col-md-4 order-1">
             <el-card style="margin: 20px auto">
               <div>
-                <h3>Create a new Post</h3>
+                <h3>Create a new Thread</h3>
                 <form class="pt-2">
                   <div class="form-group">
-                    <input type="email" class="form-control" id="postTitle" placeholder="Post Title">
+                    <input type="email" class="form-control" id="postTitle" placeholder="Thread Title">
                   </div>
                   <div class="form-group">
-                    <textarea class="form-control" id="postDescription" rows="3" placeholder="Post Details"></textarea>
+                    <textarea class="form-control" id="postDescription" rows="3" placeholder="Thread Details"></textarea>
                   </div>
                   <div class="form-group" style="float: right;">
-                    <button type="submit" class="btn btn-primary mb-2">Create Post</button>
+                    <button type="submit" class="btn btn-primary mb-2">Create Thread</button>
                   </div>
                 </form>
               </div>
@@ -214,6 +219,12 @@ import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Space",
+
+  data() {
+    return {
+      activeName: 'first'
+    };
+  },  
   // components: { TopBar },
   setup() {
     const route = useRoute();
@@ -226,9 +237,17 @@ export default defineComponent({
       description,
     };
   },
+  methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+    }
+  }
+  
 });
 </script>
 <style>
+@import '../../assets/styles/niched-styles.css';
+
 .profile-head {
   transform: translateY(5rem);
 }
