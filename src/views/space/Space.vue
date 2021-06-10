@@ -1,5 +1,5 @@
 <template>
-  <!-- <TopBar /> -->
+  <TopBar />
   <div class="row py-5 px-4 niched-bg">
     <div class="col-md-10 mx-auto">
       <!-- Profile widget -->
@@ -208,14 +208,14 @@
 </template>
 
 <script lang="ts">
-// import TopBar from "../Topbar.vue";
+import TopBar from "../Topbar.vue";
 import { defineComponent } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Space",
-  // components: { TopBar },
+  components: { TopBar },
   setup() {
     const route = useRoute();
     const groupId = route.params.id as string;
@@ -230,6 +230,7 @@ export default defineComponent({
   
 });
 </script>
+
 <style>
 @import '../../assets/styles/niched-styles.css';
 

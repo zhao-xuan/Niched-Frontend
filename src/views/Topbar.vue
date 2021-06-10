@@ -1,7 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-expand-sm"
-    style="background-color: rgb(144, 180, 251)"
+    class="navbar navbar-expand-sm topbar"
   >
     <div class="container-fluid">
       <a class="navbar-brand" href="/home"
@@ -33,7 +32,7 @@
         </span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse px-2 min-vw-100" id="navbarSupportedContent">
         <input
           class="form-control mr-sm-2"
           type="search"
@@ -41,18 +40,18 @@
           aria-label="Search"
           @input="onChange"
         />
-        <button class="btn btn-outline-success m-2 my-sm-0" type="submit">
+        <button class="btn btn-light m-2 my-sm-0" type="submit">
           Search
         </button>
         <button
-          class="btn btn-outline-success m-2 my-sm-0"
+          class="btn btn-info m-2 my-sm-0"
           @click="jumpToCreateSpace"
         >
           Create Space
         </button>
         <button
           class="
-            btn btn-link
+            btn btn-warning
             m-2
             my-sm-0
             d-flex
@@ -108,3 +107,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+@import '../assets/styles/niched-styles.css';
+</style>
