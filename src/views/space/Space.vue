@@ -180,7 +180,7 @@
             <el-card style="margin: 20px auto">
               <div>
                 <h3>Create a new Post</h3>
-                <form class="pt-2">
+                <form class="pt-2" @submit.prevent>
                   <div class="form-group">
                     <input
                       type="email"
@@ -209,7 +209,7 @@
             <el-card style="margin: 20px auto">
               <div>
                 <h3>Organise a new Event!</h3>
-                <form class="pt-2">
+                <form class="pt-2" @submit.prevent>
                   <div class="form-group">
                     <input
                       type="text"
@@ -266,14 +266,7 @@
                     <button
                       type="submit"
                       class="btn btn-primary mb-2"
-                      @click="
-                        onSubmitEvent(
-                          eventTitle,
-                          eventDescription,
-                          eventDate,
-                          eventTime
-                        )
-                      "
+                      @click="onSubmitEvent"
                     >
                       Create Event
                     </button>
@@ -289,14 +282,14 @@
 </template>
 
 <script lang="ts">
-// import TopBar from "../Topbar.vue";
 import { defineComponent, ref } from "vue";
 import { useSpace } from "@/hooks/useSpace";
+import { usePost } from "@/hooks/usePost";
 import { useRoute } from "vue-router";
 import { useState } from "@/state";
-import router from "@/router";
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
+import { postEventCreation } from "@/api/event";
 
 export default defineComponent({
   name: "Space",
@@ -311,34 +304,21 @@ export default defineComponent({
     const { name, imageUrl, description, members } = useSpace(groupId, true);
     const { userName, loggedIn } = useState();
 
-    const onSubmitEvent = async (
-      eventTitle: string,
-      eventDescription: string,
-      eventDate: string,
-      eventTime: string
-    ) => {
+    const { doPost } = usePost(postEventCreation);
+
+    const onSubmitEvent = async () => {
       if (!loggedIn.value) {
-        router.push({ name: "Login" });
-        return;
+        alert("plz login first");
       }
 
-      axios
-        .post(`${SERVER_URL}/event/`, {
-          group_id: groupId,
-          author_id: userName.value,
-          description: eventDescription,
-          title: eventTitle,
-          tags: [],
-          event_time: `${eventDate}T${eventTime}:00Z`,
-        })
-        .then(
-          (res) => {
-            alert("Event created successfully!");
-          },
-          (rej) => {
-            alert(rej);
-          }
-        );
+      doPost({
+        group_id: groupId,
+        author_id: userName.value,
+        description: eventDescription.value,
+        title: eventTitle.value,
+        tags: [],
+        event_time: `${eventDate.value}T${eventTime.value}:00Z`,
+      });
     };
 
     return {
