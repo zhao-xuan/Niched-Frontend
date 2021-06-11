@@ -12,9 +12,14 @@ type EventCreation = {
   event_time: string;
 };
 
+export type EventCreationResponse = EventCreation & {
+  event_id: string;
+  creation_time: string;
+};
+
 export const postEventCreation = async (
   req: EventCreation
-): Promise<Record<string, never>> => {
+): Promise<EventCreationResponse> => {
   const res = await axios.post(`${SERVER_URL}/event/`, req);
   return res.data;
 };
