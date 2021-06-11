@@ -60,7 +60,7 @@
                     <span>
                       <a href="https://www.google.co.uk">
                         <b
-                          ><font color="#FF7744">Event: </font>Let’s go to Ichiran Ramen!</b>
+                          ><font color="#FF7744">Event: </font>{{ title }}</b>
                       </a>
                     </span>
                     <el-button
@@ -70,42 +70,21 @@
                         margin-top: -10px;
                         text-align: right;
                       "
-                      >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                      >{{ creationDate }}<br /><b>@{{ authorId }}</b></el-button
                     >
                   </div>
                 </template>
-                <div class="text item pb-1">                  
+                <div class="text item pb-3">                  
                   <b>
-                    Date: Sunday 15/06/2021 
+                    Date and Time: {{ eventDate }} 
                   </b>
                 </div>
                 <div class="text item pb-3">                  
-                  <b>
-                    Time: 12:00PM 
-                  </b>
-                </div>
-                <div class="text item pb-3">                  
-                  There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good.
-                  Anyone interested? We can go together. Meeting at the Imperial College
-                  Central Library. Anyone is welcome to join, and please remember to bring
-                  you’re friends along too! Hoping to get over 10 people this time!
-                  <br />
-                  <br />
-                  Anyone is welcome to join, and please remember to bring you’re friends
-                  along too! Hoping to get over 10 people this time!Anyone is welcome to
-                  join, and please remember to bring you’re friends along too! Hoping to
-                  get over 10 people this time!
-                  <br />
-                  <br />
-                  Let’s meet at the Tube station Elephant and Castle. Don’t forget your
-                  umbrellas, forcast says its going to rain!
-                  <br />
-                  <br />
-                  Thread: https://www.niched.herokuapp.com/thread/420691337
+                  {{ eventDescription }}
                 </div>
                 <div class="text item pb-4">                  
                   <b>
-                    15 Interested - 12 Going 
+                    X Interested - X Going 
                   </b>
                 </div>
                 <div class="row justify-content-md-center pb-1">
@@ -142,7 +121,6 @@
                         class="form-control"
                         id="postTitle"
                         placeholder="Post Title"
-                        v-model="postTitle"
                       />
                     </div>
                     <div class="form-group">
@@ -151,14 +129,12 @@
                         id="postDescription"
                         rows="3"
                         placeholder="Post Details"
-                        v-model="postDescription"
                       ></textarea>
                     </div>
                     <div class="form-group" style="float: right">
                       <button
                         type="submit"
                         class="btn btn-primary mb-2"
-                        @click="OnSubmitThread"
                       >
                         Create Post
                       </button>
@@ -177,7 +153,6 @@
                         class="form-control"
                         id="eventTitle"
                         placeholder="Event Title"
-                        v-model="eventTitle"
                       />
                     </div>
                     <div class="form-group row">
@@ -191,7 +166,6 @@
                           class="form-control"
                           type="date"
                           id="example-date-input"
-                          v-model="eventDate"
                         />
                       </div>
                     </div>
@@ -206,7 +180,6 @@
                           class="form-control"
                           type="time"
                           id="example-time-input"
-                          v-model="eventTime"
                         />
                       </div>
                     </div>
@@ -216,7 +189,6 @@
                         class="form-control"
                         rows="3"
                         placeholder="Event Details"
-                        v-model="eventDescription"
                       ></textarea>
                     </div>
                     <div class="form-group">
@@ -231,7 +203,6 @@
                       <button
                         type="submit"
                         class="btn btn-primary mb-2"
-                        @click="onSubmitEvent"
                       >
                         Create Event
                       </button>
@@ -252,6 +223,7 @@ import TopBar from "../Topbar.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { usePost } from "@/hooks/usePost";
+import { useEvent } from "@/hooks/useEvent";
 import { useRoute } from "vue-router";
 import { useState } from "@/state";
 import { postEventCreation } from "@/api/event";
@@ -261,17 +233,14 @@ export default defineComponent({
   name: "Event",
   components: { TopBar },
   setup() {
-    const postTitle = ref("");
-    const postDescription = ref("");
-
-    const eventTitle = ref("");
-    const eventDescription = ref("");
-    const eventDate = ref("");
-    const eventTime = ref("");
-
     const route = useRoute();
     const groupId = route.params.groupId as string;
     const { name, imageUrl, description, members } = useSpace(groupId, true);
+
+    const eventId = route.params.eventId as string;
+    // const { eventId, groupId, authorId, title, description, creationDate, eventDate, tags } = useEvent(eventId, true)
+    const { authorId, title, description: eventDescription, creationDate, eventDate, tags } = useEvent(eventId, true)
+
     const { userName, loggedIn } = useState();
     const { doPost: doPostEvent, data: eventResponse } =
       usePost(postEventCreation);
@@ -295,47 +264,18 @@ export default defineComponent({
         );
       }
     });
-    const onSubmitEvent = async () => {
-      if (!loggedIn.value) {
-        alert("Please login first");
-      }
-
-      doPostEvent({
-        group_id: groupId,
-        author_id: userName.value,
-        description: eventDescription.value,
-        title: eventTitle.value,
-        tags: [],
-        event_time: `${eventDate.value}T${eventTime.value}:00Z`,
-      });
-    };
-
-    const OnSubmitThread = async () => {
-      if (!loggedIn.value) {
-        alert("Please login first");
-      }
-
-      doPostThread({
-        group_id: groupId,
-        author_id: userName.value,
-        description: postDescription.value,
-        title: postTitle.value,
-      });
-    };
 
     return {
       name,
       imageUrl,
       description,
       members,
-      postTitle,
-      postDescription,
-      eventTitle,
-      eventDescription,
-      eventDate,
-      eventTime,
-      onSubmitEvent,
-      OnSubmitThread,
+      authorId,
+      title, 
+      eventDescription, 
+      creationDate, 
+      eventDate, 
+      tags,
     };
   },
   // setup() {
