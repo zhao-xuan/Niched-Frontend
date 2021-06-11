@@ -7,8 +7,10 @@ type ReturnType = ToRefs<Space> & ToRefs<FetchType> & { doFetch: () => void };
 export const useSpace = (spaceId: string, immediate: boolean): ReturnType => {
   const state = reactive<Space>({
     groupId: "",
+    authorId: "",
     name: "",
     description: "",
+    members: [],
     imageUrl: "",
     creationDate: "",
   });
@@ -22,8 +24,10 @@ export const useSpace = (spaceId: string, immediate: boolean): ReturnType => {
   watch(spaceData, () => {
     if (spaceData && spaceData.value) {
       state.groupId = spaceData.value.group_id;
+      state.authorId = spaceData.value.author_id;
       state.name = spaceData.value.name;
       state.description = spaceData.value.description;
+      state.members = spaceData.value.members;
       state.creationDate = spaceData.value.creation_date;
       state.imageUrl =
         spaceData.value.image_url ||

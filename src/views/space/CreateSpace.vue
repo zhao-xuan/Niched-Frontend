@@ -59,9 +59,7 @@
         </div>
       </div>
       <div class="row col-md-10 mx-auto justify-content-end mt-3 pr-0">
-        <el-button
-          class="bg-success text-white"
-          @click="onSubmit(id, name, description, imgUrl)"
+        <el-button class="bg-success text-white" @click="onSubmit"
           >Submit</el-button
         >
       </div>
@@ -70,11 +68,13 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, watch } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { SERVER_URL } from "@/api/constant";
-
+import { useState } from "@/state";
+import { postSpaceCreation } from "@/api/space";
+import { usePost } from "@/hooks/usePost";
 export default defineComponent({
   name: "CreateSpace",
   setup() {
@@ -82,33 +82,30 @@ export default defineComponent({
     const name = ref("");
     const description = ref("");
     const imgUrl = ref("");
+    const { userName } = useState();
+    const { doPost, error, posted } = usePost(postSpaceCreation);
     const router = useRouter();
-    const onSubmit = async (
-      id: string,
-      name: string,
-      description: string,
-      imgUrl: string
-    ) => {
-      if (!id || !name || !description) {
+
+    watch([error, posted], () => {
+      if (!error.value && posted.value) {
+        alert("success");
+        router.push({ name: "Home" });
+      }
+    });
+
+    const onSubmit = () => {
+      if (!id.value || !name.value || !description.value) {
         alert("group id, name and description are required!");
         return;
       }
-      axios
-        .post(`${SERVER_URL}/group/new`, {
-          name: name,
-          description: description,
-          group_id: id,
-          image_url: imgUrl,
-        })
-        .then(
-          (res) => {
-            alert("ur new space:" + name + " has been created!");
-            router.push({ name: "Home" });
-          },
-          (rej) => {
-            alert(rej);
-          }
-        );
+
+      doPost({
+        author_id: userName.value,
+        name: name.value,
+        description: description.value,
+        group_id: id.value,
+        image_url: imgUrl.value,
+      });
     };
     return {
       id,
