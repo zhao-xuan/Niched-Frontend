@@ -232,7 +232,14 @@
                     <template #header>
                       <div>
                         <span>
-                          <a href="https://www.google.co.uk">
+                          <a
+                            href=""
+                            @click="
+                              this.$router.push(
+                                `/event/${event.groupId}/${event.eventId}`
+                              )
+                            "
+                          >
                             <b
                               ><font color="#FF7744">Event: </font>
                               {{ event.title }}</b
@@ -246,8 +253,10 @@
                             margin-top: -10px;
                             text-align: right;
                           "
-                          >{{ event.eventDate }} at {{ event.eventTime
-                          }}<br /><b>@{{ event.authorId }}</b></el-button
+                          >{{ event.eventDate.split("T")[0] }} at
+                          {{ event.eventDate.split("T")[1] }}<br /><b
+                            >@{{ event.authorId }}</b
+                          ></el-button
                         >
                       </div>
                     </template>

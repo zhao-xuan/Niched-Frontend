@@ -1,6 +1,35 @@
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
 
+//fetch event
+export type EventResponse = {
+  event_id: string;
+  group_id: string;
+  author_id: string;
+  title: string;
+  description: string;
+  creation_date: string;
+  event_date: string;
+  tags: string[];
+};
+
+export type Event = {
+  eventId: string;
+  groupId: string;
+  authorId: string;
+  title: string;
+  description: string;
+  creationDate: string;
+  eventDate: string;
+  tags: string[];
+};
+
+export const fetchEvent = async (eventId: string): Promise<EventResponse> => {
+  const res = await axios.get(`${SERVER_URL}/event/${eventId}`);
+  return res.data;
+};
+
+//create event
 
 type EventCreation = {
   group_id: string;
@@ -15,18 +44,6 @@ export type EventCreationResponse = EventCreation & {
   event_id: string;
   creation_time: string;
 };
-
-export type Event = {
-  groupId: string;
-  authorId: string;
-  eventId: string;
-  title: string;
-  description: string;
-  tags: string[];
-  eventTime: string;
-  creationTime: string;
-}
-
 
 export const postEventCreation = async (
   req: EventCreation

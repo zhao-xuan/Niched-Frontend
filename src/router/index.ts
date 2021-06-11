@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Space,
   },
   {
-    path: "/event/:id",
+    path: "/event/:groupId/:eventId",
     name: "Event",
     component: Event,
   },
