@@ -1,41 +1,47 @@
 <template>
-  <div style="margin-top: 40px; margin-left: 40px">
+  <div style="margin-top: 40px">
     <h3>
       {{ title }}
     </h3>
-    <el-row :gutter="15">
-      <el-col
-        :span="10"
-        class="niche-card"
-        v-for="niche in spacelist"
-        :key="niche"
-        :title="`${niche} space`"
-        style="cursor: pointer"
-        @click="jumpToSpace(niche.groupId)"
-      >
-        <el-card style="border-radius: 20px">
-          <div style="display: flex; flex-direction: row">
-            <img :src="`${niche.imgUrl}`" class="niche-card-image" />
-            <div style="display: flex; margin: 5px; flex-direction: column">
-              <h5>{{ niche.title }}</h5>
-              <p>{{ niche.detail }}</p>
-            </div>
+    <div class="card-columns">
+      <div v-for="niche in columnDivided" :key="niche">
+        <div class="card">
+          <div style="cursor: pointer" @click="jumpToSpace(niche[0].groupId)">
+            <el-card
+              :body-style="{ padding: '0px' }"
+              style="border-radius: 10px"
+            >
+              <img :src="`${niche[0].imgUrl}`" class="card-image" />
+              <div style="display: flex; margin: 20px; flex-direction: column">
+                <h5>{{ niche[0].title }}</h5>
+                <p>{{ niche[0].detail }}</p>
+              </div>
+            </el-card>
           </div>
-        </el-card>
-      </el-col>
-    </el-row>
+        </div>
+        <div class="card" v-if="niche[1]">
+          <div style="cursor: pointer" @click="jumpToSpace(niche[1].groupId)">
+            <el-card
+              :body-style="{ padding: '0px' }"
+              style="border-radius: 10px"
+            >
+              <img :src="`${niche[1].imgUrl}`" class="card-image" />
+              <div style="display: flex; margin: 20px; flex-direction: column">
+                <h5>{{ niche[1].title }}</h5>
+                <p>{{ niche[1].detail }}</p>
+              </div>
+            </el-card>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
-.niche-card-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
-}
-
-.niche-card {
-  margin: 10px;
+.card-image {
+  width: 100%;
+  display: block;
 }
 </style>
 
@@ -47,6 +53,19 @@ export default defineComponent({
   name: "SpaceGroup",
   components: {},
   props: ["title", "spacelist"],
+  computed: {
+    columnDivided(): any[][] {
+      const temp = [];
+      for (var i = 0; i < this.spacelist.length; i += 2) {
+        const tt = [this.spacelist[i]].concat(
+          i + 1 >= this.spacelist.length ? [] : [this.spacelist[i + 1]]
+        );
+        temp.push(tt);
+      }
+
+      return temp;
+    },
+  },
   setup() {
     const router = useRouter();
     return {

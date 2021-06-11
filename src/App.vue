@@ -1,11 +1,30 @@
 <template>
-  <router-view />
+  <StateProvider :state="state">
+    <router-view />
+  </StateProvider>
 </template>
 
+<script lang="ts">
+import { defineComponent } from "vue";
+import StateProvider from "./hooks/providers/StateProvider.vue";
+import { State } from "./state";
+
+export default defineComponent({
+  name: "App",
+  components: { StateProvider },
+  setup() {
+    const state: State = {
+      loggedIn: false,
+      userName: "",
+      subscribedGroups: [],
+      interests: [],
+    };
+
+    return { state };
+  },
+});
+</script>
+
 <style>
-body {
-  background: #654ea3;
-  background: linear-gradient(to right, #32b368, #329eb3);
-  overflow-x: hidden;
-}
+@import 'assets/styles/niched-styles.css';
 </style>

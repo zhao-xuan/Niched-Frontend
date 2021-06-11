@@ -1,24 +1,54 @@
-import { ref, Ref, UnwrapRef, watchEffect } from "vue";
+import { onMounted, Ref, ref, ToRefs, watch } from "vue";
+import { AxiosError } from "axios";
+
+export type FetchType = {
+  fetching: boolean;
+  fetched: boolean;
+  error: any;
+};
+
+export type FetchingDataType<T> = {
+  doFetch: () => void;
+  data: Ref<T | undefined>;
+};
+
+type ReturnType<T> = ToRefs<FetchType> & FetchingDataType<T>;
 
 export const useFetch = <Response>(
   request: () => Promise<Response>,
   immediate = false
-): {
-  data: Ref<UnwrapRef<Response> | null>;
-  fetching: Ref<boolean>;
-  fetched: Ref<boolean>;
-  error: Ref<any>;
-  doFetch: () => void;
-} => {
-  const data = ref<Response | null>(null);
+): ReturnType<Response> => {
+  const data = ref<Response>();
   const fetching = ref<boolean>(false);
   const fetched = ref<boolean>(false);
   const error = ref<any>(null);
 
+  const init = () => {
+    data.value = undefined;
+    fetching.value = false;
+    fetched.value = false;
+    error.value = null;
+  };
+
+  watch(error, () => {
+    if (error.value) {
+      if (error.value.isAxiosError) {
+        const axiosError: AxiosError = error.value as AxiosError;
+        if (axiosError.response?.data) {
+          console.log(axiosError.response?.data?.detail);
+          alert(axiosError.response?.data?.detail.msg);
+        }
+      } else {
+        alert(error.value.message);
+      }
+    }
+  });
+
   const doFetch = async () => {
+    init();
     fetching.value = true;
     try {
-      data.value = (await request()) as UnwrapRef<Response>;
+      data.value = await request();
       fetched.value = true;
     } catch (err) {
       error.value = err;
@@ -26,9 +56,10 @@ export const useFetch = <Response>(
     fetching.value = false;
   };
 
-  watchEffect(() => {
-    if (!immediate) return;
-    doFetch();
+  onMounted(() => {
+    if (immediate) {
+      doFetch();
+    }
   });
-  return { data, fetching, fetched, doFetch, error };
+  return { data, fetched, fetching, error, doFetch };
 };
