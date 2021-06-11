@@ -7,15 +7,16 @@
         <div class="bg-light shadow rounded overflow-hidden mt-3s">
           <div
             class="px-4 pt-0 pb-5 cover rounded"
-            style="
-              background-image: url('https://iamafoodblog.b-cdn.net/wp-content/uploads/2021/04/mayo-ramen-2638w.jpg');
-              background-position: center;
-              height: 300px;
-            "
+            :style="{
+              backgroundImage: 'url(' + imageUrl + ')',
+              backgroundPosition: 'center',
+              height: '400px',
+            }"
           >
             <div class="mb-2 text-white d-flex justify-content-center">
               <div class="px-4">
                 <!-- <h2 class="pt-5 my-4">
+
                 {{ "Apple WWDC Event Watching Session" }}
               </h2> -->
               </div>
