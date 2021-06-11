@@ -13,7 +13,7 @@
       <div class="login-form">
         <form @submit.prevent>
           <div class="form-group">
-            <label>User Name</label>
+            <label>Username</label>
             <input
               type="text"
               class="form-control"
@@ -27,10 +27,11 @@
               type="password"
               class="form-control"
               placeholder="Password"
+              v-model="passwordInput"
             />
           </div>
-          <button class="btn btn-primary m-2" @click="onLogIn">Login</button>
-          <button class="btn btn-white m-2">Register</button>
+          <button class="btn btn-primary m-2" @click="onLogin">Login</button>
+          <button class="btn btn-white m-2" @click="onReg">Register</button>
         </form>
       </div>
     </div>
@@ -116,32 +117,25 @@ body {
 import { ref, defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useState } from "@/state";
-import { fetchUser } from "@/api/user";
+import { loginUser } from "@/api/auth";
 import { AxiosError } from "axios";
+
 export default defineComponent({
   name: "Login",
   setup() {
     const userNameInput = ref("");
-    const {
-      setUserName,
-      setLoggedIn,
-      setEmail,
-      setBio,
-      setInterests,
-      setSubscribedGroups,
-    } = useState();
+    const passwordInput = ref("");
+
     const router = useRouter();
-    const onLogIn = async () => {
+    const { setLoggedIn, setUserName } = useState();
+    
+    const onLogin = async () => {
       try {
-        const { user_name, email, bio, interests, subscribed_groups } =
-          await fetchUser(userNameInput.value);
-        setUserName(user_name);
-        setInterests(interests);
-        setSubscribedGroups(subscribed_groups);
-        setBio(bio || "");
-        setEmail(email || "");
-        setLoggedIn(true);
-        alert("login success!");
+        const { access_token, token_type } =
+          await loginUser(userNameInput.value, passwordInput.value);
+        
+        setLoggedIn(!!localStorage.userName);
+        setUserName(localStorage.userName);
         router.push({ name: "Home" });
       } catch (err) {
         const error = err as AxiosError;
@@ -150,7 +144,11 @@ export default defineComponent({
       }
     };
 
-    return { userNameInput, onLogIn };
+    const onReg = () => {
+      router.push({ name : "Register" });
+    }
+
+    return { userNameInput, passwordInput, onLogin, onReg };
   },
 });
 </script>

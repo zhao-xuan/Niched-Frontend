@@ -14,8 +14,8 @@ export default defineComponent({
   components: { StateProvider },
   setup() {
     const state: State = {
-      loggedIn: false,
-      userName: "",
+      loggedIn: !!localStorage.userName,
+      userName: localStorage.userName,
       subscribedGroups: [],
       interests: [],
     };
