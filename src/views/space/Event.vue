@@ -113,101 +113,24 @@
             <div class="col-md-4 order-1">
               <el-card>
                 <div>
-                  <h3>Create a new Post</h3>
-                  <form class="pt-2" @submit.prevent>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="postTitle"
-                        placeholder="Post Title"
-                      />
-                    </div>
-                    <div class="form-group">
-                      <textarea
-                        class="form-control"
-                        id="postDescription"
-                        rows="3"
-                        placeholder="Post Details"
-                      ></textarea>
-                    </div>
-                    <div class="form-group" style="float: right">
-                      <button
-                        type="submit"
-                        class="btn btn-primary mb-2"
-                      >
-                        Create Post
-                      </button>
-                    </div>
-                  </form>
+                  <h4>Event Organiser</h4>
+                  <button
+                    type="submit"
+                    class="btn btn-info mb-2"
+                    @click="goToProfile(authorId)"
+                  >
+                    @{{ authorId }}
+                  </button>
                 </div>
               </el-card>
 
               <el-card style="margin: 20px auto">
                 <div>
-                  <h3>Organise a new Event!</h3>
-                  <form class="pt-2" @submit.prevent>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="eventTitle"
-                        placeholder="Event Title"
-                      />
-                    </div>
-                    <div class="form-group row">
-                      <label
-                        for="example-date-input"
-                        class="col-2 col-form-label"
-                        >Date</label
-                      >
-                      <div class="col-10">
-                        <input
-                          class="form-control"
-                          type="date"
-                          id="example-date-input"
-                        />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label
-                        for="example-time-input"
-                        class="col-2 col-form-label"
-                        >Time</label
-                      >
-                      <div class="col-10">
-                        <input
-                          class="form-control"
-                          type="time"
-                          id="example-time-input"
-                        />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <textarea
-                        type="text"
-                        class="form-control"
-                        rows="3"
-                        placeholder="Event Details"
-                      ></textarea>
-                    </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="eventMemberCount"
-                        placeholder="Member Count (Optional)"
-                      />
-                    </div>
-                    <div class="form-group" style="float: right">
-                      <button
-                        type="submit"
-                        class="btn btn-primary mb-2"
-                      >
-                        Create Event
-                      </button>
-                    </div>
-                  </form>
+                  <h4>Participants</h4>
+                  <h6>Going</h6>
+
+                  <h6>Interested</h6>
+                  
                 </div>
               </el-card>
             </div>
@@ -224,7 +147,7 @@ import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { usePost } from "@/hooks/usePost";
 import { useEvent } from "@/hooks/useEvent";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useState } from "@/state";
 import { postEventCreation } from "@/api/event";
 import { postThreadCreation } from "@/api/thread";
@@ -233,6 +156,7 @@ export default defineComponent({
   name: "Event",
   components: { TopBar },
   setup() {
+    const router = useRouter();
     const route = useRoute();
     const groupId = route.params.groupId as string;
     const { name, imageUrl, description, members } = useSpace(groupId, true);
@@ -265,6 +189,10 @@ export default defineComponent({
       }
     });
 
+    // Redirect to user profile page
+    const goToProfile = async (profile: string) => {
+      router.push({ path: "/users/"+profile });
+    };
     return {
       name,
       imageUrl,
@@ -276,20 +204,9 @@ export default defineComponent({
       creationDate, 
       eventDate, 
       tags,
+      goToProfile,
     };
   },
-  // setup() {
-  //   const route = useRoute();
-  //   const groupId = route.params.groupId as string;
-  //   const eventId = route.params.eventId as string;
-  //   const { name, imageUrl, description } = useSpace(groupId, true);
-
-  //   return {
-  //     name,
-  //     imageUrl,
-  //     description,
-  //   };
-  // },
 });
 </script>
 <style>
