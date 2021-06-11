@@ -26,9 +26,5 @@ export default defineComponent({
 </script>
 
 <style>
-body {
-  background: #654ea3;
-  background: linear-gradient(to right, #32b368, #329eb3);
-  overflow-x: hidden;
-}
+@import 'assets/styles/niched-styles.css';
 </style>
