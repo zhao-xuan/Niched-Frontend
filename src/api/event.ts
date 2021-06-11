@@ -51,3 +51,8 @@ export const postEventCreation = async (
   const res = await axios.post(`${SERVER_URL}/event/`, req);
   return res.data;
 };
+
+export const fetchEventsByGroupId = async (group_id: string): Promise<EventCreationResponse[]> => {
+  const res = await axios.get(`${SERVER_URL}/group/${group_id}/events`);
+  return res.data;
+};

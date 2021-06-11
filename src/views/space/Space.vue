@@ -79,14 +79,7 @@
                         >
                       </div>
                     </template>
-                    <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
-                      Please remember to bring you’re friends along and...
-                    </div>
+                    <div class="text item"></div>
                   </el-card>
                   <el-card style="margin: 20px auto">
                     <template #header>
@@ -231,14 +224,25 @@
                 </el-tab-pane>
 
                 <el-tab-pane label="Events">
-                  <el-card style="margin: 20px auto; background-color: #ffe8e0">
+                  <el-card
+                    v-for="event in events"
+                    :key="event"
+                    style="margin: 20px auto; background-color: #ffe8e0"
+                  >
                     <template #header>
                       <div>
                         <span>
-                          <a href="https://www.google.co.uk">
+                          <a
+                            href=""
+                            @click="
+                              this.$router.push(
+                                `/event/${event.groupId}/${event.eventId}`
+                              )
+                            "
+                          >
                             <b
-                              ><font color="#FF7744">Event: </font>Let’s go to
-                              Ichiran Ramen!</b
+                              ><font color="#FF7744">Event: </font>
+                              {{ event.title }}</b
                             >
                           </a>
                         </span>
@@ -249,46 +253,15 @@
                             margin-top: -10px;
                             text-align: right;
                           "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                          >{{ event.eventDate.split("T")[0] }} at
+                          {{ event.eventDate.split("T")[1] }}<br /><b
+                            >@{{ event.authorId }}</b
+                          ></el-button
                         >
                       </div>
                     </template>
                     <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
-                    </div>
-                  </el-card>
-                  <el-card style="margin: 20px auto; background-color: #ffe8e0">
-                    <template #header>
-                      <div>
-                        <span>
-                          <a href="https://www.google.co.uk">
-                            <b
-                              ><font color="#FF7744">Event: </font>Want to try
-                              Chinese DanDan Noodle too?</b
-                            >
-                          </a>
-                        </span>
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
+                      {{ event.description }}
                     </div>
                   </el-card>
                 </el-tab-pane>
@@ -416,13 +389,15 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent, watch } from "vue";
+import { ref, defineComponent, watch, Events } from "vue";
 import { useSpace } from "@/hooks/useSpace";
+import { useEvents } from "@/hooks/useEvent";
 import { usePost } from "@/hooks/usePost";
 import { useRoute } from "vue-router";
 import { useState } from "@/state";
 import { postEventCreation } from "@/api/event";
 import { postThreadCreation } from "@/api/thread";
+import { useFetch } from "@/hooks/useFetch";
 
 export default defineComponent({
   name: "Space",
@@ -446,10 +421,13 @@ export default defineComponent({
     const { doPost: doPostThread, data: threadResponse } =
       usePost(postThreadCreation);
 
+    const events = useEvents(groupId, true);
+    console.log(events);
+
     watch(eventResponse, () => {
       if (eventResponse.value) {
         alert(
-          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
+          `A new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
             is created`
         );
       }
@@ -465,6 +443,7 @@ export default defineComponent({
     const onSubmitEvent = async () => {
       if (!loggedIn.value) {
         alert("Please login first");
+        return;
       }
 
       doPostEvent({
@@ -480,6 +459,7 @@ export default defineComponent({
     const OnSubmitThread = async () => {
       if (!loggedIn.value) {
         alert("Please login first");
+        return;
       }
 
       doPostThread({
@@ -497,6 +477,7 @@ export default defineComponent({
       members,
       postTitle,
       postDescription,
+      events,
       eventTitle,
       eventDescription,
       eventDate,
