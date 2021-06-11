@@ -407,7 +407,7 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { usePost } from "@/hooks/usePost";
 import { useRoute } from "vue-router";
@@ -431,15 +431,34 @@ export default defineComponent({
     const groupId = route.params.id as string;
     const { name, imageUrl, description, members } = useSpace(groupId, true);
     const { userName, loggedIn } = useState();
+    const { doPost: doPostEvent, data: eventResponse } =
+      usePost(postEventCreation);
 
+    const { doPost: doPostThread, data: threadResponse } =
+      usePost(postThreadCreation);
+
+    watch(eventResponse, () => {
+      if (eventResponse.value) {
+        alert(
+          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
+            is created`
+        );
+      }
+    });
+    watch(threadResponse, () => {
+      if (threadResponse.value) {
+        alert(
+          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id} 
+            is created`
+        );
+      }
+    });
     const onSubmitEvent = async () => {
-      const { doPost } = usePost(postEventCreation);
-
       if (!loggedIn.value) {
         alert("Please login first");
       }
 
-      doPost({
+      doPostEvent({
         group_id: groupId,
         author_id: userName.value,
         description: eventDescription.value,
@@ -450,14 +469,11 @@ export default defineComponent({
     };
 
     const OnSubmitThread = async () => {
-      console.log("GOT TO SUBMIT THREAD BUTTON");
-      const { doPost } = usePost(postThreadCreation);
-
       if (!loggedIn.value) {
         alert("Please login first");
       }
 
-      doPost({
+      doPostThread({
         group_id: groupId,
         author_id: userName.value,
         description: postDescription.value,
