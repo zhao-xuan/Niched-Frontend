@@ -1,112 +1,244 @@
 <template>
-  <div class="row py-5 px-4">
-    <div class="col-md-5 mx-auto">
-      <!-- Profile widget -->
-      <div class="bg-white shadow rounded overflow-hidden mt-3s">
-        <div
-          class="px-4 pt-0 pb-5 cover"
-          :style="{
-            backgroundImage:
-              'url(https://www.apple.com/v/home/hc/images/overview/macos_hw_02__fxfwijtx516q_large_2x.png)',
-          }"
-        >
-          <div class="mb-2 text-white d-flex justify-content-center">
-            <div class="px-4">
-              <h2 class="pt-5 my-4">
-                {{ "Apple WWDC Event Watching Session" }}
-              </h2>
+  <TopBar />
+  <div class="container-fluid">
+    <div class="row py-5 px-4 niched-bg">
+      <div class="col-md-10 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-light shadow rounded overflow-hidden mt-3s">
+          <div
+            class="px-4 pt-0 pb-5 cover rounded"
+            :style="{
+              backgroundImage: 'url(' + imageUrl + ')',
+              backgroundPosition: 'center',
+              height: '400px',
+            }"
+          >
+            <div class="mb-2 text-white d-flex justify-content-center">
+              <div class="px-4">
+              </div>
             </div>
-            <p class="small mb-4"></p>
           </div>
-        </div>
-        <div class="media align-items-end profile-head">
-          <div class="profile m-3">
-            <a href="#" class="btn btn-dark btn-sm btn-block">Interested</a>
-          </div>
-          <div class="profile m-3">
-            <a href="#" class="btn btn-dark btn-sm btn-block">Going</a>
-          </div>
-          <div class="profile m-3">
-            <a href="#" class="btn btn-dark btn-sm btn-block">Comment</a>
-          </div>
-        </div>
-        <div class="bg-light p-4 d-flex justify-content-end text-center">
-          <ul class="list-inline mb-0">
-            <li class="list-inline-item">
-              <h5 class="font-weight-bold mb-0 d-block">40</h5>
-              <small class="text-muted">
-                <i class="fas fa-user mr-1"></i>Interested</small
-              >
-            </li>
-            <li class="list-inline-item">
-              <h5 class="font-weight-bold mb-0 d-block">23</h5>
-              <small class="text-muted">
-                <i class="fas fa-user mr-1"></i>Going</small
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="px-4 py-3">
-          <h5 class="mb-0">Event Details</h5>
-          <div class="p-4 rounded shadow-sm bg-light">
-            <p>Location: 28-32 Pembridge Gardens @ Notting Hill Gate, London</p>
-            <p>Date Time: June 19 2021, 12:00PM</p>
-            <p>Requirement: Bring $20 cash and your ID</p>
-          </div>
-        </div>
-        <div class="px-4 py-3">
-          <h5 class="mb-0">About</h5>
-          <div class="p-4 rounded shadow-sm bg-light">
-            <p>
-              This is an example event. This is an example event. This is an
-              example event. This is an example event. This is an example event.
-              This is an example event.
-            </p>
-          </div>
-        </div>
-        <div class="px-4 py-3">
-          <h5 class="mb-0">Comment Thread</h5>
-          <div class="p-4 rounded shadow-sm bg-light">
-            <p>
-              This is an example event. This is an example event. This is an
-              example event. This is an example event. This is an example event.
-              This is an example event.
-            </p>
-          </div>
-        </div>
-        <div class="py-4 px-4">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Similar Events</h5>
-            <a href="#" class="btn btn-link text-muted">Show all</a>
-          </div>
+
           <div class="row">
-            <div class="col-lg-6 mb-2 pr-lg-1">
-              <img
-                src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-                alt=""
-                class="img-fluid rounded shadow-sm"
-              />
+            <div class="col-sm-6">
+              <div class="px-4 pt-3 d-flex text-left">
+                <h2>{{ name }}</h2>
+              </div>
             </div>
-            <div class="col-lg-6 mb-2 pl-lg-1">
-              <img
-                src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-                alt=""
-                class="img-fluid rounded shadow-sm"
-              />
+            <div class="col-sm-4">
+              <div class="px-4 pt-3 d-flex text-left">
+                <p>{{ description }}</p>
+              </div>
             </div>
-            <div class="col-lg-6 pr-lg-1 mb-2">
-              <img
-                src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                alt=""
-                class="img-fluid rounded shadow-sm"
-              />
+            <div class="col-sm-2">
+              <div class="px-4 py-3 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                  <li class="list-inline-item">
+                    <h5 class="font-weight-bold mb-0 d-block">
+                      {{ members.length }}
+                    </h5>
+                    <small class="text-muted">
+                      <i class="fas fa-user mr-1"></i>Members</small
+                    >
+                  </li>
+                  <li class="list-inline-item">
+                    <h5 class="font-weight-bold mb-0 d-block">23</h5>
+                    <small class="text-muted">
+                      <i class="fas fa-user mr-1"></i>Threads</small
+                    >
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="col-lg-6 pl-lg-1">
-              <img
-                src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-                alt=""
-                class="img-fluid rounded shadow-sm"
-              />
+          </div>
+
+          <div class="row pb-4 px-4">
+            <div class="col-md-8 order-0">
+              <el-card style="background-color: #ffe8e0">
+                <template #header>
+                  <div>
+                    <span>
+                      <a href="https://www.google.co.uk">
+                        <b
+                          ><font color="#FF7744">Event: </font>Let’s go to Ichiran Ramen!</b>
+                      </a>
+                    </span>
+                    <el-button
+                      type="text"
+                      style="
+                        float: right;
+                        margin-top: -10px;
+                        text-align: right;
+                      "
+                      >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                    >
+                  </div>
+                </template>
+                <div class="text item pb-1">                  
+                  <b>
+                    Date: Sunday 15/06/2021 
+                  </b>
+                </div>
+                <div class="text item pb-3">                  
+                  <b>
+                    Time: 12:00PM 
+                  </b>
+                </div>
+                <div class="text item pb-3">                  
+                  There is a new item in the Ichiran ramen shop: Yakikamo. Sounds good.
+                  Anyone interested? We can go together. Meeting at the Imperial College
+                  Central Library. Anyone is welcome to join, and please remember to bring
+                  you’re friends along too! Hoping to get over 10 people this time!
+                  <br />
+                  <br />
+                  Anyone is welcome to join, and please remember to bring you’re friends
+                  along too! Hoping to get over 10 people this time!Anyone is welcome to
+                  join, and please remember to bring you’re friends along too! Hoping to
+                  get over 10 people this time!
+                  <br />
+                  <br />
+                  Let’s meet at the Tube station Elephant and Castle. Don’t forget your
+                  umbrellas, forcast says its going to rain!
+                  <br />
+                  <br />
+                  Thread: https://www.niched.herokuapp.com/thread/420691337
+                </div>
+                <div class="text item pb-4">                  
+                  <b>
+                    15 Interested - 12 Going 
+                  </b>
+                </div>
+                <div class="row justify-content-md-center pb-1">
+                  <div class="col col-lg-2">
+                    <button
+                      type="submit"
+                      class="btn btn-warning mb-2"
+                      @click="Interested"
+                    >
+                      Interested
+                    </button>
+                  </div>
+                  <div class="col col-lg-2">
+                    <button
+                      type="submit"
+                      class="btn btn-success mb-2"
+                      @click="Going"
+                    >
+                      Going
+                    </button>
+                  </div>
+                </div>
+              </el-card>
+            </div>
+
+            <div class="col-md-4 order-1">
+              <el-card>
+                <div>
+                  <h3>Create a new Post</h3>
+                  <form class="pt-2" @submit.prevent>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="postTitle"
+                        placeholder="Post Title"
+                        v-model="postTitle"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <textarea
+                        class="form-control"
+                        id="postDescription"
+                        rows="3"
+                        placeholder="Post Details"
+                        v-model="postDescription"
+                      ></textarea>
+                    </div>
+                    <div class="form-group" style="float: right">
+                      <button
+                        type="submit"
+                        class="btn btn-primary mb-2"
+                        @click="OnSubmitThread"
+                      >
+                        Create Post
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </el-card>
+
+              <el-card style="margin: 20px auto">
+                <div>
+                  <h3>Organise a new Event!</h3>
+                  <form class="pt-2" @submit.prevent>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="eventTitle"
+                        placeholder="Event Title"
+                        v-model="eventTitle"
+                      />
+                    </div>
+                    <div class="form-group row">
+                      <label
+                        for="example-date-input"
+                        class="col-2 col-form-label"
+                        >Date</label
+                      >
+                      <div class="col-10">
+                        <input
+                          class="form-control"
+                          type="date"
+                          id="example-date-input"
+                          v-model="eventDate"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label
+                        for="example-time-input"
+                        class="col-2 col-form-label"
+                        >Time</label
+                      >
+                      <div class="col-10">
+                        <input
+                          class="form-control"
+                          type="time"
+                          id="example-time-input"
+                          v-model="eventTime"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        rows="3"
+                        placeholder="Event Details"
+                        v-model="eventDescription"
+                      ></textarea>
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="eventMemberCount"
+                        placeholder="Member Count (Optional)"
+                      />
+                    </div>
+                    <div class="form-group" style="float: right">
+                      <button
+                        type="submit"
+                        class="btn btn-primary mb-2"
+                        @click="onSubmitEvent"
+                      >
+                        Create Event
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </el-card>
             </div>
           </div>
         </div>
@@ -116,23 +248,108 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import TopBar from "../Topbar.vue";
+import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
+import { usePost } from "@/hooks/usePost";
 import { useRoute } from "vue-router";
+import { useState } from "@/state";
+import { postEventCreation } from "@/api/event";
+import { postThreadCreation } from "@/api/thread";
 
 export default defineComponent({
   name: "Event",
+  components: { TopBar },
   setup() {
+    const postTitle = ref("");
+    const postDescription = ref("");
+
+    const eventTitle = ref("");
+    const eventDescription = ref("");
+    const eventDate = ref("");
+    const eventTime = ref("");
+
     const route = useRoute();
-    const groupId = route.params.id as string;
-    const { name, imageUrl, description } = useSpace(groupId, true);
+    const groupId = route.params.groupId as string;
+    const { name, imageUrl, description, members } = useSpace(groupId, true);
+    const { userName, loggedIn } = useState();
+    const { doPost: doPostEvent, data: eventResponse } =
+      usePost(postEventCreation);
+
+    const { doPost: doPostThread, data: threadResponse } =
+      usePost(postThreadCreation);
+
+    watch(eventResponse, () => {
+      if (eventResponse.value) {
+        alert(
+          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
+            is created`
+        );
+      }
+    });
+    watch(threadResponse, () => {
+      if (threadResponse.value) {
+        alert(
+          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id} 
+            is created`
+        );
+      }
+    });
+    const onSubmitEvent = async () => {
+      if (!loggedIn.value) {
+        alert("Please login first");
+      }
+
+      doPostEvent({
+        group_id: groupId,
+        author_id: userName.value,
+        description: eventDescription.value,
+        title: eventTitle.value,
+        tags: [],
+        event_time: `${eventDate.value}T${eventTime.value}:00Z`,
+      });
+    };
+
+    const OnSubmitThread = async () => {
+      if (!loggedIn.value) {
+        alert("Please login first");
+      }
+
+      doPostThread({
+        group_id: groupId,
+        author_id: userName.value,
+        description: postDescription.value,
+        title: postTitle.value,
+      });
+    };
 
     return {
       name,
       imageUrl,
       description,
+      members,
+      postTitle,
+      postDescription,
+      eventTitle,
+      eventDescription,
+      eventDate,
+      eventTime,
+      onSubmitEvent,
+      OnSubmitThread,
     };
   },
+  // setup() {
+  //   const route = useRoute();
+  //   const groupId = route.params.groupId as string;
+  //   const eventId = route.params.eventId as string;
+  //   const { name, imageUrl, description } = useSpace(groupId, true);
+
+  //   return {
+  //     name,
+  //     imageUrl,
+  //     description,
+  //   };
+  // },
 });
 </script>
 <style>
