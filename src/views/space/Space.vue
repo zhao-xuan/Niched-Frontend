@@ -189,78 +189,7 @@
                 </div>
               </el-card>
               <CreateThread v-model:postingThread="postingThread" />
-              <el-card class="mt-5 mx-auto">
-                <div>
-                  <h3>Organise a new Event!</h3>
-                  <form class="pt-2" @submit.prevent>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="eventTitle"
-                        placeholder="Event Title"
-                        v-model="eventTitle"
-                      />
-                    </div>
-                    <div class="form-group row">
-                      <label
-                        for="example-date-input"
-                        class="col-2 col-form-label"
-                        >Date</label
-                      >
-                      <div class="col-10">
-                        <input
-                          class="form-control"
-                          type="date"
-                          id="example-date-input"
-                          v-model="eventDate"
-                        />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label
-                        for="example-time-input"
-                        class="col-2 col-form-label"
-                        >Time</label
-                      >
-                      <div class="col-10">
-                        <input
-                          class="form-control"
-                          type="time"
-                          id="example-time-input"
-                          v-model="eventTime"
-                        />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <textarea
-                        type="text"
-                        class="form-control"
-                        rows="3"
-                        placeholder="Event Details"
-                        v-model="eventDescription"
-                      ></textarea>
-                    </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="eventMemberCount"
-                        placeholder="Member Count (Optional)"
-                      />
-                    </div>
-                    <div class="form-group" style="float: right">
-                      <button
-                        type="submit"
-                        class="btn btn-primary mb-2"
-                        @click="onSubmitEvent"
-                      >
-                        Create Event
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </el-card>
+              <CreateEvent v-model:postingEvent="postingEvent" />
             </div>
           </div>
         </div>
@@ -271,21 +200,17 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent, watch } from "vue";
+import { ref, defineComponent } from "vue";
 import { useSpace } from "@/hooks/useSpace";
-import { usePost } from "@/hooks/usePost";
 import { useRoute } from "vue-router";
-import { useState } from "@/state";
-import { postEventCreation } from "@/api/event";
 import CreateThread from "../thread/CreateThread.vue";
+import CreateEvent from "../event/CreateEvent.vue";
 export default defineComponent({
   name: "Space",
-  components: { TopBar, CreateThread },
+  components: { TopBar, CreateThread, CreateEvent },
   setup() {
-    const eventTitle = ref("");
-    const eventDescription = ref("");
-    const eventDate = ref("");
-    const eventTime = ref("");
+    const postingThread = ref(false);
+    const postingEvent = ref(false);
 
     const route = useRoute();
     const groupId = route.params.id as string;
@@ -293,35 +218,6 @@ export default defineComponent({
       groupId,
       true
     );
-    const { userName, loggedIn } = useState();
-    const { doPost: doPostEvent, data: eventResponse } =
-      usePost(postEventCreation);
-
-    watch(eventResponse, () => {
-      if (eventResponse.value) {
-        alert(
-          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id}
-            is created`
-        );
-      }
-    });
-
-    const onSubmitEvent = async () => {
-      if (!loggedIn.value) {
-        alert("Please login first");
-      }
-
-      doPostEvent({
-        group_id: groupId,
-        author_id: userName.value,
-        description: eventDescription.value,
-        title: eventTitle.value,
-        tags: [],
-        event_time: `${eventDate.value}T${eventTime.value}:00Z`,
-      });
-    };
-
-    const postingThread = ref(false);
 
     return {
       name,
@@ -329,13 +225,9 @@ export default defineComponent({
       description,
       members,
       creationDate,
-      eventTitle,
-      eventDescription,
-      eventDate,
-      eventTime,
-      onSubmitEvent,
-      items: [1, 2, 3, 4, 5],
       postingThread,
+      postingEvent,
+      items: [1, 2, 3, 4, 5],
     };
   },
 });
