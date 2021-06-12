@@ -119,7 +119,7 @@ export default defineComponent({
         description: eventDescription.value,
         title: eventTitle.value,
         tags: [],
-        event_time: `${eventDate.value}T${eventTime.value}:00Z`,
+        event_time: `${eventDate.value}T${eventTime.value}:00`,
       });
     };
 
