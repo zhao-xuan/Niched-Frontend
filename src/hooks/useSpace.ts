@@ -4,7 +4,7 @@ import { Space, SpaceResponse, fetchSpace } from "@/api/space";
 
 type ReturnType = ToRefs<Space> & ToRefs<FetchType> & { doFetch: () => void };
 
-export const useSpace = (spaceId: string, immediate: boolean): ReturnType => {
+export const useSpace = (groupId: string, immediate: boolean): ReturnType => {
   const state = reactive<Space>({
     groupId: "",
     authorId: "",
@@ -19,7 +19,7 @@ export const useSpace = (spaceId: string, immediate: boolean): ReturnType => {
     data: spaceData,
     doFetch,
     ...res
-  } = useFetch<SpaceResponse>(() => fetchSpace(spaceId), immediate);
+  } = useFetch<SpaceResponse>(() => fetchSpace(groupId), immediate);
 
   watch(spaceData, () => {
     if (spaceData && spaceData.value) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container text-white">
+  <div class="container text-white" v-loading.fullscreen.lock="posting">
     <div class="row py-5 px-3">
       <div class="col-md-10 mx-auto px-0">
         <h1>create a new space!</h1>
@@ -83,7 +83,7 @@ export default defineComponent({
     const description = ref("");
     const imgUrl = ref("");
     const { userName } = useState();
-    const { doPost, error, posted } = usePost(postSpaceCreation);
+    const { doPost, error, posted, posting } = usePost(postSpaceCreation);
     const router = useRouter();
 
     watch([error, posted], () => {
@@ -113,6 +113,7 @@ export default defineComponent({
       description,
       imgUrl,
       onSubmit,
+      posting,
     };
   },
 });
