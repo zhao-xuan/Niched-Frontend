@@ -7,6 +7,7 @@
         <div class="bg-light shadow rounded overflow-hidden mt-3s">
           <div
             class="px-4 pt-0 pb-5 cover rounded"
+            id="here"
             :style="{
               backgroundImage: 'url(' + imageUrl + ')',
               backgroundPosition: 'center',
@@ -29,38 +30,21 @@
                 <h2>{{ name }}</h2>
               </div>
             </div>
-            <div class="col-sm-4">
-              <div class="px-4 pt-3 d-flex text-left">
-                <p>{{ description }}</p>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="px-4 py-3 d-flex justify-content-end text-center">
-                <ul class="list-inline mb-0">
-                  <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">
-                      {{ members.length }}
-                    </h5>
-                    <small class="text-muted">
-                      <i class="fas fa-user mr-1"></i>Members</small
-                    >
-                  </li>
-                  <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">23</h5>
-                    <small class="text-muted">
-                      <i class="fas fa-user mr-1"></i>Threads</small
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
 
           <div class="row pb-4 px-4">
-            <div class="col-md-8 order-0">
-              <el-tabs type="border-card">
-                <el-tab-pane label="Threads">
-                  <el-card style="margin: 20px auto">
+            <div class="col-md-8">
+              <el-tabs type="">
+                <el-tab-pane>
+                  <template #label>
+                    <span><i class="el-icon-chat-line-square"></i> Thread</span>
+                  </template>
+                  <el-card
+                    class="m-3"
+                    shadow="hover"
+                    v-for="i in items"
+                    :key="i"
+                  >
                     <template #header>
                       <div>
                         <span
@@ -68,153 +52,7 @@
                             >What’s your favourite Ramen shop in London?</b
                           ></span
                         >
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
-                      Please remember to bring you’re friends along and...
-                    </div>
-                  </el-card>
-                  <el-card style="margin: 20px auto">
-                    <template #header>
-                      <div>
-                        <span
-                          ><b
-                            >Ramen really is better in Japan than in London!
-                            Today I found out that...</b
-                          ></span
-                        >
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
-                      Please remember to bring you’re friends along and...
-                    </div>
-                  </el-card>
-                  <el-card style="margin: 20px auto">
-                    <template #header>
-                      <div>
-                        <span
-                          ><b
-                            >My friend Leo’s birthday is coming up soon! What do
-                            you recommend?</b
-                          ></span
-                        >
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Anyone is welcome to join, and please
-                      remember and please remember and please remember...
-                    </div>
-                  </el-card>
-                  <el-card style="margin: 20px auto">
-                    <template #header>
-                      <div>
-                        <span
-                          ><b
-                            >Today I tried Hangzhou Lamian - very good</b
-                          ></span
-                        >
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      Anyone is welcome to join, and please remember to bring
-                      you’re friends along too! Anyone is welcome to join, and
-                      please remember and please remember and please remember.
-                    </div>
-                  </el-card>
-                  <el-card style="margin: 20px auto">
-                    <template #header>
-                      <div>
-                        <span
-                          ><b
-                            >Ramen really is better in Japan than in London!
-                            Today I found out that...</b
-                          ></span
-                        >
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
-                      Please remember to bring you’re friends along and...
-                    </div>
-                  </el-card>
-                  <el-card style="margin: 20px auto">
-                    <template #header>
-                      <div>
-                        <span
-                          ><b
-                            >What’s your favourite Ramen shop in London?</b
-                          ></span
-                        >
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
+                        <el-button type="text"
                           >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
                         >
                       </div>
@@ -230,7 +68,10 @@
                   </el-card>
                 </el-tab-pane>
 
-                <el-tab-pane label="Events">
+                <el-tab-pane>
+                  <template #label>
+                    <span><i class="el-icon-place"></i> Event </span>
+                  </template>
                   <el-card style="margin: 20px auto; background-color: #ffe8e0">
                     <template #header>
                       <div>
@@ -293,15 +134,64 @@
                   </el-card>
                 </el-tab-pane>
 
-                <el-tab-pane label="Popular">Role</el-tab-pane>
-                <el-tab-pane label="Members">Task</el-tab-pane>
+                <el-tab-pane>
+                  <template #label>
+                    <span>
+                      <i class="el-icon-star-off"></i>
+                      Popular
+                    </span>
+                  </template>
+                  Role
+                </el-tab-pane>
+                <el-tab-pane label="Members">
+                  <template #label>
+                    <span
+                      ><i class="el-icon-user"></i>
+                      Members
+                    </span>
+                  </template>
+                  memebers
+                </el-tab-pane>
               </el-tabs>
             </div>
 
-            <div class="col-md-4 order-1">
+            <div class="col-md-4">
+              <el-card class="my-5">
+                <div>
+                  <div>
+                    <h3>About the group</h3>
+                  </div>
+                </div>
+                <div class="p-2">
+                  <div class="mb-3">
+                    {{ description }}
+                  </div>
+                  <div class="d-flex flex-row mb-3">
+                    <div class="font-weight-bold mr-5">
+                      <div>
+                        {{ members.length }}
+                      </div>
+                      <div>members</div>
+                    </div>
+                    <div class="font-weight-bold">
+                      {{ 23 }}
+                      <div class="font-weight-bold">threads</div>
+                    </div>
+                  </div>
+                  <div class="border-top pt-2 text-muted font-weight-bold">
+                    created :
+                    {{
+                      creationDate.split("-")[1] +
+                      "/" +
+                      creationDate.split("-")[0]
+                    }}
+                  </div>
+                </div>
+              </el-card>
+
               <el-card>
                 <div>
-                  <h3>Create a new Post</h3>
+                  <h3>Create a new Thread</h3>
                   <form class="pt-2" @submit.prevent>
                     <div class="form-group">
                       <input
@@ -327,14 +217,14 @@
                         class="btn btn-primary mb-2"
                         @click="OnSubmitThread"
                       >
-                        Create Post
+                        Thread Post
                       </button>
                     </div>
                   </form>
                 </div>
               </el-card>
 
-              <el-card style="margin: 20px auto">
+              <el-card class="mt-5 mx-auto">
                 <div>
                   <h3>Organise a new Event!</h3>
                   <form class="pt-2" @submit.prevent>
@@ -438,7 +328,10 @@ export default defineComponent({
 
     const route = useRoute();
     const groupId = route.params.id as string;
-    const { name, imageUrl, description, members } = useSpace(groupId, true);
+    const { name, imageUrl, description, members, creationDate } = useSpace(
+      groupId,
+      true
+    );
     const { userName, loggedIn } = useState();
     const { doPost: doPostEvent, data: eventResponse } =
       usePost(postEventCreation);
@@ -449,7 +342,7 @@ export default defineComponent({
     watch(eventResponse, () => {
       if (eventResponse.value) {
         alert(
-          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
+          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id}
             is created`
         );
       }
@@ -457,7 +350,7 @@ export default defineComponent({
     watch(threadResponse, () => {
       if (threadResponse.value) {
         alert(
-          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id} 
+          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id}
             is created`
         );
       }
@@ -495,6 +388,7 @@ export default defineComponent({
       imageUrl,
       description,
       members,
+      creationDate,
       postTitle,
       postDescription,
       eventTitle,
@@ -503,6 +397,7 @@ export default defineComponent({
       eventTime,
       onSubmitEvent,
       OnSubmitThread,
+      items: [1, 2, 3, 4, 5],
     };
   },
 });
