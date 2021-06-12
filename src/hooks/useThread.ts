@@ -32,7 +32,7 @@ export const useThreads = (
           threadId: item.thread_id,
           title: item.title,
           description: item.description,
-          creationTime: item.creation_time,
+          creationDate: item.creation_date,
         };
       });
     }
@@ -54,7 +54,7 @@ export const useThread = (
     authorId: "",
     title: "",
     description: "",
-    creationTime: "",
+    creationDate: "",
   });
 
   const {
@@ -70,7 +70,7 @@ export const useThread = (
       state.authorId = threadData.value.author_id;
       state.title = threadData.value.title;
       state.description = threadData.value.description;
-      state.creationTime = threadData.value.creation_time;
+      state.creationDate = threadData.value.creation_date;
     }
   });
 

@@ -7,7 +7,7 @@ export type Thread = {
   description: string;
   title: string;
   threadId: string;
-  creationTime: string;
+  creationDate: string;
 };
 
 //fetch a thread
@@ -17,7 +17,7 @@ export type ThreadResponse = {
   description: string;
   title: string;
   thread_id: string;
-  creation_time: string;
+  creation_date: string;
 };
 
 //fetch a thread
@@ -32,7 +32,7 @@ export const fetchThread = async (
 export const fetchThreads = async (
   groupId: string
 ): Promise<ThreadResponse[]> => {
-  const res = await axios.get(`${SERVER_URL}/${groupId}/threads`);
+  const res = await axios.get(`${SERVER_URL}/group/${groupId}/threads`);
   return res.data;
 };
 
