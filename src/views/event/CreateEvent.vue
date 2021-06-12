@@ -61,7 +61,7 @@
             class="btn btn-primary mb-2"
             @click="onSubmitEvent"
           >
-            Create Event
+            Submit
           </button>
         </div>
       </form>
@@ -93,14 +93,14 @@ export default defineComponent({
     const route = useRoute();
     const groupId = route.params.id as string;
     const { loggedIn, userName } = useState();
-    const { doPost, data, posting } = usePost(postEventCreation);
+    const { doPost, data, posting, posted } = usePost(postEventCreation);
 
-    watch(data, () => {
-      if (data.value) {
-        alert(
-          `a new event "${data.value?.title}"  with an id: ${data.value?.event_id}
-            is created`
-        );
+    watch([data, posted], ([d, p]) => {
+      if (d && p) {
+        eventTitle.value = "";
+        eventDescription.value = "";
+        eventDate.value = "";
+        eventTime.value = "";
       }
     });
 

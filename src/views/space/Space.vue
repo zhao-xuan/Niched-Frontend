@@ -2,7 +2,9 @@
   <TopBar />
   <div
     class="container-fluid"
-    v-loading.fullscreen.lock="postingEvent || postingThread || fetchingEvents"
+    v-loading.fullscreen.lock="
+      postingEvent || postingThread || fetchingEvents || fetchingThreads
+    "
   >
     <div class="row py-5 px-4 niched-bg">
       <div class="col-md-10 mx-auto">
@@ -45,32 +47,29 @@
                   <el-card
                     class="m-3"
                     shadow="hover"
-                    v-for="i in items"
-                    :key="i"
+                    v-for="thread in threads.slice().reverse()"
+                    :key="thread.threadId"
                   >
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
                         <div>
                           <span
-                            ><b
-                              >What’s your favourite Ramen shop in London?</b
-                            ></span
+                            ><b>{{ thread.title }}</b></span
                           >
                         </div>
                         <div>
                           <el-button type="text"
-                            >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                            >{{
+                              creationDate.split("-")[1] +
+                              "/" +
+                              creationDate.split("-")[0]
+                            }}<b>@{{ thread.authorId }}</b></el-button
                           >
                         </div>
                       </div>
                     </template>
                     <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
-                      Please remember to bring you’re friends along and...
+                      {{ thread.description }}
                     </div>
                   </el-card>
                 </el-tab-pane>
@@ -80,8 +79,8 @@
                     <span><i class="el-icon-place"></i> Event </span>
                   </template>
                   <el-card
-                    v-for="event in events"
-                    :key="event"
+                    v-for="event in events.slice().reverse()"
+                    :key="event.eventId"
                     style="margin: 20px auto; background-color: #ffe8e0"
                   >
                     <template #header>
@@ -154,7 +153,7 @@
                       <div>members</div>
                     </div>
                     <div class="font-weight-bold">
-                      {{ 23 }}
+                      {{ threads.length }}
                       <div class="font-weight-bold">threads</div>
                     </div>
                   </div>
@@ -183,6 +182,7 @@ import TopBar from "../Topbar.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
+import { useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
@@ -200,23 +200,31 @@ export default defineComponent({
       groupId,
       true
     );
-
-    watch(postingEvent, () => {
-      //reload events data when posting new event ends
-      if (!postingEvent.value) {
-        doFetchEvents();
-      }
-    });
-
     const {
       events,
       fetching: fetchingEvents,
       doFetch: doFetchEvents,
     } = useEvents(groupId, true);
 
+    const {
+      threads,
+      fetching: fetchingThreads,
+      doFetch: doFetchThreads,
+    } = useThreads(groupId, true);
+
     const jumpToEvent = (eventId: string) => {
       router.push({ path: `/event/${groupId}/${eventId}` });
     };
+
+    watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
+      //reload events data when posting new event/thread ends
+      if (!ce && oe) {
+        doFetchEvents();
+      }
+      if (!ct && ot) {
+        doFetchThreads();
+      }
+    });
 
     return {
       name,
@@ -224,12 +232,16 @@ export default defineComponent({
       description,
       members,
       creationDate,
-      postingThread,
-      postingEvent,
-      fetchingEvents,
+
       events,
+      fetchingEvents,
+      postingEvent,
+
+      threads,
+      fetchingThreads,
+      postingThread,
+
       jumpToEvent,
-      items: [1, 2, 3, 4, 5],
     };
   },
 });
