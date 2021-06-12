@@ -87,14 +87,7 @@
                     <template #header>
                       <div>
                         <span>
-                          <a
-                            href=""
-                            @click="
-                              this.$router.push(
-                                `/event/${event.groupId}/${event.eventId}`
-                              )
-                            "
-                          >
+                          <a href="" @click="jumpToEvent(event.eventId)">
                             <b
                               ><font color="#FF7744">Event: </font>
                               {{ event.title }}</b
@@ -190,7 +183,7 @@ import TopBar from "../Topbar.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
 export default defineComponent({
@@ -200,6 +193,7 @@ export default defineComponent({
     const postingThread = ref(false);
     const postingEvent = ref(false);
 
+    const router = useRouter();
     const route = useRoute();
     const groupId = route.params.id as string;
     const { name, imageUrl, description, members, creationDate } = useSpace(
@@ -220,6 +214,10 @@ export default defineComponent({
       doFetch: doFetchEvents,
     } = useEvents(groupId, true);
 
+    const jumpToEvent = (eventId: string) => {
+      router.push({ path: `/event/${groupId}/${eventId}` });
+    };
+
     return {
       name,
       imageUrl,
@@ -230,6 +228,7 @@ export default defineComponent({
       postingEvent,
       fetchingEvents,
       events,
+      jumpToEvent,
       items: [1, 2, 3, 4, 5],
     };
   },
