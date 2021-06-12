@@ -1,7 +1,5 @@
 <template>
-  <nav
-    class="navbar navbar-expand-sm topbar"
-  >
+  <nav class="navbar navbar-expand-sm topbar">
     <div class="container-fluid">
       <a class="navbar-brand" href="/home"
         ><h1 class="text-light ml-0 pl-0">niched</h1>
@@ -40,13 +38,8 @@
           aria-label="Search"
           @input="onChange"
         />
-        <button class="btn btn-light m-2 my-sm-0" type="submit">
-          Search
-        </button>
-        <button
-          class="btn btn-info m-2 my-sm-0"
-          @click="jumpToCreateSpace"
-        >
+
+        <button class="btn btn-info m-2 my-sm-0" @click="jumpToCreateSpace">
           Create Space
         </button>
         <button
@@ -70,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useState } from "@/state";
 export default defineComponent({
@@ -109,5 +102,5 @@ export default defineComponent({
 </script>
 
 <style>
-@import '../assets/styles/niched-styles.css';
+@import "../assets/styles/niched-styles.css";
 </style>
