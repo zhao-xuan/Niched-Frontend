@@ -1,6 +1,9 @@
 <template>
   <TopBar />
-  <div class="container-fluid">
+  <div
+    class="container-fluid"
+    v-loading.fullscreen.lock="postingEvent || postingThread"
+  >
     <div class="row py-5 px-4 niched-bg">
       <div class="col-md-10 mx-auto">
         <!-- Profile widget -->

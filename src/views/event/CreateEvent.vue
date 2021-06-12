@@ -1,5 +1,5 @@
 <template>
-  <el-card class="mt-5 mx-auto" v-loading.fullscreen.lock="postingEvent">
+  <el-card class="mt-5 mx-auto">
     <div>
       <h3>Organise a new Event!</h3>
       <form class="pt-2" @submit.prevent>

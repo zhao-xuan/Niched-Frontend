@@ -1,5 +1,5 @@
 <template>
-  <el-card v-loading.fullscreen.lock="postingThread">
+  <el-card>
     <div>
       <h3>Create a new Thread</h3>
       <form class="pt-2" @submit.prevent>
