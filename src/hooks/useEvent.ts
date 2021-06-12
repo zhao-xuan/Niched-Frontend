@@ -4,7 +4,7 @@ import {
   EventResponse,
   fetchEvent,
   EventCreationResponse,
-  fetchEventsByGroupId,
+  fetchEvents,
   Event,
 } from "@/api/event";
 
@@ -13,7 +13,7 @@ type EventsReturnType = { events: Ref<Event[]> } & ToRefs<FetchType> & {
   };
 
 export const useEvents = (
-  spaceId: string,
+  groupId: string,
   immediate: boolean
 ): EventsReturnType => {
   const events: Ref<Event[]> = ref<Event[]>([]);
@@ -22,10 +22,7 @@ export const useEvents = (
     data: eventsData,
     doFetch,
     ...res
-  } = useFetch<EventCreationResponse[]>(
-    () => fetchEventsByGroupId(spaceId),
-    immediate
-  );
+  } = useFetch<EventCreationResponse[]>(() => fetchEvents(groupId), immediate);
 
   watch(eventsData, () => {
     if (eventsData && eventsData.value) {
@@ -47,9 +44,13 @@ export const useEvents = (
   return { events, doFetch, ...res };
 };
 
-type ReturnType = ToRefs<Event> & ToRefs<FetchType> & { doFetch: () => void };
+type EventReturnType = ToRefs<Event> &
+  ToRefs<FetchType> & { doFetch: () => void };
 
-export const useEvent = (eventId: string, immediate: boolean): ReturnType => {
+export const useEvent = (
+  eventId: string,
+  immediate: boolean
+): EventReturnType => {
   const state = reactive<Event>({
     eventId: "",
     groupId: "",
