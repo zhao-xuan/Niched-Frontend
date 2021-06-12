@@ -68,18 +68,29 @@
                   </el-card>
                 </el-tab-pane>
 
-                <el-tab-pane>
+                <el-tab-pane label="Events">
                   <template #label>
                     <span><i class="el-icon-place"></i> Event </span>
                   </template>
-                  <el-card style="margin: 20px auto; background-color: #ffe8e0">
+                  <el-card
+                    v-for="event in events"
+                    :key="event"
+                    style="margin: 20px auto; background-color: #ffe8e0"
+                  >
                     <template #header>
                       <div>
                         <span>
-                          <a href="https://www.google.co.uk">
+                          <a
+                            href=""
+                            @click="
+                              this.$router.push(
+                                `/event/${event.groupId}/${event.eventId}`
+                              )
+                            "
+                          >
                             <b
-                              ><font color="#FF7744">Event: </font>Let’s go to
-                              Ichiran Ramen!</b
+                              ><font color="#FF7744">Event: </font>
+                              {{ event.title }}</b
                             >
                           </a>
                         </span>
@@ -90,46 +101,15 @@
                             margin-top: -10px;
                             text-align: right;
                           "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                          >{{ event.eventDate.split("T")[0] }} at
+                          {{ event.eventDate.split("T")[1] }}<br /><b
+                            >@{{ event.authorId }}</b
+                          ></el-button
                         >
                       </div>
                     </template>
                     <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
-                    </div>
-                  </el-card>
-                  <el-card style="margin: 20px auto; background-color: #ffe8e0">
-                    <template #header>
-                      <div>
-                        <span>
-                          <a href="https://www.google.co.uk">
-                            <b
-                              ><font color="#FF7744">Event: </font>Want to try
-                              Chinese DanDan Noodle too?</b
-                            >
-                          </a>
-                        </span>
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      There is a new item in the Ichiran ramen shop: Yakikamo.
-                      Sounds good. Anyone interested? We can go together.
-                      Meeting at the Imperial College Central Library. Anyone is
-                      welcome to join, and please remember to bring you’re
-                      friends along too! Hoping to get over 10 people this time!
+                      {{ event.description }}
                     </div>
                   </el-card>
                 </el-tab-pane>
@@ -202,6 +182,7 @@
 import TopBar from "../Topbar.vue";
 import { ref, defineComponent } from "vue";
 import { useSpace } from "@/hooks/useSpace";
+import { useEvents } from "@/hooks/useEvent";
 import { useRoute } from "vue-router";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
@@ -218,6 +199,7 @@ export default defineComponent({
       groupId,
       true
     );
+    const events = useEvents(groupId, true);
 
     return {
       name,
@@ -227,6 +209,7 @@ export default defineComponent({
       creationDate,
       postingThread,
       postingEvent,
+      events,
       items: [1, 2, 3, 4, 5],
     };
   },
