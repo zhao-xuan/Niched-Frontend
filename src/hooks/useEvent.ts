@@ -1,19 +1,31 @@
 import { reactive, ref, Ref, ToRefs, toRefs, watch } from "vue";
 import { useFetch, FetchType } from "./useFetch";
-import { EventResponse, fetchEvent, EventCreationResponse, fetchEventsByGroupId, Event } from "@/api/event";
+import {
+  EventResponse,
+  fetchEvent,
+  EventCreationResponse,
+  fetchEvents,
+  Event,
+} from "@/api/event";
 
+type EventsReturnType = { events: Ref<Event[]> } & ToRefs<FetchType> & {
+    doFetch: () => void;
+  };
 
-export const useEvents = (spaceId: string, immediate: boolean): Ref<Event[]> => {
-
-  const events = ref<Event[]>([]);
+export const useEvents = (
+  groupId: string,
+  immediate: boolean
+): EventsReturnType => {
+  const events: Ref<Event[]> = ref<Event[]>([]);
 
   const {
     data: eventsData,
-  } = useFetch<EventCreationResponse[]>(() => fetchEventsByGroupId(spaceId), immediate);
+    doFetch,
+    ...res
+  } = useFetch<EventCreationResponse[]>(() => fetchEvents(groupId), immediate);
 
   watch(eventsData, () => {
     if (eventsData && eventsData.value) {
-
       events.value = eventsData.value.map((item: EventCreationResponse) => {
         return {
           groupId: item.group_id,
@@ -24,18 +36,21 @@ export const useEvents = (spaceId: string, immediate: boolean): Ref<Event[]> => 
           tags: item.tags,
           eventDate: item.event_time,
           creationDate: item.creation_time,
-        }
-      })
+        };
+      });
     }
   });
 
-  return events;
-
+  return { events, doFetch, ...res };
 };
 
-type ReturnType = ToRefs<Event> & ToRefs<FetchType> & { doFetch: () => void };
+type EventReturnType = ToRefs<Event> &
+  ToRefs<FetchType> & { doFetch: () => void };
 
-export const useEvent = (eventId: string, immediate: boolean): ReturnType => {
+export const useEvent = (
+  eventId: string,
+  immediate: boolean
+): EventReturnType => {
   const state = reactive<Event>({
     eventId: "",
     groupId: "",

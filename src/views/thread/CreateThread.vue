@@ -1,5 +1,5 @@
 <template>
-  <el-card v-loading.fullscreen.lock="postingThread">
+  <el-card>
     <div>
       <h3>Create a new Thread</h3>
       <form class="pt-2" @submit.prevent>
@@ -27,7 +27,7 @@
             class="btn btn-primary mb-2"
             @click="onSubmitThread"
           >
-            Thread Post
+            Submit
           </button>
         </div>
       </form>
@@ -55,19 +55,17 @@ export default defineComponent({
     const threadDescription = ref("");
     const route = useRoute();
     const groupId = route.params.id as string;
-    const { doPost, data, posting } = usePost(postThreadCreation);
+    const { doPost, data, posted, posting } = usePost(postThreadCreation);
     const { loggedIn, userName } = useState();
 
     watch(posting, () => {
       emit("update:postingThread", posting.value);
     });
 
-    watch(data, () => {
-      if (data.value) {
-        alert(
-          `a new thread "${data.value?.title}"  with an id: ${data.value?.thread_id}
-            is created`
-        );
+    watch([data, posted], ([d, p]) => {
+      if (d && p) {
+        threadTitle.value = "";
+        threadDescription.value = "";
       }
     });
 
