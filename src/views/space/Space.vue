@@ -145,8 +145,8 @@
                   <div class="mb-3">
                     {{ description }}
                   </div>
-                  <div class="d-flex flex-row mb-3">
-                    <div class="font-weight-bold mr-5">
+                  <div class="d-flex flex-row justify-content-between mb-3">
+                    <div class="font-weight-bold">
                       <div>
                         {{ members.length }}
                       </div>
@@ -155,6 +155,10 @@
                     <div class="font-weight-bold">
                       {{ threads.length }}
                       <div class="font-weight-bold">threads</div>
+                    </div>
+                    <div class="font-weight-bold">
+                      {{ events.length }}
+                      <div class="font-weight-bold">events</div>
                     </div>
                   </div>
                   <div class="border-top pt-2 text-muted font-weight-bold">
