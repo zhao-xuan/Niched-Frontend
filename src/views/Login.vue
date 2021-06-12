@@ -127,15 +127,27 @@ export default defineComponent({
     const passwordInput = ref("");
 
     const router = useRouter();
-    const { setLoggedIn, setUserName } = useState();
-    
+    const {
+      setLoggedIn,
+      setUserName,
+      setSubscribedGroups,
+      setInterests,
+      setEmail,
+      setBio,
+    } = useState();
+
     const onLogin = async () => {
       try {
-        const { access_token, token_type } =
-          await loginUser(userNameInput.value, passwordInput.value);
-        
+        const {
+          user_details: { user_name, email, bio, subscribed_groups, interests },
+        } = await loginUser(userNameInput.value, passwordInput.value);
+
         setLoggedIn(!!localStorage.userName);
-        setUserName(localStorage.userName);
+        setUserName(user_name);
+        setEmail(email || "");
+        setInterests(interests);
+        setSubscribedGroups(subscribed_groups);
+        setBio(bio || "");
         router.push({ name: "Home" });
       } catch (err) {
         const error = err as AxiosError;
@@ -145,8 +157,8 @@ export default defineComponent({
     };
 
     const onReg = () => {
-      router.push({ name : "Register" });
-    }
+      router.push({ name: "Register" });
+    };
 
     return { userNameInput, passwordInput, onLogin, onReg };
   },
