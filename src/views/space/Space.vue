@@ -188,42 +188,7 @@
                   </div>
                 </div>
               </el-card>
-
-              <el-card>
-                <div>
-                  <h3>Create a new Thread</h3>
-                  <form class="pt-2" @submit.prevent>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="postTitle"
-                        placeholder="Post Title"
-                        v-model="postTitle"
-                      />
-                    </div>
-                    <div class="form-group">
-                      <textarea
-                        class="form-control"
-                        id="postDescription"
-                        rows="3"
-                        placeholder="Post Details"
-                        v-model="postDescription"
-                      ></textarea>
-                    </div>
-                    <div class="form-group" style="float: right">
-                      <button
-                        type="submit"
-                        class="btn btn-primary mb-2"
-                        @click="OnSubmitThread"
-                      >
-                        Thread Post
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </el-card>
-
+              <CreateThread v-model:postingThread="postingThread" />
               <el-card class="mt-5 mx-auto">
                 <div>
                   <h3>Organise a new Event!</h3>
@@ -312,15 +277,11 @@ import { usePost } from "@/hooks/usePost";
 import { useRoute } from "vue-router";
 import { useState } from "@/state";
 import { postEventCreation } from "@/api/event";
-import { postThreadCreation } from "@/api/thread";
-
+import CreateThread from "../thread/CreateThread.vue";
 export default defineComponent({
   name: "Space",
-  components: { TopBar },
+  components: { TopBar, CreateThread },
   setup() {
-    const postTitle = ref("");
-    const postDescription = ref("");
-
     const eventTitle = ref("");
     const eventDescription = ref("");
     const eventDate = ref("");
@@ -336,9 +297,6 @@ export default defineComponent({
     const { doPost: doPostEvent, data: eventResponse } =
       usePost(postEventCreation);
 
-    const { doPost: doPostThread, data: threadResponse } =
-      usePost(postThreadCreation);
-
     watch(eventResponse, () => {
       if (eventResponse.value) {
         alert(
@@ -347,14 +305,7 @@ export default defineComponent({
         );
       }
     });
-    watch(threadResponse, () => {
-      if (threadResponse.value) {
-        alert(
-          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id}
-            is created`
-        );
-      }
-    });
+
     const onSubmitEvent = async () => {
       if (!loggedIn.value) {
         alert("Please login first");
@@ -370,18 +321,7 @@ export default defineComponent({
       });
     };
 
-    const OnSubmitThread = async () => {
-      if (!loggedIn.value) {
-        alert("Please login first");
-      }
-
-      doPostThread({
-        group_id: groupId,
-        author_id: userName.value,
-        description: postDescription.value,
-        title: postTitle.value,
-      });
-    };
+    const postingThread = ref(false);
 
     return {
       name,
@@ -389,15 +329,13 @@ export default defineComponent({
       description,
       members,
       creationDate,
-      postTitle,
-      postDescription,
       eventTitle,
       eventDescription,
       eventDate,
       eventTime,
       onSubmitEvent,
-      OnSubmitThread,
       items: [1, 2, 3, 4, 5],
+      postingThread,
     };
   },
 });
