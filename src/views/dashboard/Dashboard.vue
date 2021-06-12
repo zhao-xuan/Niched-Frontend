@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-loading.fullscreen.lock="fetching">
     <div class="row">
       <div class="col-md-7">
         <SpaceGroup
@@ -66,7 +66,10 @@ export default defineComponent({
   setup() {
     const { recommend, niches, events } = toRefs(reactive(dashboardFixture));
 
-    const { fetched, data } = useFetch<SpacesResponse>(fetchSpaces, true);
+    const { fetched, fetching, data } = useFetch<SpacesResponse>(
+      fetchSpaces,
+      true
+    );
     watchEffect(() => {
       if (fetched.value) {
         const items = Object.values(data.value || {}).map(
@@ -87,6 +90,7 @@ export default defineComponent({
       recommend,
       niches,
       events,
+      fetching,
     };
   },
 });
