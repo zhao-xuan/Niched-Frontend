@@ -5,26 +5,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 import StateProvider from "./hooks/providers/StateProvider.vue";
 import { State } from "./state";
+import { fetchUser } from "./api/user";
 
 export default defineComponent({
   name: "App",
   components: { StateProvider },
   setup() {
-    const state: State = {
-      loggedIn: !!localStorage.userName,
-      userName: localStorage.userName,
+    const state = reactive<State>({
+      loggedIn: false,
+      userName: "",
       subscribedGroups: [],
       interests: [],
+    });
+
+    const fetchAndSetUser = async () => {
+      try {
+        const { user_name, email, bio, interests, subscribed_groups } =
+          await fetchUser(localStorage.userName);
+        state.loggedIn = true;
+        state.userName = user_name;
+        state.bio = bio || "";
+        state.email = email || "";
+        state.interests = interests;
+        state.subscribedGroups = subscribed_groups;
+      } catch (err) {
+        alert("cannot fetch user info");
+      }
     };
 
+    if (localStorage.userName) {
+      fetchAndSetUser();
+    }
     return { state };
   },
 });
 </script>
 
 <style>
-@import 'assets/styles/niched-styles.css';
+@import "assets/styles/niched-styles.css";
 </style>
