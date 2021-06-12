@@ -2,7 +2,7 @@
   <TopBar />
   <div
     class="container-fluid"
-    v-loading.fullscreen.lock="postingEvent || postingThread"
+    v-loading.fullscreen.lock="postingEvent || postingThread || fetchingEvents"
   >
     <div class="row py-5 px-4 niched-bg">
       <div class="col-md-10 mx-auto">
@@ -49,15 +49,19 @@
                     :key="i"
                   >
                     <template #header>
-                      <div>
-                        <span
-                          ><b
-                            >What’s your favourite Ramen shop in London?</b
-                          ></span
-                        >
-                        <el-button type="text"
-                          >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
-                        >
+                      <div class="d-flex flex-row justify-content-between">
+                        <div>
+                          <span
+                            ><b
+                              >What’s your favourite Ramen shop in London?</b
+                            ></span
+                          >
+                        </div>
+                        <div>
+                          <el-button type="text"
+                            >12/06/2021 at 11:53PM<br /><b>@alice</b></el-button
+                          >
+                        </div>
                       </div>
                     </template>
                     <div class="text item">
@@ -183,7 +187,7 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
 import { useRoute } from "vue-router";
@@ -202,7 +206,19 @@ export default defineComponent({
       groupId,
       true
     );
-    const events = useEvents(groupId, true);
+
+    watch(postingEvent, () => {
+      //reload events data when posting new event ends
+      if (!postingEvent.value) {
+        doFetchEvents();
+      }
+    });
+
+    const {
+      events,
+      fetching: fetchingEvents,
+      doFetch: doFetchEvents,
+    } = useEvents(groupId, true);
 
     return {
       name,
@@ -212,6 +228,7 @@ export default defineComponent({
       creationDate,
       postingThread,
       postingEvent,
+      fetchingEvents,
       events,
       items: [1, 2, 3, 4, 5],
     };
