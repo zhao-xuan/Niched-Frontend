@@ -7,7 +7,7 @@
           alt="100x100"
           :src="randomUsers[i].picture"
           data-holder-rendered="true"
-          style="width: 80px"
+          :style="widthObject"
         />
         <div>{{ userName }}</div>
       </div>
@@ -29,6 +29,9 @@ export default defineComponent({
       required: true,
       type: Array as PropType<UserName[]>,
     },
+    sm: {
+      type : Boolean,
+    }
   },
   setup(props) {
     const randomUsers = ref<(Profile | never)[]>([]);
@@ -50,7 +53,7 @@ export default defineComponent({
       randomUsers.value = await fetchRandomUserImages();
     });
 
-    return { randomUsers };
+    return { randomUsers,widthObject:{ width : props.sm ? '40px' : '80px'} };
   },
 });
 </script>

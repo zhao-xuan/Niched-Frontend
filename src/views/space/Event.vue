@@ -29,7 +29,7 @@
 
           <div class="row pb-4 px-4">
             <div class="col-md-8 order-0 pb-4">
-              <el-card class="margin: 20px auto;" style="background-color: #ffe8e0">
+              <el-card class="margin: 20px auto;" style="background-color: #E7EEFF">
                 <template #header>
                   <div>
                     <span>
@@ -89,16 +89,15 @@
                     @{{ authorId }}
                   </button>
                 </div>
-                <div>
-                  <h5>Participants</h5>
-                  <h6>Going</h6>
-                  <!-- Display members going here! -->
-
-
-                  <h6>Interested</h6>
-                  <!-- Display members participating here! -->
-
-                  
+                <div class="border-top-0">
+                  <div class="pb-4">
+                    <h6>Going ({{members.going.length}})</h6>
+                    <Members :userNames="members.going" :sm="true"/>
+                  </div>
+                  <div class="pb-4">
+                    <h6>Interested ({{members.interested.length}})</h6>
+                    <Members :userNames="members.interested" :sm="true"/>
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -123,7 +122,7 @@ import { postThreadCreation } from "@/api/thread";
 
 export default defineComponent({
   name: "Event",
-  components: { TopBar },
+  components: { TopBar,Members },
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -132,7 +131,7 @@ export default defineComponent({
 
     const eventId = route.params.eventId as string;
     const { authorId, title, description: eventDescription,
-      creationDate: eventCreationDate, eventDate, tags, members
+      creationDate: eventCreationDate, eventDate, tags, members,
       } = useEvent(eventId, true)
 
     const { userName, loggedIn } = useState();
@@ -158,6 +157,7 @@ export default defineComponent({
         );
       }
     });
+    
 
     // Redirect to user profile page
     const goToProfile = async (profile: string) => {
