@@ -20,15 +20,14 @@
             }"
           >
             <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-              </div>
+              <div class="px-4"></div>
             </div>
           </div>
 
           <div class="row">
             <div class="col-sm-6">
               <div class="px-4 pt-3 d-flex text-left">
-                <h2>What the frack</h2>
+                <h2>{{ name }}</h2>
               </div>
             </div>
           </div>
@@ -38,8 +37,22 @@
               <el-tabs type="">
                 <el-tab-pane>
                   <template #label>
-                    <span><i class="el-icon-chat-line-square"></i> Thread</span>
+                    <span
+                      ><i class="el-icon-chat-line-square"></i>Thread Feed</span
+                    >
                   </template>
+                  <div class="card">
+                    <h5 class="card-header">Pinned Message</h5>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ title }}</h5>
+                      <p class="card-text">
+                        {{ threadDescription }}
+                      </p>
+                      <a href="#" class="btn btn-primary mr-3">Like</a>
+                      <a href="#" class="btn btn-primary mr-3">Comment</a>
+                      <a href="#" class="btn btn-primary mr-3">Add A Related Event</a>
+                    </div>
+                  </div>
                   <el-card
                     class="m-3"
                     shadow="hover"
@@ -56,9 +69,9 @@
                         <div>
                           <el-button type="text"
                             >{{
-                              creationDate.split("-")[1] +
+                              spaceCreationDate.split("-")[1] +
                               "/" +
-                              creationDate.split("-")[0]
+                              spaceCreationDate.split("-")[0]
                             }}<b>@{{ thread.authorId }}</b></el-button
                           >
                         </div>
@@ -72,41 +85,64 @@
 
                 <el-tab-pane label="Events">
                   <template #label>
-                    <span><i class="el-icon-place"></i> Event </span>
+                    <span><i class="el-icon-place"></i>Related Event</span>
                   </template>
-                  <el-card
-                    v-for="event in events.slice().reverse()"
-                    :key="event.eventId"
-                    style="margin: 20px auto; background-color: #ffe8e0"
-                  >
-                    <template #header>
-                      <div>
-                        <span>
-                          <a href="" @click="jumpToEvent(event.eventId)">
-                            <b
-                              ><font color="#FF7744">Event: </font>
-                              {{ event.title }}</b
-                            >
-                          </a>
-                        </span>
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >{{ event.eventDate.split("T")[0] }} at
-                          {{ event.eventDate.split("T")[1] }}<br /><b
-                            >@{{ event.authorId }}</b
-                          ></el-button
-                        >
+                  <div class="col-md-12 order-0">
+                    <el-card style="background-color: #ffe8e0">
+                      <template #header>
+                        <div>
+                          <span>
+                            <a href="https://www.google.co.uk">
+                              <b
+                                ><font color="#FF7744">Event: </font
+                                >{{ title }}</b
+                              >
+                            </a>
+                          </span>
+                          <el-button
+                            type="text"
+                            style="
+                              float: right;
+                              margin-top: -10px;
+                              text-align: right;
+                            "
+                            >{{ creationDate }}<br /><b
+                              >@{{ authorId }}</b
+                            ></el-button
+                          >
+                        </div>
+                      </template>
+                      <div class="text item pb-3">
+                        <b> Date and Time: {{ eventDate }} </b>
                       </div>
-                    </template>
-                    <div class="text item">
-                      {{ event.description }}
-                    </div>
-                  </el-card>
+                      <div class="text item pb-3">
+                        {{ "eventDescription" }}
+                      </div>
+                      <div class="text item pb-4">
+                        <b> X Interested - X Going </b>
+                      </div>
+                      <div class="row justify-content-md-center pb-1">
+                        <div class="col col-lg-2">
+                          <button
+                            type="submit"
+                            class="btn btn-warning mb-2"
+                            @click="Interested"
+                          >
+                            Interested
+                          </button>
+                        </div>
+                        <div class="col col-lg-2">
+                          <button
+                            type="submit"
+                            class="btn btn-success mb-2"
+                            @click="Going"
+                          >
+                            Going
+                          </button>
+                        </div>
+                      </div>
+                    </el-card>
+                  </div>
                 </el-tab-pane>
               </el-tabs>
             </div>
@@ -120,7 +156,7 @@
                 </div>
                 <div class="p-2">
                   <div class="mb-3">
-                    {{ description }}
+                    {{ spaceDescription }}
                   </div>
                   <div class="d-flex flex-row justify-content-between mb-3">
                     <div class="font-weight-bold">
@@ -141,14 +177,13 @@
                   <div class="border-top pt-2 text-muted font-weight-bold">
                     created :
                     {{
-                      creationDate.split("-")[1] +
+                      spaceCreationDate.split("-")[1] +
                       "/" +
-                      creationDate.split("-")[0]
+                      spaceCreationDate.split("-")[0]
                     }}
                   </div>
                 </div>
               </el-card>
-              <CreateThread v-model:postingThread="postingThread" />
               <CreateEvent v-model:postingEvent="postingEvent" />
             </div>
           </div>
@@ -163,13 +198,12 @@ import TopBar from "../Topbar.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
-import { useThreads } from "@/hooks/useThread";
+import { useThread, useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
-import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
 export default defineComponent({
   name: "Thread",
-  components: { TopBar, CreateThread, CreateEvent },
+  components: { TopBar, CreateEvent },
   setup() {
     const postingThread = ref(false);
     const postingEvent = ref(false);
@@ -178,10 +212,12 @@ export default defineComponent({
     const route = useRoute();
     const groupId = route.params.groupId as string;
     const threadId = route.params.threadId as string;
-    const { name, imageUrl, description, members, creationDate } = useSpace(
+
+    const { name, imageUrl, description: spaceDescription, members, creationDate: spaceCreationDate } = useSpace(
       groupId,
       true
     );
+
     const {
       events,
       fetching: fetchingEvents,
@@ -193,6 +229,8 @@ export default defineComponent({
       fetching: fetchingThreads,
       doFetch: doFetchThreads,
     } = useThreads(groupId, true);
+
+    const { title, description : threadDescription, creationDate: threadCreationDate } = useThread(threadId, true);
 
     const jumpToEvent = (eventId: string) => {
       router.push({ path: `/event/${groupId}/${eventId}` });
@@ -211,9 +249,9 @@ export default defineComponent({
     return {
       name,
       imageUrl,
-      description,
+      spaceDescription,
       members,
-      creationDate,
+      spaceCreationDate,
 
       events,
       fetchingEvents,
@@ -222,6 +260,10 @@ export default defineComponent({
       threads,
       fetchingThreads,
       postingThread,
+
+      title,
+      threadDescription,
+      threadCreationDate,
 
       jumpToEvent,
     };
