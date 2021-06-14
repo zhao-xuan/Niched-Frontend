@@ -63,7 +63,7 @@
                       <div class="d-flex flex-row justify-content-between">
                         <div>
                           <span
-                            ><b>{{ thread.title }}</b></span
+                            ><b>{{ thread.title /* This should be replaced by thread comment title */ }}</b></span
                           >
                         </div>
                         <div>
@@ -71,14 +71,14 @@
                             >{{
                               spaceCreationDate.split("-")[1] +
                               "/" +
-                              spaceCreationDate.split("-")[0]
+                              spaceCreationDate.split("-")[0] /* This should be replaced by thread comment creation date */
                             }}<b>@{{ thread.authorId }}</b></el-button
                           >
                         </div>
                       </div>
                     </template>
                     <div class="text item">
-                      {{ thread.description }}
+                      {{ thread.description /* This should be replaced by thread comment content */ }}
                     </div>
                   </el-card>
                 </el-tab-pane>
@@ -95,7 +95,7 @@
                             <a href="https://www.google.co.uk">
                               <b
                                 ><font color="#FF7744">Event: </font
-                                >{{ title }}</b
+                                >{{ title /* This should be replaced by thread related event title */ }}</b
                               >
                             </a>
                           </span>

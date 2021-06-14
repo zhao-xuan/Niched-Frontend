@@ -55,8 +55,8 @@
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
                         <div>
-                          <span
-                            ><b>{{ thread.title }}</b></span
+                          <a href="" @click="jumpToThread(thread.threadId)"
+                            ><b>{{ thread.title }}</b></a
                           >
                         </div>
                         <div>
@@ -201,6 +201,10 @@ export default defineComponent({
       router.push({ path: `/event/${groupId}/${eventId}` });
     };
 
+    const jumpToThread = (threadId: string) => {
+      router.push({ path : `/thread/${groupId}/${threadId}` });
+    }
+
     watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
       //reload events data when posting new event/thread ends
       if (!ce && oe) {
@@ -229,6 +233,7 @@ export default defineComponent({
       postingThread,
 
       jumpToEvent,
+      jumpToThread,
 
       selectedTab,
     };
