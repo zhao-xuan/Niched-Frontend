@@ -1,14 +1,14 @@
 <template>
   <div class="row">
-    <div class="" v-for="(userName, i) in userNames" :key="userName">
+    <div class="" v-for="userName in userNames" :key="userName">
       <div class="text-center col">
-        <img
+        <!-- <img
           class="rounded-circle"
           alt="100x100"
           :src="randomUsers[i].picture"
           data-holder-rendered="true"
           :style="widthObject"
-        />
+        /> -->
         <div>{{ userName }}</div>
       </div>
     </div>
@@ -30,8 +30,8 @@ export default defineComponent({
       type: Array as PropType<UserName[]>,
     },
     sm: {
-      type : Boolean,
-    }
+      type: Boolean,
+    },
   },
   setup(props) {
     const randomUsers = ref<(Profile | never)[]>([]);
@@ -53,7 +53,7 @@ export default defineComponent({
       randomUsers.value = await fetchRandomUserImages();
     });
 
-    return { randomUsers,widthObject:{ width : props.sm ? '40px' : '80px'} };
+    return { randomUsers, widthObject: { width: props.sm ? "40px" : "80px" } };
   },
 });
 </script>

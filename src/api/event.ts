@@ -67,3 +67,26 @@ export const fetchEvents = async (
   const res = await axios.get(`${SERVER_URL}/group/${groupId}/events`);
   return res.data;
 };
+
+export enum EventGroup {
+  GOING = "going",
+  INTERESTED = "interested",
+  NONE = "none"
+}
+
+type EventUserStatus = {
+  userName: string;
+  group: EventGroup;
+  eventId: string;
+}
+
+
+// status code = 200 on success, no body
+export const postEventStatus = async (data: EventUserStatus): Promise<void> => {
+  console.log(data)
+
+  const res = await axios.post(`${SERVER_URL}/event/${data.eventId}/members`, {
+    user_name: data.userName,
+    group: data.group
+  });
+}

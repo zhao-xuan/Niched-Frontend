@@ -14,8 +14,7 @@
             }"
           >
             <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-              </div>
+              <div class="px-4"></div>
             </div>
           </div>
 
@@ -29,7 +28,10 @@
 
           <div class="row pb-4 px-4">
             <div class="col-md-8 order-0 pb-4">
-              <el-card class="margin: 20px auto;" style="background-color: #E7EEFF">
+              <el-card
+                class="margin: 20px auto;"
+                style="background-color: #e7eeff"
+              >
                 <template #header>
                   <div>
                     <span>
@@ -37,29 +39,23 @@
                     </span>
                     <el-button
                       type="text"
-                      style="
-                        float: right;
-                        margin-top: -10px;
-                        text-align: right;
-                      "
-                      >{{ eventCreationDate }}<br /><b>@{{ authorId }}</b></el-button
+                      style="float: right; margin-top: -10px; text-align: right"
+                      >{{ eventCreationDate }}<br /><b
+                        >@{{ authorId }}</b
+                      ></el-button
                     >
                   </div>
                 </template>
-                <div class="text item pb-3">                  
-                  <b>
-                    Date and Time: {{ eventDate }} 
-                  </b>
+                <div class="text item pb-3">
+                  <b> Date and Time: {{ eventDate }} </b>
                 </div>
-                <div class="text item pb-3">                  
+                <div class="text item pb-3">
                   {{ eventDescription }}
                 </div>
-                
               </el-card>
             </div>
 
             <div class="col-md-4 order-1">
-
               <el-card class="margin: 20px auto;">
                 <div>
                   <div class="pb-2">
@@ -68,10 +64,32 @@
                   <div class="container">
                     <div class="row">
                       <div class="col">
-                        <el-button type="warning" class="btn btn-block" plain>Interested</el-button>
+                        <el-button
+                          type="warning"
+                          @click="onPostEventStatus(EventGroup.INTERESTED)"
+                          class="btn btn-block"
+                          plain
+                          :icon="
+                            eventGroup === EventGroup.INTERESTED
+                              ? 'el-icon-check'
+                              : ''
+                          "
+                          >Interested</el-button
+                        >
                       </div>
                       <div class="col">
-                        <el-button type="success" class="btn btn-block" plain>Going!</el-button>
+                        <el-button
+                          type="success"
+                          @click="onPostEventStatus(EventGroup.GOING)"
+                          class="btn btn-block"
+                          plain
+                          :icon="
+                            eventGroup === EventGroup.GOING
+                              ? 'el-icon-check'
+                              : ''
+                          "
+                          >Going!</el-button
+                        >
                       </div>
                     </div>
                   </div>
@@ -91,12 +109,12 @@
                 </div>
                 <div class="border-top-0">
                   <div class="pb-4">
-                    <h6>Going ({{members.going.length}})</h6>
-                    <Members :userNames="members.going" :sm="true"/>
+                    <h6>Going ({{ members.going.length }})</h6>
+                    <Members :userNames="members.going" :sm="true" />
                   </div>
                   <div class="pb-4">
-                    <h6>Interested ({{members.interested.length}})</h6>
-                    <Members :userNames="members.interested" :sm="true"/>
+                    <h6>Interested ({{ members.interested.length }})</h6>
+                    <Members :userNames="members.interested" :sm="true" />
                   </div>
                 </div>
               </el-card>
@@ -117,29 +135,40 @@ import { usePost } from "@/hooks/usePost";
 import { useEvent } from "@/hooks/useEvent";
 import { useRoute, useRouter } from "vue-router";
 import { useState } from "@/state";
-import { postEventCreation } from "@/api/event";
+import { EventGroup, postEventCreation, postEventStatus } from "@/api/event";
 import { postThreadCreation } from "@/api/thread";
+import axios from "axios";
+import { SERVER_URL } from "@/api/constant";
 
 export default defineComponent({
   name: "Event",
-  components: { TopBar,Members },
+  components: { TopBar, Members },
   setup() {
     const router = useRouter();
     const route = useRoute();
     const groupId = route.params.groupId as string;
-    const { name, imageUrl, description, creationDate } = useSpace(groupId, true);
+    const { name, imageUrl, description, creationDate } = useSpace(
+      groupId,
+      true
+    );
 
     const eventId = route.params.eventId as string;
-    const { authorId, title, description: eventDescription,
-      creationDate: eventCreationDate, eventDate, tags, members,
-      } = useEvent(eventId, true)
+    const {
+      authorId,
+      title,
+      description: eventDescription,
+      creationDate: eventCreationDate,
+      eventDate,
+      tags,
+      members,
+    } = useEvent(eventId, true);
 
     const { userName, loggedIn } = useState();
-    const { doPost: doPostEvent, data: eventResponse } =
-      usePost(postEventCreation);
+    const { data: eventResponse } = usePost(postEventCreation);
 
-    const { doPost: doPostThread, data: threadResponse } =
-      usePost(postThreadCreation);
+    const { data: threadResponse } = usePost(postThreadCreation);
+
+    const { doPost: doPostEventStatus } = usePost(postEventStatus);
 
     watch(eventResponse, () => {
       if (eventResponse.value) {
@@ -157,25 +186,62 @@ export default defineComponent({
         );
       }
     });
-    
+
+    const eventGroup = ref(EventGroup.NONE);
+
+    watch(members, () => {
+      if (members?.value.going.includes(userName.value)) {
+        eventGroup.value = EventGroup.GOING;
+      } else if (members?.value.interested.includes(userName.value)) {
+        eventGroup.value = EventGroup.INTERESTED;
+      }
+    });
+
+    const onPostEventStatus = async (group: EventGroup) => {
+      if (!loggedIn.value) {
+        alert("Please login first");
+        return;
+      }
+
+      if (eventGroup.value === group) {
+        await axios.delete(`${SERVER_URL}/event/${eventId}/members`, {
+          data: {
+            user_name: userName.value,
+            group: eventGroup.value,
+          },
+        });
+      } else {
+        eventGroup.value = group;
+        doPostEventStatus({
+          userName: userName.value,
+          group: eventGroup.value,
+          eventId: eventId,
+        });
+      }
+
+      window.location.reload();
+    };
 
     // Redirect to user profile page
     const goToProfile = async (profile: string) => {
-      router.push({ path: "/users/"+profile });
+      router.push({ path: "/users/" + profile });
     };
     return {
       name,
       imageUrl,
-      description,      
+      description,
       creationDate,
       authorId,
-      title, 
-      eventDescription, 
-      eventCreationDate, 
-      eventDate, 
+      title,
+      eventDescription,
+      eventCreationDate,
+      eventDate,
+      eventGroup,
       tags,
       members,
       goToProfile,
+      onPostEventStatus,
+      EventGroup,
     };
   },
 });
