@@ -61,11 +61,11 @@
                         </div>
                         <div>
                           <el-button type="text"
-                            >{{
-                              creationDate.split("-")[1] +
-                              "/" +
-                              creationDate.split("-")[0]
-                            }}<b>@{{ thread.authorId }}</b></el-button
+                            ><b>{{
+                              new Date(thread.creationDate).toLocaleString() +
+                              " @" +
+                              thread.authorId
+                            }}</b></el-button
                           >
                         </div>
                       </div>
@@ -102,10 +102,8 @@
                             margin-top: -10px;
                             text-align: right;
                           "
-                          >{{ event.eventDate.split("T")[0] }} at
-                          {{ event.eventDate.split("T")[1] }}<br /><b
-                            >@{{ event.authorId }}</b
-                          ></el-button
+                          >{{ new Date(event.eventDate).toLocaleString()
+                          }}<br /><b>@{{ event.authorId }}</b></el-button
                         >
                       </div>
                     </template>
@@ -166,12 +164,7 @@
                     </div>
                   </div>
                   <div class="border-top pt-2 text-muted font-weight-bold">
-                    created :
-                    {{
-                      creationDate.split("-")[1] +
-                      "/" +
-                      creationDate.split("-")[0]
-                    }}
+                    created : {{ new Date(creationDate).toLocaleString() }}
                   </div>
                 </div>
               </el-card>
