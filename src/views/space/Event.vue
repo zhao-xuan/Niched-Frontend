@@ -14,81 +14,50 @@
             }"
           >
             <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4"></div>
+              <div class="px-4">
+              </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-sm-6">
-              <div class="px-4 pt-3 d-flex text-left">
+            <div class="col-sm-12">
+              <div class="px-4 py-3 d-flex text-left">
                 <h2>{{ name }}</h2>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="px-4 pt-3 d-flex text-left">
-                <p>{{ description }}</p>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="px-4 py-3 d-flex justify-content-end text-center">
-                <ul class="list-inline mb-0">
-                  <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">
-                      {{ groupMembers.length }}
-                    </h5>
-                    <small class="text-muted">
-                      <i class="fas fa-user mr-1"></i>Members</small
-                    >
-                  </li>
-                  <li class="list-inline-item">
-                    <h5 class="font-weight-bold mb-0 d-block">23</h5>
-                    <small class="text-muted">
-                      <i class="fas fa-user mr-1"></i>Threads</small
-                    >
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
 
           <div class="row pb-4 px-4">
-            <div class="col-md-8 order-0">
-              <el-card style="background-color: #ffe8e0">
+            <div class="col-md-8 order-0 pb-4">
+              <el-card class="margin: 20px auto;" style="background-color: #ffe8e0">
                 <template #header>
                   <div>
                     <span>
-                      <a href="https://www.google.co.uk">
-                        <b><font color="#FF7744">Event: </font>{{ title }}</b>
-                      </a>
+                      <b><font color="#FF7744">Event: </font>{{ title }}</b>
                     </span>
                     <el-button
                       type="text"
-                      style="float: right; margin-top: -10px; text-align: right"
-                      ><b>{{
-                        "Created at " +
-                        new Date(creationDate).toLocaleString() +
-                        " @" +
-                        authorId
-                      }}</b></el-button
+                      style="
+                        float: right;
+                        margin-top: -10px;
+                        text-align: right;
+                      "
+                      >{{ eventCreationDate }}<br /><b>@{{ authorId }}</b></el-button
                     >
                   </div>
                 </template>
-                <div class="text item pb-3">
+                <div class="text item pb-3">                  
                   <b>
-                    Date and Time: {{ new Date(eventDate).toLocaleString() }}
+                    Date and Time: {{ eventDate }} 
                   </b>
                 </div>
-                <div class="text item pb-3">
+                <div class="text item pb-3">                  
                   {{ eventDescription }}
                 </div>
-                <div class="text item pb-4">
-                  <b>
-                    {{ eventMembers.interested.length }} Interested -
-                    {{ eventMembers.going.length }} Going
-                  </b>
-                </div>
-                <div class="row justify-content-md-center pb-1">
-                  <div class="col col-lg-2">
+                
+              </el-card>
+                  <!-- <div class="col col-lg-2">
+                      
                     <button
                       type="submit"
                       class="btn btn-warning mb-2"
@@ -105,31 +74,76 @@
                     >
                       Going
                     </button>
-                  </div>
-                </div>
-              </el-card>
+                  </div> -->
             </div>
 
             <div class="col-md-4 order-1">
-              <el-card>
+
+              <el-card class="margin: 20px auto;">
                 <div>
-                  <h4>Event Organiser</h4>
+                  <div class="pb-2">
+                    <h4>Express your interest!</h4>
+                  </div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col">
+                        <el-button type="warning" class="btn btn-block" plain>Interested</el-button>
+                      </div>
+                      <div class="col">
+                        <el-button type="success" class="btn btn-block" plain>Going!</el-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </el-card>
+
+              <el-card class="my-5">
+                <div>
+                  <h5>Event Organiser</h5>
                   <button
                     type="submit"
-                    class="btn btn-info mb-2"
+                    class="btn btn-info mb-4"
                     @click="goToProfile(authorId)"
                   >
                     @{{ authorId }}
                   </button>
                 </div>
-              </el-card>
-
-              <el-card style="margin: 20px auto">
                 <div>
-                  <h4>Participants</h4>
+                  <h5>Participants</h5>
                   <h6>Going</h6>
+                  <!-- Display members going here! -->
 
                   <h6>Interested</h6>
+                  <!-- Display members participating here! -->
+                </div>
+              </el-card>
+
+              <el-card class="my-5">
+                <div>
+                  <div>
+                    <h3>About the group</h3>
+                  </div>
+                </div>
+                <div class="p-2">
+                  <div class="mb-3">
+                    {{ description }}
+                  </div>
+                  <div class="d-flex flex-row justify-content-between mb-3">
+                    <div class="font-weight-bold">
+                      <div>
+                        {{ members.length }}
+                      </div>
+                      <div>members</div>
+                    </div>
+                  </div>
+                  <div class="border-top pt-2 text-muted font-weight-bold">
+                    created :
+                    {{
+                      creationDate.split("-")[1] +
+                      "/" +
+                      creationDate.split("-")[0]
+                    }}
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -142,6 +156,7 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
+import Members from "@/components/Members.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { usePost } from "@/hooks/usePost";
@@ -158,40 +173,51 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const groupId = route.params.groupId as string;
-    const {
-      name,
-      imageUrl,
-      description,
-      members: groupMembers,
-    } = useSpace(groupId, true);
+    const { name, imageUrl, description, members, creationDate } = useSpace(groupId, true);
 
     const eventId = route.params.eventId as string;
-    const {
-      authorId,
-      title,
-      description: eventDescription,
-      creationDate,
-      eventDate,
-      tags,
-      members: eventMembers,
-    } = useEvent(eventId, true);
+    const { authorId, title, description: eventDescription, creationDate: eventCreationDate, eventDate, tags } = useEvent(eventId, true)
+
+    const { userName, loggedIn } = useState();
+    const { doPost: doPostEvent, data: eventResponse } =
+      usePost(postEventCreation);
+
+    const { doPost: doPostThread, data: threadResponse } =
+      usePost(postThreadCreation);
+
+    watch(eventResponse, () => {
+      if (eventResponse.value) {
+        alert(
+          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
+            is created`
+        );
+      }
+    });
+    watch(threadResponse, () => {
+      if (threadResponse.value) {
+        alert(
+          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id} 
+            is created`
+        );
+      }
+    });
 
     // Redirect to user profile page
     const goToProfile = async (profile: string) => {
-      router.push({ path: "/users/" + profile });
+      router.push({ path: "/users/"+profile });
     };
     return {
       name,
       imageUrl,
       description,
-      groupMembers,
-      authorId,
-      title,
-      eventDescription,
+      members,
       creationDate,
-      eventDate,
+      authorId,
+      title, 
+      eventDescription, 
+      eventCreationDate, 
+      eventDate, 
       tags,
-      eventMembers,
       goToProfile,
     };
   },

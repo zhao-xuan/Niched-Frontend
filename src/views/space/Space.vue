@@ -39,12 +39,10 @@
 
           <div class="row pb-4 px-4">
             <div class="col-md-8">
-              <el-tabs v-model="selectedTab">
-                <el-tab-pane name="threads">
+              <el-tabs type="">
+                <el-tab-pane>
                   <template #label>
-                    <span
-                      ><i class="el-icon-chat-line-square"></i> Threads</span
-                    >
+                    <span><i class="el-icon-chat-line-square"></i> Thread</span>
                   </template>
                   <el-card
                     class="m-3"
@@ -61,11 +59,11 @@
                         </div>
                         <div>
                           <el-button type="text"
-                            ><b>{{
-                              new Date(thread.creationDate).toLocaleString() +
-                              " @" +
-                              thread.authorId
-                            }}</b></el-button
+                            >{{
+                              creationDate.split("-")[1] +
+                              "/" +
+                              creationDate.split("-")[0]
+                            }}<b>@{{ thread.authorId }}</b></el-button
                           >
                         </div>
                       </div>
@@ -76,9 +74,9 @@
                   </el-card>
                 </el-tab-pane>
 
-                <el-tab-pane name="events">
+                <el-tab-pane label="Events">
                   <template #label>
-                    <span><i class="el-icon-place"></i> Events </span>
+                    <span><i class="el-icon-place"></i> Event </span>
                   </template>
                   <el-card
                     v-for="event in events.slice().reverse()"
@@ -102,8 +100,10 @@
                             margin-top: -10px;
                             text-align: right;
                           "
-                          >{{ new Date(event.eventDate).toLocaleString()
-                          }}<br /><b>@{{ event.authorId }}</b></el-button
+                          >{{ event.eventDate.split("T")[0] }} at
+                          {{ event.eventDate.split("T")[1] }}<br /><b
+                            >@{{ event.authorId }}</b
+                          ></el-button
                         >
                       </div>
                     </template>
@@ -113,25 +113,23 @@
                   </el-card>
                 </el-tab-pane>
 
-                <el-tab-pane name="popular">
+                <el-tab-pane>
                   <template #label>
                     <span>
                       <i class="el-icon-star-off"></i>
                       Popular
                     </span>
                   </template>
-                  TODO
+                  Role
                 </el-tab-pane>
-                <el-tab-pane name="members">
+                <el-tab-pane label="Members">
                   <template #label>
                     <span
                       ><i class="el-icon-user"></i>
                       Members
                     </span>
                   </template>
-                  <div class="pt-3 px-2">
-                    <Members :userNames="members" />
-                  </div>
+                  memebers
                 </el-tab-pane>
               </el-tabs>
             </div>
@@ -164,18 +162,17 @@
                     </div>
                   </div>
                   <div class="border-top pt-2 text-muted font-weight-bold">
-                    created : {{ new Date(creationDate).toLocaleString() }}
+                    created :
+                    {{
+                      creationDate.split("-")[1] +
+                      "/" +
+                      creationDate.split("-")[0]
+                    }}
                   </div>
                 </div>
               </el-card>
-              <CreateThread
-                v-show="selectedTab == 'threads'"
-                v-model:postingThread="postingThread"
-              />
-              <CreateEvent
-                v-show="selectedTab == 'events'"
-                v-model:postingEvent="postingEvent"
-              />
+              <CreateThread v-model:postingThread="postingThread" />
+              <CreateEvent v-model:postingEvent="postingEvent" />
             </div>
           </div>
         </div>
@@ -193,10 +190,9 @@ import { useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
-import Members from "@/components/Members.vue";
 export default defineComponent({
   name: "Space",
-  components: { TopBar, CreateThread, CreateEvent, Members },
+  components: { TopBar, CreateThread, CreateEvent },
   setup() {
     const postingThread = ref(false);
     const postingEvent = ref(false);
@@ -234,8 +230,6 @@ export default defineComponent({
       }
     });
 
-    const selectedTab = ref("threads");
-
     return {
       name,
       imageUrl,
@@ -252,8 +246,6 @@ export default defineComponent({
       postingThread,
 
       jumpToEvent,
-
-      selectedTab,
     };
   },
 });
