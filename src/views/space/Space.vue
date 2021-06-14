@@ -122,7 +122,7 @@
                       Popular
                     </span>
                   </template>
-                  Role
+                  TODO
                 </el-tab-pane>
                 <el-tab-pane name="members">
                   <template #label>
@@ -131,7 +131,9 @@
                       Members
                     </span>
                   </template>
-                  memebers
+                  <div class="pt-3 px-2">
+                    <Members :userNames="members" />
+                  </div>
                 </el-tab-pane>
               </el-tabs>
             </div>
@@ -198,9 +200,10 @@ import { useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
+import Members from "@/components/Members.vue";
 export default defineComponent({
   name: "Space",
-  components: { TopBar, CreateThread, CreateEvent },
+  components: { TopBar, CreateThread, CreateEvent, Members },
   setup() {
     const postingThread = ref(false);
     const postingEvent = ref(false);
