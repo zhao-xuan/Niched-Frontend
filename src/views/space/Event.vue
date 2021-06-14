@@ -56,25 +56,6 @@
                 </div>
                 
               </el-card>
-                  <!-- <div class="col col-lg-2">
-                      
-                    <button
-                      type="submit"
-                      class="btn btn-warning mb-2"
-                      @click="Interested"
-                    >
-                      Interested
-                    </button>
-                  </div>
-                  <div class="col col-lg-2">
-                    <button
-                      type="submit"
-                      class="btn btn-success mb-2"
-                      @click="Going"
-                    >
-                      Going
-                    </button>
-                  </div> -->
             </div>
 
             <div class="col-md-4 order-1">
@@ -115,35 +96,6 @@
 
                   <h6>Interested</h6>
                   <!-- Display members participating here! -->
-                </div>
-              </el-card>
-
-              <el-card class="my-5">
-                <div>
-                  <div>
-                    <h3>About the group</h3>
-                  </div>
-                </div>
-                <div class="p-2">
-                  <div class="mb-3">
-                    {{ description }}
-                  </div>
-                  <div class="d-flex flex-row justify-content-between mb-3">
-                    <div class="font-weight-bold">
-                      <div>
-                        {{ members.length }}
-                      </div>
-                      <div>members</div>
-                    </div>
-                  </div>
-                  <div class="border-top pt-2 text-muted font-weight-bold">
-                    created :
-                    {{
-                      creationDate.split("-")[1] +
-                      "/" +
-                      creationDate.split("-")[0]
-                    }}
-                  </div>
                 </div>
               </el-card>
             </div>
