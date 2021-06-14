@@ -94,8 +94,11 @@
                   <h6>Going</h6>
                   <!-- Display members going here! -->
 
+
                   <h6>Interested</h6>
                   <!-- Display members participating here! -->
+
+                  
                 </div>
               </el-card>
             </div>
@@ -125,10 +128,12 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const groupId = route.params.groupId as string;
-    const { name, imageUrl, description, members, creationDate } = useSpace(groupId, true);
+    const { name, imageUrl, description, creationDate } = useSpace(groupId, true);
 
     const eventId = route.params.eventId as string;
-    const { authorId, title, description: eventDescription, creationDate: eventCreationDate, eventDate, tags } = useEvent(eventId, true)
+    const { authorId, title, description: eventDescription,
+      creationDate: eventCreationDate, eventDate, tags, members
+      } = useEvent(eventId, true)
 
     const { userName, loggedIn } = useState();
     const { doPost: doPostEvent, data: eventResponse } =
@@ -161,8 +166,7 @@ export default defineComponent({
     return {
       name,
       imageUrl,
-      description,
-      members,
+      description,      
       creationDate,
       authorId,
       title, 
@@ -170,6 +174,7 @@ export default defineComponent({
       eventCreationDate, 
       eventDate, 
       tags,
+      members,
       goToProfile,
     };
   },
