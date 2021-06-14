@@ -39,10 +39,12 @@
 
           <div class="row pb-4 px-4">
             <div class="col-md-8">
-              <el-tabs type="">
-                <el-tab-pane>
+              <el-tabs v-model="selectedTab">
+                <el-tab-pane name="threads">
                   <template #label>
-                    <span><i class="el-icon-chat-line-square"></i> Thread</span>
+                    <span
+                      ><i class="el-icon-chat-line-square"></i> Threads</span
+                    >
                   </template>
                   <el-card
                     class="m-3"
@@ -74,9 +76,9 @@
                   </el-card>
                 </el-tab-pane>
 
-                <el-tab-pane label="Events">
+                <el-tab-pane name="events">
                   <template #label>
-                    <span><i class="el-icon-place"></i> Event </span>
+                    <span><i class="el-icon-place"></i> Events </span>
                   </template>
                   <el-card
                     v-for="event in events.slice().reverse()"
@@ -113,23 +115,25 @@
                   </el-card>
                 </el-tab-pane>
 
-                <el-tab-pane>
+                <el-tab-pane name="popular">
                   <template #label>
                     <span>
                       <i class="el-icon-star-off"></i>
                       Popular
                     </span>
                   </template>
-                  Role
+                  TODO
                 </el-tab-pane>
-                <el-tab-pane label="Members">
+                <el-tab-pane name="members">
                   <template #label>
                     <span
                       ><i class="el-icon-user"></i>
                       Members
                     </span>
                   </template>
-                  memebers
+                  <div class="pt-3 px-2">
+                    <Members :userNames="members" />
+                  </div>
                 </el-tab-pane>
               </el-tabs>
             </div>
@@ -171,8 +175,14 @@
                   </div>
                 </div>
               </el-card>
-              <CreateThread v-model:postingThread="postingThread" />
-              <CreateEvent v-model:postingEvent="postingEvent" />
+              <CreateThread
+                v-show="selectedTab == 'threads'"
+                v-model:postingThread="postingThread"
+              />
+              <CreateEvent
+                v-show="selectedTab == 'events'"
+                v-model:postingEvent="postingEvent"
+              />
             </div>
           </div>
         </div>
@@ -190,9 +200,10 @@ import { useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
+import Members from "@/components/Members.vue";
 export default defineComponent({
   name: "Space",
-  components: { TopBar, CreateThread, CreateEvent },
+  components: { TopBar, CreateThread, CreateEvent, Members },
   setup() {
     const postingThread = ref(false);
     const postingEvent = ref(false);
@@ -230,6 +241,8 @@ export default defineComponent({
       }
     });
 
+    const selectedTab = ref("threads");
+
     return {
       name,
       imageUrl,
@@ -246,6 +259,8 @@ export default defineComponent({
       postingThread,
 
       jumpToEvent,
+
+      selectedTab,
     };
   },
 });
