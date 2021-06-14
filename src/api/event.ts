@@ -1,7 +1,13 @@
 import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
 
+
 //fetch event
+type EventMemberGroups = {
+  going: string[],
+  interested: string[]
+}
+
 export type EventResponse = {
   event_id: string;
   group_id: string;
@@ -11,6 +17,7 @@ export type EventResponse = {
   creation_date: string;
   event_date: string;
   tags: string[];
+  members: EventMemberGroups;
 };
 
 export type Event = {
@@ -22,6 +29,7 @@ export type Event = {
   creationDate: string;
   eventDate: string;
   tags: string[];
+  members: EventMemberGroups;
 };
 
 export const fetchEvent = async (eventId: string): Promise<EventResponse> => {
@@ -37,12 +45,13 @@ type EventCreation = {
   description: string;
   title: string;
   tags: string[];
-  event_time: string;
+  event_date: string;
 };
 
 export type EventCreationResponse = EventCreation & {
   event_id: string;
-  creation_time: string;
+  creation_date: string;
+  members: EventMemberGroups;
 };
 
 export const postEventCreation = async (

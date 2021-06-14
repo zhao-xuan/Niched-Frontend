@@ -9,8 +9,8 @@ import {
 } from "@/api/event";
 
 type EventsReturnType = { events: Ref<Event[]> } & ToRefs<FetchType> & {
-    doFetch: () => void;
-  };
+  doFetch: () => void;
+};
 
 export const useEvents = (
   groupId: string,
@@ -34,8 +34,9 @@ export const useEvents = (
           title: item.title,
           description: item.description,
           tags: item.tags,
-          eventDate: item.event_time,
-          creationDate: item.creation_time,
+          members: item.members,
+          eventDate: item.event_date,
+          creationDate: item.creation_date,
         };
       });
     }
@@ -51,7 +52,7 @@ export const useEvent = (
   eventId: string,
   immediate: boolean
 ): EventReturnType => {
-  const state = reactive<Event>({
+  const event = reactive<Event>({
     eventId: "",
     groupId: "",
     authorId: "",
@@ -60,25 +61,32 @@ export const useEvent = (
     creationDate: "",
     eventDate: "",
     tags: [],
+    members: {
+      going: [],
+      interested: []
+    }
   });
 
   const {
-    data: spaceData,
+    data: eventData,
     doFetch,
     ...res
   } = useFetch<EventResponse>(() => fetchEvent(eventId), immediate);
 
-  watch(spaceData, () => {
-    if (spaceData && spaceData.value) {
-      state.eventId = spaceData.value.event_id;
-      state.groupId = spaceData.value.group_id;
-      state.authorId = spaceData.value.author_id;
-      state.title = spaceData.value.title;
-      state.description = spaceData.value.description;
-      state.creationDate = spaceData.value.creation_date;
-      state.tags = spaceData.value.tags;
+  watch(eventData, () => {
+    if (eventData && eventData.value) {
+      event.eventId = eventData.value.event_id;
+      event.groupId = eventData.value.group_id;
+      event.authorId = eventData.value.author_id;
+      event.title = eventData.value.title;
+      event.description = eventData.value.description;
+      event.creationDate = eventData.value.creation_date;
+      event.tags = eventData.value.tags;
+      event.members = eventData.value.members;
+      event.eventDate = eventData.value.event_date;
     }
   });
 
-  return { ...toRefs(state), doFetch, ...res };
+
+  return { ...toRefs(event), doFetch, ...res };
 };
