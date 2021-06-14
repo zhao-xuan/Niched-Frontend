@@ -14,8 +14,7 @@
             }"
           >
             <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-              </div>
+              <div class="px-4"></div>
             </div>
           </div>
 
@@ -35,7 +34,7 @@
                 <ul class="list-inline mb-0">
                   <li class="list-inline-item">
                     <h5 class="font-weight-bold mb-0 d-block">
-                      {{ members.length }}
+                      {{ groupMembers.length }}
                     </h5>
                     <small class="text-muted">
                       <i class="fas fa-user mr-1"></i>Members</small
@@ -59,32 +58,33 @@
                   <div>
                     <span>
                       <a href="https://www.google.co.uk">
-                        <b
-                          ><font color="#FF7744">Event: </font>{{ title }}</b>
+                        <b><font color="#FF7744">Event: </font>{{ title }}</b>
                       </a>
                     </span>
                     <el-button
                       type="text"
-                      style="
-                        float: right;
-                        margin-top: -10px;
-                        text-align: right;
-                      "
-                      >{{ creationDate }}<br /><b>@{{ authorId }}</b></el-button
+                      style="float: right; margin-top: -10px; text-align: right"
+                      ><b>{{
+                        "Created at " +
+                        new Date(creationDate).toLocaleString() +
+                        " @" +
+                        authorId
+                      }}</b></el-button
                     >
                   </div>
                 </template>
-                <div class="text item pb-3">                  
+                <div class="text item pb-3">
                   <b>
-                    Date and Time: {{ eventDate }} 
+                    Date and Time: {{ new Date(eventDate).toLocaleString() }}
                   </b>
                 </div>
-                <div class="text item pb-3">                  
+                <div class="text item pb-3">
                   {{ eventDescription }}
                 </div>
-                <div class="text item pb-4">                  
+                <div class="text item pb-4">
                   <b>
-                    X Interested - X Going 
+                    {{ eventMembers.interested.length }} Interested -
+                    {{ eventMembers.going.length }} Going
                   </b>
                 </div>
                 <div class="row justify-content-md-center pb-1">
@@ -130,7 +130,6 @@
                   <h6>Going</h6>
 
                   <h6>Interested</h6>
-                  
                 </div>
               </el-card>
             </div>
@@ -159,51 +158,40 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const groupId = route.params.groupId as string;
-    const { name, imageUrl, description, members } = useSpace(groupId, true);
+    const {
+      name,
+      imageUrl,
+      description,
+      members: groupMembers,
+    } = useSpace(groupId, true);
 
     const eventId = route.params.eventId as string;
-    // const { eventId, groupId, authorId, title, description, creationDate, eventDate, tags } = useEvent(eventId, true)
-    const { authorId, title, description: eventDescription, creationDate, eventDate, tags } = useEvent(eventId, true)
-
-    const { userName, loggedIn } = useState();
-    const { doPost: doPostEvent, data: eventResponse } =
-      usePost(postEventCreation);
-
-    const { doPost: doPostThread, data: threadResponse } =
-      usePost(postThreadCreation);
-
-    watch(eventResponse, () => {
-      if (eventResponse.value) {
-        alert(
-          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
-            is created`
-        );
-      }
-    });
-    watch(threadResponse, () => {
-      if (threadResponse.value) {
-        alert(
-          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id} 
-            is created`
-        );
-      }
-    });
+    const {
+      authorId,
+      title,
+      description: eventDescription,
+      creationDate,
+      eventDate,
+      tags,
+      members: eventMembers,
+    } = useEvent(eventId, true);
 
     // Redirect to user profile page
     const goToProfile = async (profile: string) => {
-      router.push({ path: "/users/"+profile });
+      router.push({ path: "/users/" + profile });
     };
     return {
       name,
       imageUrl,
       description,
-      members,
+      groupMembers,
       authorId,
-      title, 
-      eventDescription, 
-      creationDate, 
-      eventDate, 
+      title,
+      eventDescription,
+      creationDate,
+      eventDate,
       tags,
+      eventMembers,
       goToProfile,
     };
   },
