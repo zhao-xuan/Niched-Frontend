@@ -14,8 +14,7 @@
             }"
           >
             <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-              </div>
+              <div class="px-4"></div>
             </div>
           </div>
 
@@ -29,7 +28,10 @@
 
           <div class="row pb-4 px-4">
             <div class="col-md-8 order-0 pb-4">
-              <el-card class="margin: 20px auto;" style="background-color: #E7EEFF">
+              <el-card
+                class="margin: 20px auto;"
+                style="background-color: #e7eeff"
+              >
                 <template #header>
                   <div>
                     <span>
@@ -37,29 +39,26 @@
                     </span>
                     <el-button
                       type="text"
-                      style="
-                        float: right;
-                        margin-top: -10px;
-                        text-align: right;
-                      "
-                      >{{ eventCreationDate }}<br /><b>@{{ authorId }}</b></el-button
+                      style="float: right; margin-top: -10px; text-align: right"
+                      >{{
+                        "Created on " +
+                        new Date(eventCreationDate).toLocaleString()
+                      }}<br /><b>@{{ authorId }}</b></el-button
                     >
                   </div>
                 </template>
-                <div class="text item pb-3">                  
+                <div class="text item pb-3">
                   <b>
-                    Date and Time: {{ eventDate }} 
+                    Date and Time: {{ new Date(eventDate).toLocaleString() }}
                   </b>
                 </div>
-                <div class="text item pb-3">                  
+                <div class="text item pb-3">
                   {{ eventDescription }}
                 </div>
-                
               </el-card>
             </div>
 
             <div class="col-md-4 order-1">
-
               <el-card class="margin: 20px auto;">
                 <div>
                   <div class="pb-2">
@@ -68,10 +67,31 @@
                   <div class="container">
                     <div class="row">
                       <div class="col">
-                        <el-button type="warning" class="btn btn-block" plain>Interested</el-button>
+                        <el-button
+                          type="warning"
+                          @click="onPostEventStatus(EventGroup.INTERESTED)"
+                          class="btn btn-block"
+                          plain
+                          :loading="loadInterested"
+                          :icon="
+                            eventGroup === EventGroup.INTERESTED &&
+                            'el-icon-check'
+                          "
+                          >Interested</el-button
+                        >
                       </div>
                       <div class="col">
-                        <el-button type="success" class="btn btn-block" plain>Going!</el-button>
+                        <el-button
+                          type="success"
+                          @click="onPostEventStatus(EventGroup.GOING)"
+                          class="btn btn-block"
+                          plain
+                          :loading="loadGoing"
+                          :icon="
+                            eventGroup === EventGroup.GOING && 'el-icon-check'
+                          "
+                          >Going!</el-button
+                        >
                       </div>
                     </div>
                   </div>
@@ -91,12 +111,12 @@
                 </div>
                 <div class="border-top-0">
                   <div class="pb-4">
-                    <h6>Going ({{members.going.length}})</h6>
-                    <Members :userNames="members.going" :sm="true"/>
+                    <h6>Going ({{ members.going.length }})</h6>
+                    <Members :userNames="members.going" :sm="true" />
                   </div>
                   <div class="pb-4">
-                    <h6>Interested ({{members.interested.length}})</h6>
-                    <Members :userNames="members.interested" :sm="true"/>
+                    <h6>Interested ({{ members.interested.length }})</h6>
+                    <Members :userNames="members.interested" :sm="true" />
                   </div>
                 </div>
               </el-card>
@@ -111,71 +131,120 @@
 <script lang="ts">
 import TopBar from "../Topbar.vue";
 import Members from "@/components/Members.vue";
-import { ref, defineComponent, watch } from "vue";
+import { ref, defineComponent, watch, computed } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { usePost } from "@/hooks/usePost";
 import { useEvent } from "@/hooks/useEvent";
 import { useRoute, useRouter } from "vue-router";
 import { useState } from "@/state";
-import { postEventCreation } from "@/api/event";
-import { postThreadCreation } from "@/api/thread";
+import { deleteEventStatus, EventGroup, postEventStatus } from "@/api/event";
 
 export default defineComponent({
   name: "Event",
-  components: { TopBar,Members },
+  components: { TopBar, Members },
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const eventGroup = ref(EventGroup.NONE);
     const groupId = route.params.groupId as string;
-    const { name, imageUrl, description, creationDate } = useSpace(groupId, true);
-
     const eventId = route.params.eventId as string;
-    const { authorId, title, description: eventDescription,
-      creationDate: eventCreationDate, eventDate, tags, members,
-      } = useEvent(eventId, true)
-
     const { userName, loggedIn } = useState();
-    const { doPost: doPostEvent, data: eventResponse } =
-      usePost(postEventCreation);
+    const buttonPressed = ref(EventGroup.NONE);
 
-    const { doPost: doPostThread, data: threadResponse } =
-      usePost(postThreadCreation);
+    const { name, imageUrl, description, creationDate } = useSpace(
+      groupId,
+      true
+    );
 
-    watch(eventResponse, () => {
-      if (eventResponse.value) {
-        alert(
-          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
-            is created`
-        );
+    const {
+      authorId,
+      title,
+      description: eventDescription,
+      creationDate: eventCreationDate,
+      eventDate,
+      tags,
+      members,
+      doFetch: doFetchEvent,
+    } = useEvent(eventId, true);
+
+    const { doPost: doPostEventStatus, posting: postingEventStatus } =
+      usePost(postEventStatus);
+    const { doPost: doDeletetEventStatus, posting: deletingEventStatus } =
+      usePost(deleteEventStatus);
+
+    watch(members, (members) => {
+      if (members.going.includes(userName.value)) {
+        eventGroup.value = EventGroup.GOING;
+      } else if (members.interested.includes(userName.value)) {
+        eventGroup.value = EventGroup.INTERESTED;
+      } else {
+        eventGroup.value = EventGroup.NONE;
+      }
+      buttonPressed.value = EventGroup.NONE;
+    });
+
+    watch([postingEventStatus, deletingEventStatus], ([cp, cd], [pp, pd]) => {
+      if ((!cp && pp) || (!cd && pd)) {
+        //fetch after posting event status is completed
+        doFetchEvent();
       }
     });
-    watch(threadResponse, () => {
-      if (threadResponse.value) {
-        alert(
-          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id} 
-            is created`
-        );
+
+    const onPostEventStatus = async (group: EventGroup) => {
+      if (!loggedIn.value) {
+        alert("Please login first");
+        return;
       }
-    });
-    
+
+      const eventStatus = {
+        userName: userName.value,
+        group,
+        eventId,
+      };
+
+      buttonPressed.value = group;
+      if (eventGroup.value === group) {
+        doDeletetEventStatus(eventStatus);
+      } else {
+        doPostEventStatus(eventStatus);
+      }
+    };
 
     // Redirect to user profile page
     const goToProfile = async (profile: string) => {
-      router.push({ path: "/users/"+profile });
+      router.push({ path: "/users/" + profile });
     };
+
+    const loadInterested = computed(
+      () =>
+        buttonPressed.value === EventGroup.INTERESTED &&
+        (postingEventStatus.value || deletingEventStatus.value)
+    );
+    const loadGoing = computed(
+      () =>
+        buttonPressed.value === EventGroup.GOING &&
+        (postingEventStatus.value || deletingEventStatus.value)
+    );
+
     return {
       name,
       imageUrl,
-      description,      
+      description,
       creationDate,
       authorId,
-      title, 
-      eventDescription, 
-      eventCreationDate, 
-      eventDate, 
+      title,
+      eventDescription,
+      eventCreationDate,
+      eventDate,
+      eventGroup,
       tags,
       members,
       goToProfile,
+      onPostEventStatus,
+      EventGroup,
+
+      loadInterested,
+      loadGoing,
     };
   },
 });
