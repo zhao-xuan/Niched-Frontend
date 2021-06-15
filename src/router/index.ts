@@ -8,7 +8,13 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Playground from "../views/space/Playground.vue";
 
+import Dashboard from "../views/newDashboard/HomeTab.vue";
 const routes: Array<RouteRecordRaw> = [
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+  },
   {
     path: "/login",
     name: "Login",

@@ -46,11 +46,11 @@
                       ><i class="el-icon-chat-line-square"></i> Threads</span
                     >
                   </template>
-                  <el-card                    
+                  <el-card
                     shadow="hover"
                     v-for="thread in threads.slice().reverse()"
                     :key="thread.threadId"
-                    style="margin: 20px auto;"
+                    style="margin: 20px auto"
                   >
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
@@ -84,7 +84,7 @@
                     shadow="hover"
                     v-for="event in events.slice().reverse()"
                     :key="event.eventId"
-                    style="margin: 20px auto; background-color: #E7EEFF"
+                    style="margin: 20px auto; background-color: #e7eeff"
                   >
                     <template #header>
                       <div>
@@ -138,12 +138,8 @@
             </div>
 
             <div class="col-md-4">
-              <AboutSpace 
-                v-show="selectedTab == 'threads'"
-              />
-              <AboutSpace 
-                v-show="selectedTab == 'members'"
-              />
+              <AboutSpace v-show="selectedTab == 'threads'" />
+              <AboutSpace v-show="selectedTab == 'members'" />
               <CreateThread
                 v-show="selectedTab == 'threads'"
                 v-model:postingThread="postingThread"
@@ -167,7 +163,7 @@ import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
 import { useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
-import AboutSpace from "./AboutSpace.vue"
+import AboutSpace from "./AboutSpace.vue";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
 import Members from "@/components/Members.vue";
