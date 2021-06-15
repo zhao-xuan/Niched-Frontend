@@ -29,10 +29,20 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="px-4 pt-3 d-flex text-left">
+          <div class="row justify-content-between">
+            <div class="col-sm-12 col-md-8">
+              <div class="pl-3 pt-3 d-flex text-left">
                 <h2>{{ name }}</h2>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="px-5 pt-3 text-right">
+                <el-button
+                  @click="onJoinGroup()"
+                  type="primary"
+                  :plain="joinedGroup"
+                  ><b> {{ joinedGroup ? "Joined" : "Join" }}</b></el-button
+                >
               </div>
             </div>
           </div>
@@ -46,11 +56,11 @@
                       ><i class="el-icon-chat-line-square"></i> Threads</span
                     >
                   </template>
-                  <el-card                    
+                  <el-card
                     shadow="hover"
                     v-for="thread in threads.slice().reverse()"
                     :key="thread.threadId"
-                    style="margin: 20px auto;"
+                    style="margin: 20px auto"
                   >
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
@@ -84,7 +94,7 @@
                     shadow="hover"
                     v-for="event in events.slice().reverse()"
                     :key="event.eventId"
-                    style="margin: 20px auto; background-color: #E7EEFF"
+                    style="margin: 20px auto; background-color: #e7eeff"
                   >
                     <template #header>
                       <div>
@@ -138,11 +148,17 @@
             </div>
 
             <div class="col-md-4">
-              <AboutSpace 
+              <AboutSpace
                 v-show="selectedTab == 'threads'"
+                :members="members"
+                :threads="threads"
+                :events="events"
               />
-              <AboutSpace 
+              <AboutSpace
                 v-show="selectedTab == 'members'"
+                :members="members"
+                :threads="threads"
+                :events="events"
               />
               <CreateThread
                 v-show="selectedTab == 'threads'"
@@ -167,10 +183,13 @@ import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
 import { useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
-import AboutSpace from "./AboutSpace.vue"
+import AboutSpace from "./AboutSpace.vue";
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
 import Members from "@/components/Members.vue";
+import { useState } from "@/state";
+import { usePost } from "@/hooks/usePost";
+import { postJoinGroup, postLeaveGroup } from "@/api/space";
 export default defineComponent({
   name: "Space",
   components: { TopBar, AboutSpace, CreateThread, CreateEvent, Members },
@@ -178,18 +197,59 @@ export default defineComponent({
     const postingThread = ref(false);
     const postingEvent = ref(false);
 
+    const joinedGroup = ref(false);
+
     const router = useRouter();
     const route = useRoute();
     const groupId = route.params.id as string;
-    const { name, imageUrl, description, members, creationDate } = useSpace(
-      groupId,
-      true
-    );
+    const { userName, loggedIn } = useState();
+
+    const {
+      name,
+      imageUrl,
+      description,
+      members,
+      creationDate,
+      doFetch: doFetchSpace,
+    } = useSpace(groupId, true);
     const {
       events,
       fetching: fetchingEvents,
       doFetch: doFetchEvents,
     } = useEvents(groupId, true);
+
+    const { doPost: doPostJoinGroup, posting: joiningGroupStatus } =
+      usePost(postJoinGroup);
+    const { doPost: doPostLeaveGroup, posting: leavingGroupStatus } =
+      usePost(postLeaveGroup);
+
+    watch(members, (members) => {
+      joinedGroup.value = members.includes(userName.value);
+    });
+
+    watch([joiningGroupStatus, leavingGroupStatus], ([cp, cd], [pp, pd]) => {
+      if ((!cp && pp) || (!cd && pd)) {
+        //fetch after posting event status is completed
+        doFetchSpace();
+      }
+    });
+
+    const onJoinGroup = async () => {
+      if (!loggedIn.value) {
+        alert("Please login first");
+        return;
+      }
+
+      const userStatus = {
+        userName: userName.value,
+        groupId,
+      };
+      if (joinedGroup.value) {
+        doPostLeaveGroup(userStatus);
+      } else {
+        doPostJoinGroup(userStatus);
+      }
+    };
 
     const {
       threads,
@@ -214,6 +274,8 @@ export default defineComponent({
     const selectedTab = ref("threads");
 
     return {
+      userName,
+
       name,
       imageUrl,
       description,
@@ -231,6 +293,9 @@ export default defineComponent({
       jumpToEvent,
 
       selectedTab,
+
+      joinedGroup,
+      onJoinGroup,
     };
   },
 });
