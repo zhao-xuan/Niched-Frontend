@@ -69,6 +69,7 @@
                           @click="onPostEventStatus(EventGroup.INTERESTED)"
                           class="btn btn-block"
                           plain
+                          :loading="loadInterested"
                           :icon="
                             eventGroup === EventGroup.INTERESTED &&
                             'el-icon-check'
@@ -82,6 +83,7 @@
                           @click="onPostEventStatus(EventGroup.GOING)"
                           class="btn btn-block"
                           plain
+                          :loading="loadGoing"
                           :icon="
                             eventGroup === EventGroup.GOING && 'el-icon-check'
                           "
@@ -126,7 +128,7 @@
 <script lang="ts">
 import TopBar from "../Topbar.vue";
 import Members from "@/components/Members.vue";
-import { ref, defineComponent, watch } from "vue";
+import { ref, defineComponent, watch, computed } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { usePost } from "@/hooks/usePost";
 import { useEvent } from "@/hooks/useEvent";
@@ -144,6 +146,7 @@ export default defineComponent({
     const groupId = route.params.groupId as string;
     const eventId = route.params.eventId as string;
     const { userName, loggedIn } = useState();
+    const buttonPressed = ref(EventGroup.NONE);
 
     const { name, imageUrl, description, creationDate } = useSpace(
       groupId,
@@ -158,7 +161,6 @@ export default defineComponent({
       eventDate,
       tags,
       members,
-      fetching: fetchingEvent,
       doFetch: doFetchEvent,
     } = useEvent(eventId, true);
 
@@ -166,8 +168,6 @@ export default defineComponent({
       usePost(postEventStatus);
     const { doPost: doDeletetEventStatus, posting: deletingEventStatus } =
       usePost(deleteEventStatus);
-    const userPostingEvent =
-      postingEventStatus.value || deletingEventStatus.value;
 
     watch(members, (members) => {
       if (members.going.includes(userName.value)) {
@@ -177,6 +177,7 @@ export default defineComponent({
       } else {
         eventGroup.value = EventGroup.NONE;
       }
+      buttonPressed.value = EventGroup.NONE;
     });
 
     watch([postingEventStatus, deletingEventStatus], ([cp, cd], [pp, pd]) => {
@@ -198,6 +199,7 @@ export default defineComponent({
         eventId,
       };
 
+      buttonPressed.value = group;
       if (eventGroup.value === group) {
         doDeletetEventStatus(eventStatus);
       } else {
@@ -209,6 +211,18 @@ export default defineComponent({
     const goToProfile = async (profile: string) => {
       router.push({ path: "/users/" + profile });
     };
+
+    const loadInterested = computed(
+      () =>
+        buttonPressed.value === EventGroup.INTERESTED &&
+        (postingEventStatus.value || deletingEventStatus.value)
+    );
+    const loadGoing = computed(
+      () =>
+        buttonPressed.value === EventGroup.GOING &&
+        (postingEventStatus.value || deletingEventStatus.value)
+    );
+
     return {
       name,
       imageUrl,
@@ -225,6 +239,9 @@ export default defineComponent({
       goToProfile,
       onPostEventStatus,
       EventGroup,
+
+      loadInterested,
+      loadGoing,
     };
   },
 });
