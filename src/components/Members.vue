@@ -1,28 +1,25 @@
 <template>
   <div class="row">
-    <div class="" v-for="userName in userNames" :key="userName">
-      <div class="text-center col">
-        <!-- <img
+    <div class="" v-for="(userName, i) in userNames" :key="i">
+      <div class="text-center col mt-2">
+        <img
           class="rounded-circle"
           alt="100x100"
-          :src="randomUsers[i].picture"
+          :src="randomUserPhotos[i]"
           data-holder-rendered="true"
           :style="widthObject"
-        /> -->
-        <div>{{ userName }}</div>
+        />
+        <div v-if="!sm">{{ userName }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType, onMounted, watchEffect } from "vue";
+import { defineComponent, ref, PropType, watchEffect } from "vue";
 import axios from "axios";
 type UserName = string;
-type Profile = {
-  name: string;
-  picture: string;
-};
+
 export default defineComponent({
   props: {
     userNames: {
@@ -34,26 +31,26 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const randomUsers = ref<(Profile | never)[]>([]);
+    const randomUserPhotos = ref<(string | never)[]>([]);
 
-    const fetchRandomUserImages = async () => {
+    const fetchRandomUserPhotos = async () => {
       const res = await axios.get(
         `https://randomuser.me/api/?results=${props.userNames.length}`
       );
-
       return res.data.results.map(
-        (profile: { name: { first: string }; picture: { large: string } }) => ({
-          name: profile.name.first,
-          picture: profile.picture.large,
-        })
+        (profile: { name: { first: string }; picture: { large: string } }) =>
+          profile.picture.large
       );
     };
 
     watchEffect(async () => {
-      randomUsers.value = await fetchRandomUserImages();
+      randomUserPhotos.value = await fetchRandomUserPhotos();
     });
 
-    return { randomUsers, widthObject: { width: props.sm ? "40px" : "80px" } };
+    return {
+      randomUserPhotos,
+      widthObject: { width: props.sm ? "40px" : "80px" },
+    };
   },
 });
 </script>
