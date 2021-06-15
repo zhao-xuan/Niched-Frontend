@@ -43,19 +43,19 @@
           Create Space
         </button>
         <button
-          class="
-            btn btn-warning
-            m-2
-            my-sm-0
-            d-flex
-            flex-row
-            justify-content-around
-          "
+          class="btn btn-warning m-2 my-sm-0 d-flex"
           @click="jumpToProfile"
         >
           <el-avatar v-show="loggedIn" icon="el-icon-user-solid" />
           <span v-show="loggedIn" class="my-2 ml-3">{{ userName }}</span>
           <div v-show="!loggedIn">sign up!</div>
+        </button>
+        <button
+          class="btn btn-danger btn-secondary"
+          @click="onLogout"
+          v-show="loggedIn"
+        >
+          Logout
         </button>
       </div>
     </div>
@@ -74,7 +74,7 @@ export default defineComponent({
     };
     const router = useRouter();
 
-    const { userName, loggedIn } = useState();
+    const { userName, loggedIn, unsetUserState } = useState();
     return {
       onChange,
       jumpToCreateSpace() {
@@ -93,6 +93,9 @@ export default defineComponent({
             params: { userName: userName.value },
           });
         }
+      },
+      onLogout() {
+        unsetUserState();
       },
       loggedIn,
       userName,
