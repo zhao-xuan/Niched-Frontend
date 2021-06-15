@@ -26,16 +26,27 @@
         </div>
       </div>
       <div class="border-top pt-2 text-muted font-weight-bold">
-        created : {{ new Date(creationDate).toLocaleString() }}
+        <p>Created: {{ new Date(creationDate).toDateString() }}</p>
       </div>
     </div>
   </el-card>
 </template>
 
 <script lang="ts">
+import { useSpace } from "@/hooks/useSpace";
 import { defineComponent } from "vue";
+import { useRoute } from "vue-router";
 export default defineComponent({
   name: "Space",
   props: ["members", "threads", "events"],
+  setup() {
+    const route = useRoute();
+    const groupId = route.params.id as string;
+
+    const { creationDate } = useSpace(groupId, true);
+    return {
+      creationDate,
+    };
+  },
 });
 </script>

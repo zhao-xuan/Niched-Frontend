@@ -31,18 +31,22 @@
 
           <div class="row justify-content-between">
             <div class="col-sm-12 col-md-8">
-              <div class="pl-3 pt-3 d-flex text-left">
+              <div class="px-5 pt-3 d-flex text-left">
                 <h2>{{ name }}</h2>
               </div>
             </div>
             <div class="col-md-4 col-sm-12">
-              <div class="px-5 pt-3 text-right">
-                <el-button
-                  @click="onJoinGroup()"
-                  type="primary"
-                  :plain="joinedGroup"
-                  ><b> {{ joinedGroup ? "Joined" : "Join" }}</b></el-button
-                >
+              <div class="row justify-content-end">
+                <div class="px-5 pt-3 col-xl-6 col-lg-8 col-md-12 col-sm-12">
+                  <el-button
+                    @click="onJoinGroup()"
+                    type="primary"
+                    :plain="joinedGroup"
+                    class="w-100"
+                  >
+                    <b> {{ joinedGroup ? "Joined" : "Join" }}</b>
+                  </el-button>
+                </div>
               </div>
             </div>
           </div>
