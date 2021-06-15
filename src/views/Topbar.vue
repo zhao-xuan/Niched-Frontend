@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-sm topbar">
     <div class="container-fluid">
       <a class="navbar-brand" href="/home"
-        ><h1 class="text-light ml-0 pl-0">niched</h1>
+        ><h1 class="text-dark ml-0 pl-0">niched</h1>
       </a>
       <button
         class="navbar-toggler"
