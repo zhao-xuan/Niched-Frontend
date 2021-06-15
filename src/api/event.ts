@@ -1,12 +1,11 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { SERVER_URL } from "@/api/constant";
-
 
 //fetch event
 type EventMemberGroups = {
-  going: string[],
-  interested: string[]
-}
+  going: string[];
+  interested: string[];
+};
 
 export type EventResponse = {
   event_id: string;
@@ -71,22 +70,37 @@ export const fetchEvents = async (
 export enum EventGroup {
   GOING = "going",
   INTERESTED = "interested",
-  NONE = "none"
+  NONE = "none",
 }
 
 type EventUserStatus = {
   userName: string;
   group: EventGroup;
   eventId: string;
-}
-
+};
 
 // status code = 200 on success, no body
-export const postEventStatus = async (data: EventUserStatus): Promise<void> => {
-  console.log(data)
+export const postEventStatus = async (
+  data: EventUserStatus
+): Promise<number> => {
+  const res: AxiosResponse<Record<string, never>> = await axios.post(
+    `${SERVER_URL}/event/${data.eventId}/members`,
+    {
+      user_name: data.userName,
+      group: data.group,
+    }
+  );
+  return res.status;
+};
 
-  const res = await axios.post(`${SERVER_URL}/event/${data.eventId}/members`, {
-    user_name: data.userName,
-    group: data.group
-  });
-}
+export const deleteEventStatus = async (
+  data: EventUserStatus
+): Promise<number> => {
+  const res: AxiosResponse<Record<string, never>> = await axios.delete(
+    `${SERVER_URL}/event/${data.eventId}/members`,
+    {
+      data: { user_name: data.userName, group: data.group },
+    }
+  );
+  return res.status;
+};
