@@ -46,11 +46,11 @@
                       ><i class="el-icon-chat-line-square"></i> Threads</span
                     >
                   </template>
-                  <el-card
-                    class="m-3"
+                  <el-card                    
                     shadow="hover"
                     v-for="thread in threads.slice().reverse()"
                     :key="thread.threadId"
+                    style="margin: 20px auto;"
                   >
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
@@ -81,9 +81,10 @@
                     <span><i class="el-icon-place"></i> Events </span>
                   </template>
                   <el-card
+                    shadow="hover"
                     v-for="event in events.slice().reverse()"
                     :key="event.eventId"
-                    style="margin: 20px auto; background-color: #ffe8e0"
+                    style="margin: 20px auto; background-color: #E7EEFF"
                   >
                     <template #header>
                       <div>
@@ -137,37 +138,12 @@
             </div>
 
             <div class="col-md-4">
-              <el-card class="my-5">
-                <div>
-                  <div>
-                    <h3>About the group</h3>
-                  </div>
-                </div>
-                <div class="p-2">
-                  <div class="mb-3">
-                    {{ description }}
-                  </div>
-                  <div class="d-flex flex-row justify-content-between mb-3">
-                    <div class="font-weight-bold">
-                      <div>
-                        {{ members.length }}
-                      </div>
-                      <div>members</div>
-                    </div>
-                    <div class="font-weight-bold">
-                      {{ threads.length }}
-                      <div class="font-weight-bold">threads</div>
-                    </div>
-                    <div class="font-weight-bold">
-                      {{ events.length }}
-                      <div class="font-weight-bold">events</div>
-                    </div>
-                  </div>
-                  <div class="border-top pt-2 text-muted font-weight-bold">
-                    created : {{ new Date(creationDate).toLocaleString() }}
-                  </div>
-                </div>
-              </el-card>
+              <AboutSpace 
+                v-show="selectedTab == 'threads'"
+              />
+              <AboutSpace 
+                v-show="selectedTab == 'members'"
+              />
               <CreateThread
                 v-show="selectedTab == 'threads'"
                 v-model:postingThread="postingThread"
@@ -191,12 +167,13 @@ import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
 import { useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
+import AboutSpace from "./AboutSpace.vue"
 import CreateThread from "../thread/CreateThread.vue";
 import CreateEvent from "../event/CreateEvent.vue";
 import Members from "@/components/Members.vue";
 export default defineComponent({
   name: "Space",
-  components: { TopBar, CreateThread, CreateEvent, Members },
+  components: { TopBar, AboutSpace, CreateThread, CreateEvent, Members },
   setup() {
     const postingThread = ref(false);
     const postingEvent = ref(false);
