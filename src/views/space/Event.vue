@@ -40,14 +40,17 @@
                     <el-button
                       type="text"
                       style="float: right; margin-top: -10px; text-align: right"
-                      >{{ eventCreationDate }}<br /><b
-                        >@{{ authorId }}</b
-                      ></el-button
+                      >{{
+                        "Created on " +
+                        new Date(eventCreationDate).toLocaleString()
+                      }}<br /><b>@{{ authorId }}</b></el-button
                     >
                   </div>
                 </template>
                 <div class="text item pb-3">
-                  <b> Date and Time: {{ eventDate }} </b>
+                  <b>
+                    Date and Time: {{ new Date(eventDate).toLocaleString() }}
+                  </b>
                 </div>
                 <div class="text item pb-3">
                   {{ eventDescription }}

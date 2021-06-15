@@ -2,14 +2,18 @@
   <div class="row">
     <div class="" v-for="(userName, i) in userNames" :key="i">
       <div class="text-center col mt-2">
-        <img
-          class="rounded-circle"
-          alt="100x100"
-          :src="randomUserPhotos[i]"
-          data-holder-rendered="true"
-          :style="widthObject"
-        />
-        <div v-if="!sm">{{ userName }}</div>
+        <a :href="'/users/' + userName">
+          <img
+            class="rounded-circle"
+            alt="100x100"
+            :src="randomUserPhotos[i]"
+            data-holder-rendered="true"
+            :style="widthObject"
+          />
+          <div v-if="!sm">
+            {{ userName }}
+          </div>
+        </a>
       </div>
     </div>
   </div>
