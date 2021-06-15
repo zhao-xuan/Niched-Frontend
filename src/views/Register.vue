@@ -53,7 +53,8 @@
                 <div class="card-body">
                   <h5 class="card-title">Select Your Interest</h5>
                   <p class="card-text">
-                    <el-check-tag class="el-check-tag"
+                    <el-check-tag
+                      class="el-check-tag"
                       :key="tag"
                       v-for="(tag, index) in dynamicTags"
                       :disable-transitions="false"
@@ -84,12 +85,9 @@
                 </div>
               </div>
             </form>
-            <button
-                class="btn btn-primary m-2"
-                @click="onRegister"
-              >
-                Register
-              </button>
+            <button class="btn btn-primary m-2" @click="onRegister">
+              Register
+            </button>
           </div>
         </div>
       </div>
@@ -181,6 +179,8 @@ import { defineComponent, ref } from "vue";
 import { registerUser, loginUser } from "@/api/auth";
 import { AxiosError } from "axios";
 import { useRouter } from "vue-router";
+import { postUserDetails } from "@/api/user";
+import { usePost } from "@/hooks/usePost";
 
 export default defineComponent({
   name: "Register",
@@ -189,18 +189,37 @@ export default defineComponent({
     const emailValue = ref("");
     const pwd = ref("");
 
-    const dynamicTags = ref(["Sports", "Music", "Game", "Book", "Manga", "Movie", "Food", "Travel", "Animal"]);
+    const dynamicTags = ref([
+      "Sports",
+      "Music",
+      "Game",
+      "Book",
+      "Manga",
+      "Movie",
+      "Food",
+      "Travel",
+      "Animal",
+    ]);
     const isTagSelected = ref([true, false, true]);
     const inputVisible = ref(false);
     const inputValue = ref("");
 
     const router = useRouter();
 
+    const { doPost: doPostUserDetails } = usePost(postUserDetails);
+
     const onRegister = async () => {
       try {
         const { user_name, email, bio, interests, subscribed_groups } =
           await registerUser(userName.value, emailValue.value, pwd.value);
         alert("register successful! About to login you in!");
+
+        doPostUserDetails({
+          userName: user_name,
+          email,
+          interests: dynamicTags.value.filter((_, i) => isTagSelected.value[i]),
+        });
+
         const { access_token, token_type } = await loginUser(
           userName.value,
           pwd.value
@@ -232,9 +251,9 @@ export default defineComponent({
       inputValue.value = "";
     };
 
-    const onChangeSelectInterest = (i : number) => {
+    const onChangeSelectInterest = (i: number) => {
       isTagSelected.value[i] = !isTagSelected.value[i];
-    }
+    };
 
     return {
       userName,
@@ -248,7 +267,7 @@ export default defineComponent({
       showInput,
       handleClose,
       handleInputConfirm,
-      onChangeSelectInterest
+      onChangeSelectInterest,
     };
   },
 });
