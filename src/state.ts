@@ -37,6 +37,15 @@ const mutations = {
   setInterests(is: Hashtag[]) {
     globalState.state.interests = is;
   },
+  unsetUserState() {
+    localStorage.clear();
+    globalState.state.loggedIn = false;
+    globalState.state.userName = "";
+    globalState.state.email = "";
+    globalState.state.bio = "";
+    globalState.state.subscribedGroups = [];
+    globalState.state.interests = [];
+  }
 };
 
 // define a unique key to access the value
