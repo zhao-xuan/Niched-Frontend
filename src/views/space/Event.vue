@@ -70,9 +70,8 @@
                           class="btn btn-block"
                           plain
                           :icon="
-                            eventGroup === EventGroup.INTERESTED
-                              ? 'el-icon-check'
-                              : ''
+                            eventGroup === EventGroup.INTERESTED &&
+                            'el-icon-check'
                           "
                           >Interested</el-button
                         >
@@ -84,9 +83,7 @@
                           class="btn btn-block"
                           plain
                           :icon="
-                            eventGroup === EventGroup.GOING
-                              ? 'el-icon-check'
-                              : ''
+                            eventGroup === EventGroup.GOING && 'el-icon-check'
                           "
                           >Going!</el-button
                         >
@@ -135,10 +132,7 @@ import { usePost } from "@/hooks/usePost";
 import { useEvent } from "@/hooks/useEvent";
 import { useRoute, useRouter } from "vue-router";
 import { useState } from "@/state";
-import { EventGroup, postEventCreation, postEventStatus } from "@/api/event";
-import { postThreadCreation } from "@/api/thread";
-import axios from "axios";
-import { SERVER_URL } from "@/api/constant";
+import { deleteEventStatus, EventGroup, postEventStatus } from "@/api/event";
 
 export default defineComponent({
   name: "Event",
@@ -146,13 +140,16 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const eventGroup = ref(EventGroup.NONE);
     const groupId = route.params.groupId as string;
+    const eventId = route.params.eventId as string;
+    const { userName, loggedIn } = useState();
+
     const { name, imageUrl, description, creationDate } = useSpace(
       groupId,
       true
     );
 
-    const eventId = route.params.eventId as string;
     const {
       authorId,
       title,
@@ -161,39 +158,31 @@ export default defineComponent({
       eventDate,
       tags,
       members,
+      fetching: fetchingEvent,
+      doFetch: doFetchEvent,
     } = useEvent(eventId, true);
 
-    const { userName, loggedIn } = useState();
-    const { data: eventResponse } = usePost(postEventCreation);
+    const { doPost: doPostEventStatus, posting: postingEventStatus } =
+      usePost(postEventStatus);
+    const { doPost: doDeletetEventStatus, posting: deletingEventStatus } =
+      usePost(deleteEventStatus);
+    const userPostingEvent =
+      postingEventStatus.value || deletingEventStatus.value;
 
-    const { data: threadResponse } = usePost(postThreadCreation);
-
-    const { doPost: doPostEventStatus } = usePost(postEventStatus);
-
-    watch(eventResponse, () => {
-      if (eventResponse.value) {
-        alert(
-          `a new event "${eventResponse.value?.title}"  with an id: ${eventResponse.value?.event_id} 
-            is created`
-        );
-      }
-    });
-    watch(threadResponse, () => {
-      if (threadResponse.value) {
-        alert(
-          `a new thread "${threadResponse.value?.title}"  with an id: ${threadResponse.value?.thread_id} 
-            is created`
-        );
-      }
-    });
-
-    const eventGroup = ref(EventGroup.NONE);
-
-    watch(members, () => {
-      if (members?.value.going.includes(userName.value)) {
+    watch(members, (members) => {
+      if (members.going.includes(userName.value)) {
         eventGroup.value = EventGroup.GOING;
-      } else if (members?.value.interested.includes(userName.value)) {
+      } else if (members.interested.includes(userName.value)) {
         eventGroup.value = EventGroup.INTERESTED;
+      } else {
+        eventGroup.value = EventGroup.NONE;
+      }
+    });
+
+    watch([postingEventStatus, deletingEventStatus], ([cp, cd], [pp, pd]) => {
+      if ((!cp && pp) || (!cd && pd)) {
+        //fetch after posting event status is completed
+        doFetchEvent();
       }
     });
 
@@ -203,23 +192,17 @@ export default defineComponent({
         return;
       }
 
-      if (eventGroup.value === group) {
-        await axios.delete(`${SERVER_URL}/event/${eventId}/members`, {
-          data: {
-            user_name: userName.value,
-            group: eventGroup.value,
-          },
-        });
-      } else {
-        eventGroup.value = group;
-        doPostEventStatus({
-          userName: userName.value,
-          group: eventGroup.value,
-          eventId: eventId,
-        });
-      }
+      const eventStatus = {
+        userName: userName.value,
+        group,
+        eventId,
+      };
 
-      window.location.reload();
+      if (eventGroup.value === group) {
+        doDeletetEventStatus(eventStatus);
+      } else {
+        doPostEventStatus(eventStatus);
+      }
     };
 
     // Redirect to user profile page
