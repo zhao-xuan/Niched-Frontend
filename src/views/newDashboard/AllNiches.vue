@@ -3,14 +3,14 @@
     <div class="px-2 pt-2">
       <el-carousel indicator-position="outside">
         <el-carousel-item v-for="item in popularNiches" :key="item">
-          <a href="www.google.co.uk">
-            <div
-              class="all-niches-carousel"
-              :style="{
-                backgroundImage: 'url(' + item.imgUrl + ' )',
-              }"
-            ></div
-          ></a>
+          <div
+            class="all-niches-carousel clickable"
+            :style="{
+              backgroundImage: 'url(' + item.imgUrl + ' )',
+              backgroundPosition: 'center',
+            }"
+            @click="jumpToSpace(item.groupId)"
+          ></div>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -22,26 +22,25 @@
           :key="item"
           class="col-6 col-sm-3 py-2 px-2"
         >
-          <a href="www.google.co.uk">
-            <div
-              class="niche-card-div niche-image shadow-sm"
-              :style="{
-                backgroundImage: 'url(' + item.imgUrl + ')',
-              }"
-            >
-              <div class="niche-description px-2 py-2">
-                <b>
-                  {{ item.detail }}
-                  <br />
-                  Members: {{ item.memberList.length }}
-                </b>
-              </div>
-              <!-- <div class="niche-image">hello</div> -->
+          <div
+            class="niche-card-div niche-image shadow-sm clickable"
+            :style="{
+              backgroundImage: 'url(' + item.imgUrl + ')',
+            }"
+            @click="jumpToSpace(item.groupId)"
+          >
+            <div class="niche-description px-2 py-2">
+              <b>
+                {{ item.detail }}
+                <br />
+                Members: {{ item.memberList.length }}
+              </b>
             </div>
-          </a>
-          <a href="www.google.co.uk">
-            <h6 class="px-1 pt-1">{{ item.title }}</h6>
-          </a>
+            <!-- <div class="niche-image">hello</div> -->
+          </div>
+          <h6 class="px-1 pt-1 clickable" @click="jumpToSpace(item.groupId)">
+            <b>{{ item.title }}</b>
+          </h6>
         </div>
       </div>
     </div>
@@ -59,6 +58,7 @@ import { dashboardFixture } from "./fixtures";
 export default defineComponent({
   name: "Home",
   setup() {
+    const router = useRouter();
     type Niche = {
       title: string;
       detail: string;
@@ -101,6 +101,9 @@ export default defineComponent({
       allNiches,
       fetching,
       popularNiches,
+      jumpToSpace(item: string) {
+        router.push({ name: "Space", params: { id: item } });
+      },
     };
   },
 });
