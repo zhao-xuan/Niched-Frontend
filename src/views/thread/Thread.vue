@@ -56,8 +56,8 @@
                   <el-card
                     class="m-3"
                     shadow="hover"
-                    v-for="thread in threads.slice().reverse()"
-                    :key="thread.threadId"
+                    v-for="comment in comments.slice().reverse()"
+                    :key="comment.commentId"
                   >
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
