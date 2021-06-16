@@ -3,7 +3,7 @@
   <div
     class="container-fluid"
     v-loading.fullscreen.lock="
-      postingEvent || postingThread || fetchingEvents || fetchingThreads
+      fetchingThread | fetchingComments
     "
   >
     <div class="row py-5 px-4 niched-bg">
@@ -61,24 +61,20 @@
                   >
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
-                        <div>
+                        <!-- <div>
                           <span
-                            ><b>{{ thread.title /* This should be replaced by thread comment title */ }}</b></span
+                            ><b>{{ comment.title /* This should be replaced by thread comment title */ }}</b></span
                           >
-                        </div>
+                        </div> -->
                         <div>
                           <el-button type="text"
-                            >{{
-                              spaceCreationDate.split("-")[1] +
-                              "/" +
-                              spaceCreationDate.split("-")[0] /* This should be replaced by thread comment creation date */
-                            }}<b>@{{ thread.authorId }}</b></el-button
+                            >{{ comment.creationDate }}<b>@{{ comment.userName }}</b></el-button
                           >
                         </div>
                       </div>
                     </template>
                     <div class="text item">
-                      {{ thread.description /* This should be replaced by thread comment content */ }}
+                      {{ comment.body /* This should be replaced by thread comment content */ }}
                     </div>
                   </el-card>
                 </el-tab-pane>
@@ -165,14 +161,14 @@
                       </div>
                       <div>members</div>
                     </div>
-                    <div class="font-weight-bold">
+                    <!-- <div class="font-weight-bold">
                       {{ threads.length }}
                       <div class="font-weight-bold">threads</div>
                     </div>
                     <div class="font-weight-bold">
                       {{ events.length }}
                       <div class="font-weight-bold">events</div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="border-top pt-2 text-muted font-weight-bold">
                     created :
@@ -184,7 +180,7 @@
                   </div>
                 </div>
               </el-card>
-              <CreateEvent v-model:postingEvent="postingEvent" />
+              <!-- <CreateEvent v-model:postingEvent="postingEvent" /> -->
             </div>
           </div>
         </div>
@@ -198,6 +194,7 @@ import TopBar from "../Topbar.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
+import { useComment } from "@/hooks/useComment";
 import { useThread, useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
 import CreateEvent from "../event/CreateEvent.vue";
@@ -205,8 +202,8 @@ export default defineComponent({
   name: "Thread",
   components: { TopBar, CreateEvent },
   setup() {
-    const postingThread = ref(false);
-    const postingEvent = ref(false);
+    // const postingThread = ref(false);
+    // const postingEvent = ref(false);
 
     const router = useRouter();
     const route = useRoute();
@@ -218,33 +215,44 @@ export default defineComponent({
       true
     );
 
-    const {
-      events,
-      fetching: fetchingEvents,
-      doFetch: doFetchEvents,
-    } = useEvents(groupId, true);
+    // const {
+    //   events,
+    //   fetching: fetchingEvents,
+    //   doFetch: doFetchEvents,
+    // } = useEvents(groupId, true);
+
+    // const {
+    //   threads,
+    //   fetching: fetchingThreads,
+    //   doFetch: doFetchThreads,
+    // } = useThreads(groupId, true);
+
+    const { 
+      title, 
+      description : threadDescription, 
+      creationDate: threadCreationDate,
+      fetching: fetchingThread
+    } = useThread(threadId, true);
 
     const {
-      threads,
-      fetching: fetchingThreads,
-      doFetch: doFetchThreads,
-    } = useThreads(groupId, true);
-
-    const { title, description : threadDescription, creationDate: threadCreationDate } = useThread(threadId, true);
+      comments,
+      fetching: fetchingComments,
+      doPostComment
+    } = useComment(threadId, true);
 
     const jumpToEvent = (eventId: string) => {
       router.push({ path: `/event/${groupId}/${eventId}` });
     };
 
-    watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
-      //reload events data when posting new event/thread ends
-      if (!ce && oe) {
-        doFetchEvents();
-      }
-      if (!ct && ot) {
-        doFetchThreads();
-      }
-    });
+    // watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
+    //   //reload events data when posting new event/thread ends
+    //   if (!ce && oe) {
+    //     doFetchEvents();
+    //   }
+    //   if (!ct && ot) {
+    //     doFetchThreads();
+    //   }
+    // });
 
     return {
       name,
@@ -253,19 +261,15 @@ export default defineComponent({
       members,
       spaceCreationDate,
 
-      events,
-      fetchingEvents,
-      postingEvent,
-
-      threads,
-      fetchingThreads,
-      postingThread,
-
       title,
       threadDescription,
       threadCreationDate,
+      fetchingThread,
 
       jumpToEvent,
+
+      comments,
+      fetchingComments
     };
   },
 });
