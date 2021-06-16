@@ -13,6 +13,7 @@ export const useSpace = (groupId: string, immediate: boolean): ReturnType => {
     members: [],
     imageUrl: "",
     creationDate: "",
+    tags: [],
   });
 
   const {
@@ -29,6 +30,7 @@ export const useSpace = (groupId: string, immediate: boolean): ReturnType => {
       state.description = spaceData.value.description;
       state.members = spaceData.value.members;
       state.creationDate = spaceData.value.creation_date;
+      state.tags = spaceData.value.tags;
       state.imageUrl =
         spaceData.value.image_url ||
         "https://blackmantkd.com/wp-content/uploads/2017/04/default-image-620x600.jpg";
