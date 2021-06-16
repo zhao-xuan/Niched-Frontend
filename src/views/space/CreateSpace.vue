@@ -29,7 +29,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label>Space Title</label>
+                  <label>Title</label>
                   <input
                     type="text"
                     class="form-control"
@@ -38,12 +38,22 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label>Space Cover Image <i> (Optional) </i></label>
+                  <label>Cover Image <i> (Optional) </i></label>
                   <input
                     type="text"
                     class="form-control"
+                    maxlength="300"
                     placeholder="https://..."
                     v-model="imgUrl"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea
+                    class="form-control"
+                    maxlength="120"
+                    placeholder="This group is about..."
+                    v-model="description"
                   />
                 </div>
                 <div class="card my-2">
