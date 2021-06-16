@@ -7,6 +7,7 @@ import Event from "../views/space/Event.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Playground from "../views/space/Playground.vue";
+import Thread from "../views/thread/Thread.vue";
 
 import DashboardLayout from "../views/newDashboard/DashboardLayout.vue";
 import Home from "../views/newDashboard/Home.vue";
@@ -77,6 +78,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/space/:id",
     name: "Space",
     component: Space,
+  },
+  {
+    path: "/thread/:groupId/:threadId",
+    name: "Thread",
+    component: Thread,
   },
   {
     path: "/event/:groupId/:eventId",

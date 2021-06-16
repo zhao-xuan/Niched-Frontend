@@ -31,11 +31,25 @@ export const postUser = async (userName: string, email: string, pwd: string): Pr
   formdata.append("password", pwd);
 
   const res = await axios({
-    method : "post",
+    method: "post",
     url: `${SERVER_URL}/auth/signup`,
     data: formdata,
     headers: { "Content-Type": "multipart/form-data" }
   })
 
   return res.data;
+}
+
+type UserDetailsInRegister = {
+  userName: string;
+  email?: string;
+  interests: string[];
+}
+
+export const postUserDetails = async (data: UserDetailsInRegister): Promise<number> => {
+  const res = await axios.post(`${SERVER_URL}/profile/${data.userName}`, {
+    email: data.email,
+    interests: data.interests,
+  })
+  return res.status
 }
