@@ -1,6 +1,16 @@
 <template>
   <div>
     <div class="px-2 pt-2">
+      <el-carousel indicator-position="outside">
+        <el-carousel-item v-for="item in 6" :key="item">
+          <img
+            src="https://pokemongolive.com/img/posts/anniversaryposter2019.jpg"
+            alt="Cheetah!"
+          />
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+    <div class="px-2 pt-2">
       <h3>Niche Catalogue</h3>
       <div class="row pb-5">
         <div
