@@ -5,6 +5,12 @@
   width: 100%;
 }
 
+.all-niches-carousel {
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
 .niche-image:hover {
   overflow: hidden;
   display: block;

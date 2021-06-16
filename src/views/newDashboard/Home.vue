@@ -16,6 +16,7 @@
           <img
             src="https://pokemongolive.com/img/posts/anniversaryposter2019.jpg"
             alt="Cheetah!"
+            style="object-fit: cover"
           />
         </el-carousel-item>
       </el-carousel>
