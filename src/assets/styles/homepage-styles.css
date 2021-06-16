@@ -1,0 +1,27 @@
+.niche-image {
+  border-radius: 3px;
+  background-size: cover;
+  height: 150px;
+  width: 100%;
+}
+
+.niche-image:hover {
+  overflow: hidden;
+  display: block;
+  background-size: cover;
+  opacity: 0.6;
+  height: 150px;
+  width: 100%;
+  transition: all 0.35s cubic-bezier(0.28, 0.04, 0.18, 0.97);
+  animation: recommend-fade 0.45s cubic-bezier(0.28, 0.04, 0.18, 0.97);
+  animation-fill-mode: forwards;
+}
+
+.niche-description {
+  display: none;
+}
+
+.niche-card-div:hover > .niche-description {
+  display: block;
+  color: black;
+}
