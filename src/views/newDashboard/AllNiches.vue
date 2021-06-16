@@ -26,6 +26,7 @@
             class="niche-card-div niche-image shadow-sm clickable"
             :style="{
               backgroundImage: 'url(' + item.imgUrl + ')',
+              backgroundPosition: 'center',
             }"
             @click="jumpToSpace(item.groupId)"
           >
