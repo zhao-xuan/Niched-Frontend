@@ -43,6 +43,7 @@ export const useComment = (
     const doPostComment = (body: string) => {
       return postCommentCreation({
         thread_id: threadId,
+        user_name: "tomzhao",
         body
       });
     };
