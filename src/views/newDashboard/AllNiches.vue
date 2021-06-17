@@ -26,32 +26,7 @@
     <div class="px-2 pt-2">
       <h3>Niche Catalogue</h3>
       <div class="row pb-5">
-        <div
-          v-for="item in allNiches"
-          :key="item"
-          class="col-6 col-sm-3 py-2 px-2"
-        >
-          <div
-            class="niche-card-div niche-image shadow-sm clickable"
-            :style="{
-              backgroundImage: 'url(' + item.imgUrl + ')',
-              backgroundPosition: 'center',
-            }"
-            @click="jumpToSpace(item.groupId)"
-          >
-            <div class="niche-description px-2 py-2">
-              <b>
-                {{ item.detail }}
-                <br />
-                Members: {{ item.memberList.length }}
-              </b>
-            </div>
-            <!-- <div class="niche-image">hello</div> -->
-          </div>
-          <h6 class="px-1 pt-1 clickable" @click="jumpToSpace(item.groupId)">
-            <b>{{ item.title }}</b>
-          </h6>
-        </div>
+        <NicheCards :niches="allNiches" />
       </div>
     </div>
   </div>
@@ -64,8 +39,10 @@ import { defineComponent, toRefs, reactive, watchEffect } from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { SpacesResponse, fetchSpaces } from "@/api/spaces";
 import { dashboardFixture } from "./fixtures";
+import NicheCards from "@/components/NicheCards.vue";
 
 export default defineComponent({
+  components: { NicheCards },
   name: "Home",
   setup() {
     const router = useRouter();
