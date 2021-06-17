@@ -3,7 +3,18 @@
   <!-- <div class="container shadow py-5 px-4 dashboard-bg"> -->
   <div class="container-fluid">
     <div class="row py-5 niched-bg draw-bg">
-      <div class="col-md-9 pt-2 pb-5 px-4 mx-auto dashboard-bg shadow-lg">
+      <div
+        class="
+          niched-corner
+          col-md-9
+          pt-2
+          pb-5
+          px-4
+          mx-auto
+          dashboard-bg
+          shadow-lg
+        "
+      >
         <div class="pt-2">
           <router-link class="px-2" :to="{ name: 'Home' }">Home </router-link>
           <el-divider direction="vertical"></el-divider>
@@ -18,10 +29,10 @@
           <router-link class="px-2" :to="{ name: 'AllNiches' }">
             Find Niches
           </router-link>
-          <el-divider direction="vertical"></el-divider>
+          <!-- <el-divider direction="vertical"></el-divider>
           <router-link class="px-2" :to="{ name: 'AllEvents' }">
             Find Events</router-link
-          >
+          > -->
         </div>
 
         <hr />
@@ -53,3 +64,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+@import "../assets/styles/homepage-styles.css";
+</style>

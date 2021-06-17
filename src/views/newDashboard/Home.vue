@@ -6,6 +6,9 @@
       </h1>
       <p style="text-align: center">
         TODO: This header part will be improved soon
+        <br />
+        Note 2: This page will be refactored soon to reuse Custom Vue components
+        that I still need to refactor out
       </p>
       <!-- <h1 class="px-2" style="text-align: center">Welcome to Niched!</h1> -->
     </div>

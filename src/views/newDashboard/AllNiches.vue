@@ -1,6 +1,11 @@
 <template>
   <div v-loading.fullscreen.lock="fetching">
     <div class="px-2 pt-2">
+      <div class="row">
+        <div class="col" style="color: red">
+          <i class="el-icon-trophy"></i> Trending Spaces
+        </div>
+      </div>
       <el-carousel indicator-position="outside">
         <el-carousel-item v-for="item in popularNiches" :key="item">
           <div
@@ -15,7 +20,7 @@
       </el-carousel>
     </div>
     <div class="px-2 pt-2">
-      <h3>Niche Catalogue</h3>
+      <h3>Space Catalogue</h3>
       <div class="row pb-5">
         <div
           v-for="item in allNiches"

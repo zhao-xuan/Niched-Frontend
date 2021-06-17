@@ -35,3 +35,7 @@
 .clickable {
   cursor: pointer;
 }
+
+.niched-corner {
+  border-radius: 4px;
+}
