@@ -6,7 +6,7 @@
           <i class="el-icon-date"></i> Upcoming Events
         </div>
       </div>
-      <el-carousel height="300px" direction="vertical" :autoplay="false">
+      <el-carousel indicator-position="outside">
         <el-carousel-item v-for="item in 4" :key="item">
           <div
             class="all-niches-carousel clickable"
@@ -16,26 +16,18 @@
               backgroundPosition: 'center',
             }"
             @click="jumpToSpace(item.groupId)"
-          ></div>
-        </el-carousel-item>
-      </el-carousel>
-      <el-carousel indicator-position="outside">
-        <el-carousel-item v-for="item in popularNiches" :key="item">
-          <div
-            class="all-niches-carousel clickable"
-            :style="{
-              backgroundImage: 'url(' + item.imgUrl + ' )',
-              backgroundPosition: 'center',
-            }"
-            @click="jumpToSpace(item.groupId)"
-          ></div>
+          >
+            <h2 class="py-4" style="color: white; text-align: center">
+              Event Title Here + some CSS to look good
+            </h2>
+          </div>
         </el-carousel-item>
       </el-carousel>
     </div>
 
     <div class="pt-2">
-      <el-card class="box-card">
-        <h5>Your Upcoming Events</h5>
+      <el-card class="box-card" style="border-radius: 4px" shadow="hover">
+        <h5>Your Events</h5>
         <el-table
           ref="filterTable"
           :data="
@@ -120,14 +112,16 @@ export default {
       tableData: [
         {
           date: "2016-05-03",
-          space: "Tom",
-          details: "No. 189, Grove St, Los Angeles",
+          space: "CSGO",
+          details:
+            "There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?",
           status: "Going",
         },
         {
           date: "2016-05-02",
-          space: "John",
-          details: "No. 189, Grove St, Los Angeles",
+          space: "Ramen Lovers",
+          details:
+            "let's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. ",
           status: "Going",
         },
         {
@@ -139,7 +133,8 @@ export default {
         {
           date: "2016-05-01",
           space: "Jessy",
-          details: "No. 189, Grove St, Los Angeles",
+          details:
+            "There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid ",
           status: "Interested",
         },
       ],
@@ -165,3 +160,7 @@ export default {
   },
 };
 </script>
+
+<style>
+@import "../../assets/styles/niched-styles.css";
+</style>

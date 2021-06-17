@@ -206,5 +206,5 @@ export default defineComponent({
 });
 </script>
 <style>
-@import "../../assets/styles/homepage-styles.css";
+@import "../../assets/styles/niched-styles.css";
 </style>

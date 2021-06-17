@@ -2,7 +2,7 @@
   <TopBar />
   <!-- <div class="container shadow py-5 px-4 dashboard-bg"> -->
   <div class="container-fluid">
-    <div class="row py-5 niched-bg draw-bg">
+    <div class="row py-5">
       <div
         class="
           niched-corner
@@ -13,6 +13,7 @@
           mx-auto
           dashboard-bg
           shadow-lg
+          home-card-bg
         "
       >
         <div class="pt-2">
@@ -66,5 +67,6 @@ export default defineComponent({
 </script>
 
 <style>
-@import "../assets/styles/homepage-styles.css";
+@import "../assets/styles/niched-styles.css";
+@import "../assets/styles/niched-styles.css";
 </style>
