@@ -18,16 +18,7 @@
               backgroundPosition: 'center',
               height: '400px',
             }"
-          >
-            <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-                <!-- <h2 class="pt-5 my-4">
-
-                {{ "Apple WWDC Event Watching Session" }}
-              </h2> -->
-              </div>
-            </div>
-          </div>
+          ></div>
 
           <div class="row justify-content-between">
             <div class="col-sm-12 col-md-8">
@@ -55,13 +46,80 @@
           <div class="row pb-4 px-4">
             <div class="col-md-8">
               <el-tabs v-model="selectedTab">
-                <el-tab-pane name="threads">
+                <el-tab-pane name="threads" class="px-3">
                   <template #label>
                     <span
                       ><i class="el-icon-chat-line-square"></i> Threads</span
                     >
                   </template>
-                  <el-card
+
+                  <div
+                    v-for="(thread, i) in threads.slice().reverse()"
+                    :key="thread.threadId"
+                  >
+                    <card class="mt-3 px-3">
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img
+                            class="rounded-circle pl-1"
+                            :src="`https://randomuser.me/api/portraits/men/${i}.jpg`"
+                            style="width: 32px"
+                          />
+                          <div
+                            class="font-size: 4px ml-2"
+                            style="font-weight: 300"
+                          >
+                            {{ thread.authorId }}
+                          </div>
+                        </div>
+                        <div class="text-secondary" style="font-weight: 400">
+                          {{
+                            new Date(thread.creationDate)
+                              .toLocaleString()
+                              .split(",")[0]
+                          }}
+                        </div>
+                      </div>
+                      <div>
+                        <div>
+                          <div>
+                            <b>{{ thread.title }}</b>
+                          </div>
+                        </div>
+                        <div class="text item">
+                          {{ thread.description }}
+                        </div>
+                      </div>
+                      <div
+                        class="
+                          d-flex
+                          align-items-center
+                          justify-content-between
+                          font-weight-light
+                          mx-1
+                        "
+                      >
+                        <div class="d-flex">
+                          <div class="mr-3">
+                            <i class="el-icon-s-comment" /><b>{{
+                              Math.floor(Math.random() * 100 + 1)
+                            }}</b>
+                          </div>
+                          <div><i class="el-icon-share" />share</div>
+                        </div>
+                        <div>
+                          <button
+                            type="button"
+                            class="btn btn-info"
+                            @click="jumpToThread(thread.threadId)"
+                          >
+                            Reply!
+                          </button>
+                        </div>
+                      </div>
+                    </card>
+                  </div>
+                  <!-- <el-card
                     shadow="hover"
                     v-for="thread in threads.slice().reverse()"
                     :key="thread.threadId"
@@ -88,7 +146,7 @@
                     <div class="text item">
                       {{ thread.description }}
                     </div>
-                  </el-card>
+                  </el-card> -->
                 </el-tab-pane>
 
                 <el-tab-pane name="events">
@@ -195,9 +253,10 @@ import Members from "@/components/Members.vue";
 import { useState } from "@/state";
 import { usePost } from "@/hooks/usePost";
 import { postJoinGroup, postLeaveGroup } from "@/api/space";
+import Card from "@/components/Card.vue";
 export default defineComponent({
   name: "Space",
-  components: { TopBar, AboutSpace, CreateThread, CreateEvent, Members },
+  components: { TopBar, AboutSpace, CreateThread, CreateEvent, Members, Card },
   setup() {
     const postingThread = ref(false);
     const postingEvent = ref(false);
