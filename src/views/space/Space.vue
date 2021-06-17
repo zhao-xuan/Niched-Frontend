@@ -42,7 +42,8 @@
                     @click="onJoinGroup()"
                     type="primary"
                     :plain="joinedGroup"
-                    class="w-100"
+                    :loading="joiningGroupStatus || leavingGroupStatus"
+                    :icon="joinedGroup && 'el-icon-check'"
                   >
                     <b> {{ joinedGroup ? "Joined" : "Join" }}</b>
                   </el-button>
@@ -231,8 +232,8 @@ export default defineComponent({
       joinedGroup.value = members.includes(userName.value);
     });
 
-    watch([joiningGroupStatus, leavingGroupStatus], ([cp, cd], [pp, pd]) => {
-      if ((!cp && pp) || (!cd && pd)) {
+    watch([joiningGroupStatus, leavingGroupStatus], ([cj, cl], [pj, pl]) => {
+      if ((!cj && pj) || (!cl && pl)) {
         //fetch after posting event status is completed
         doFetchSpace();
       }
@@ -266,8 +267,8 @@ export default defineComponent({
     };
 
     const jumpToThread = (threadId: string) => {
-      router.push({ path : `/thread/${groupId}/${threadId}` });
-    }
+      router.push({ path: `/thread/${groupId}/${threadId}` });
+    };
 
     watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
       //reload events data when posting new event/thread ends
@@ -305,6 +306,9 @@ export default defineComponent({
 
       joinedGroup,
       onJoinGroup,
+
+      joiningGroupStatus,
+      leavingGroupStatus,
     };
   },
 });
