@@ -56,41 +56,32 @@
                     v-model="description"
                   />
                 </div>
-                <div class="card my-2">
-                  <div class="card-body">
-                    <h5 class="card-title">Select Relevant Tags</h5>
-                    <p class="card-text">
-                      <el-check-tag
-                        class="mx-1 my-1"
-                        :key="tag"
-                        v-for="(tag, index) in dynamicTags"
-                        :disable-transitions="false"
-                        @change="onChangeSelectInterest(index)"
-                        :checked="isTagSelected[index]"
-                      >
-                        {{ tag }}
-                      </el-check-tag>
-                      <el-input
-                        class="input-new-tag"
-                        v-if="inputVisible"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="mini"
-                        @keyup.enter="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        placeholder="Enter a new interest of yours and then hit Enter"
-                      >
-                      </el-input>
-                      <el-button
-                        v-else
-                        class="button-new-tag"
-                        size="small"
-                        @click="showInput"
-                        >+ New Tag</el-button
-                      >
-                    </p>
-                  </div>
-                </div>
+                <el-tag
+                  class="mx-1 my-1"
+                  :key="tag"
+                  v-for="tag in dynamicTags"
+                  closable
+                  :disable-transitions="false"
+                  @close="handleClose(tag)"
+                >
+                  {{ tag }}
+                </el-tag>
+                <el-input
+                  class="input-new-tag w-25"
+                  v-if="inputVisible"
+                  v-model="inputValue"
+                  size="mini"
+                  @keyup.enter="handleInputConfirm"
+                  @blur="handleInputConfirm"
+                >
+                </el-input>
+                <el-button
+                  v-else
+                  class="button-new-tag"
+                  size="mini"
+                  @click="showInput"
+                  >+ New Tag</el-button
+                >
               </form>
               <button class="btn btn-primary m-2" @click="onSubmit">
                 Create
@@ -117,18 +108,7 @@ export default defineComponent({
     const description = ref("");
     const imgUrl = ref("");
 
-    const dynamicTags = ref([
-      "Badminton",
-      "Music",
-      "Game Of Thrones",
-      "The UK",
-      "Attack On Titans",
-      "Piano",
-      "Drums",
-      "Antarctica",
-      "Dog",
-    ]);
-    const isTagSelected = ref([true, false, true]);
+    const dynamicTags = ref(["badminton", "programming"]);
     const inputVisible = ref(false);
     const inputValue = ref("");
 
@@ -155,19 +135,16 @@ export default defineComponent({
         description: description.value,
         group_id: id.value,
         image_url: imgUrl.value,
-        tags: dynamicTags.value.filter((_, i) => isTagSelected.value[i]),
+        tags: dynamicTags.value,
       });
     };
 
     const handleClose = (tag: string) => {
-      dynamicTags.value = dynamicTags.value.splice(
-        dynamicTags.value.indexOf(tag),
-        1
-      );
+      dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1);
     };
 
     const showInput = () => {
-      inputVisible.value = !inputVisible.value;
+      inputVisible.value = true;
     };
 
     const handleInputConfirm = () => {
@@ -178,10 +155,6 @@ export default defineComponent({
       inputValue.value = "";
     };
 
-    const onChangeSelectInterest = (i: number) => {
-      isTagSelected.value[i] = !isTagSelected.value[i];
-    };
-
     return {
       id,
       name,
@@ -190,14 +163,12 @@ export default defineComponent({
       onSubmit,
 
       dynamicTags,
-      isTagSelected,
       inputVisible,
       inputValue,
 
       showInput,
       handleClose,
       handleInputConfirm,
-      onChangeSelectInterest,
     };
   },
 });
