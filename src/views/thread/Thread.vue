@@ -2,9 +2,7 @@
   <TopBar />
   <div
     class="container-fluid"
-    v-loading.fullscreen.lock="
-      postingEvent || postingThread || fetchingEvents || fetchingThreads
-    "
+    v-loading.fullscreen.lock="fetchingThread | fetchingComments"
   >
     <div class="row py-5 px-4 niched-bg">
       <div class="col-md-10 mx-auto">
@@ -48,37 +46,88 @@
                       <p class="card-text">
                         {{ threadDescription }}
                       </p>
-                      <a href="#" class="btn btn-primary mr-3">Like</a>
-                      <a href="#" class="btn btn-primary mr-3">Comment</a>
-                      <a href="#" class="btn btn-primary mr-3">Add A Related Event</a>
+                      <a class="btn btn-primary mr-3">Like</a>
+                      <a
+                        class="btn btn-primary mr-3"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        >Comment</a
+                      >
+                      <!-- Modal -->
+                      <div
+                        class="modal fade"
+                        id="exampleModal"
+                        tabindex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">
+                                Modal title
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                              <textarea
+                                type="text"
+                                class="form-control"
+                                rows="3"
+                                placeholder="Enter your comment"
+                                v-model="commentBody"
+                              ></textarea>
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                Close
+                              </button>
+                              <button type="button" class="btn btn-primary" @click="submitComment()" data-bs-dismiss="modal">
+                                Submit
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="#" class="btn btn-primary mr-3"
+                        >Add A Related Event</a
+                      >
                     </div>
                   </div>
                   <el-card
                     class="m-3"
                     shadow="hover"
-                    v-for="thread in threads.slice().reverse()"
-                    :key="thread.threadId"
+                    v-for="comment in comments.slice().reverse()"
+                    :key="comment.commentId"
                   >
                     <template #header>
                       <div class="d-flex flex-row justify-content-between">
-                        <div>
+                        <!-- <div>
                           <span
-                            ><b>{{ thread.title /* This should be replaced by thread comment title */ }}</b></span
+                            ><b>{{ comment.title /* This should be replaced by thread comment title */ }}</b></span
                           >
-                        </div>
+                        </div> -->
                         <div>
                           <el-button type="text"
-                            >{{
-                              spaceCreationDate.split("-")[1] +
-                              "/" +
-                              spaceCreationDate.split("-")[0] /* This should be replaced by thread comment creation date */
-                            }}<b>@{{ thread.authorId }}</b></el-button
+                            >{{ comment.creationDate
+                            }}<b>@{{ comment.userName }}</b></el-button
                           >
                         </div>
                       </div>
                     </template>
                     <div class="text item">
-                      {{ thread.description /* This should be replaced by thread comment content */ }}
+                      {{
+                        comment.body /* This should be replaced by thread comment content */
+                      }}
                     </div>
                   </el-card>
                 </el-tab-pane>
@@ -95,7 +144,9 @@
                             <a href="https://www.google.co.uk">
                               <b
                                 ><font color="#FF7744">Event: </font
-                                >{{ title /* This should be replaced by thread related event title */ }}</b
+                                >{{
+                                  title /* This should be replaced by thread related event title */
+                                }}</b
                               >
                             </a>
                           </span>
@@ -165,14 +216,14 @@
                       </div>
                       <div>members</div>
                     </div>
-                    <div class="font-weight-bold">
+                    <!-- <div class="font-weight-bold">
                       {{ threads.length }}
                       <div class="font-weight-bold">threads</div>
                     </div>
                     <div class="font-weight-bold">
                       {{ events.length }}
                       <div class="font-weight-bold">events</div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="border-top pt-2 text-muted font-weight-bold">
                     created :
@@ -184,7 +235,7 @@
                   </div>
                 </div>
               </el-card>
-              <CreateEvent v-model:postingEvent="postingEvent" />
+              <!-- <CreateEvent v-model:postingEvent="postingEvent" /> -->
             </div>
           </div>
         </div>
@@ -198,53 +249,60 @@ import TopBar from "../Topbar.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
+import { useComment } from "@/hooks/useComment";
 import { useThread, useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
-import CreateEvent from "../event/CreateEvent.vue";
 export default defineComponent({
   name: "Thread",
-  components: { TopBar, CreateEvent },
+  components: { TopBar },
   setup() {
-    const postingThread = ref(false);
-    const postingEvent = ref(false);
-
+    const commentBody = ref("test");
     const router = useRouter();
     const route = useRoute();
     const groupId = route.params.groupId as string;
     const threadId = route.params.threadId as string;
 
-    const { name, imageUrl, description: spaceDescription, members, creationDate: spaceCreationDate } = useSpace(
-      groupId,
-      true
-    );
+    const {
+      name,
+      imageUrl,
+      description: spaceDescription,
+      members,
+      creationDate: spaceCreationDate,
+    } = useSpace(groupId, true);
 
     const {
-      events,
-      fetching: fetchingEvents,
-      doFetch: doFetchEvents,
-    } = useEvents(groupId, true);
+      title,
+      description: threadDescription,
+      creationDate: threadCreationDate,
+      fetching: fetchingThread
+    } = useThread(threadId, true);
 
     const {
-      threads,
-      fetching: fetchingThreads,
-      doFetch: doFetchThreads,
-    } = useThreads(groupId, true);
-
-    const { title, description : threadDescription, creationDate: threadCreationDate } = useThread(threadId, true);
+      comments,
+      fetching: fetchingComments,
+      doPostComment,
+      doFetch
+    } = useComment(threadId, true);
 
     const jumpToEvent = (eventId: string) => {
       router.push({ path: `/event/${groupId}/${eventId}` });
     };
 
-    watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
-      //reload events data when posting new event/thread ends
-      if (!ce && oe) {
-        doFetchEvents();
-      }
-      if (!ct && ot) {
-        doFetchThreads();
-      }
-    });
+    const submitComment = () => {
+      doPostComment(commentBody.value).then(() => {
+        doFetch();
+      });
+    }
+
+    // watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
+    //   //reload events data when posting new event/thread ends
+    //   if (!ce && oe) {
+    //     doFetchEvents();
+    //   }
+    //   if (!ct && ot) {
+    //     doFetchThreads();
+    //   }
+    // });
 
     return {
       name,
@@ -253,19 +311,17 @@ export default defineComponent({
       members,
       spaceCreationDate,
 
-      events,
-      fetchingEvents,
-      postingEvent,
-
-      threads,
-      fetchingThreads,
-      postingThread,
-
       title,
       threadDescription,
       threadCreationDate,
+      fetchingThread,
 
       jumpToEvent,
+      submitComment,
+
+      comments,
+      commentBody,
+      fetchingComments,
     };
   },
 });
