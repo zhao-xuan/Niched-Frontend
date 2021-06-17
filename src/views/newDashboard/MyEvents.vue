@@ -1,9 +1,22 @@
 <template>
   <div>
     <div class="px-2 pt-2">
-      <el-carousel height="200px" direction="vertical" :autoplay="false">
+      <div class="row">
+        <div class="col" style="color: red">
+          <i class="el-icon-date"></i> Upcoming Events
+        </div>
+      </div>
+      <el-carousel height="300px" direction="vertical" :autoplay="false">
         <el-carousel-item v-for="item in 4" :key="item">
-          <h3 class="medium">{{ item }}</h3>
+          <div
+            class="all-niches-carousel clickable"
+            :style="{
+              backgroundImage:
+                'url(https://pokemongolive.com/img/posts/anniversaryposter2019.jpg)',
+              backgroundPosition: 'center',
+            }"
+            @click="jumpToSpace(item.groupId)"
+          ></div>
         </el-carousel-item>
       </el-carousel>
       <el-carousel indicator-position="outside">
@@ -21,9 +34,8 @@
     </div>
 
     <div class="pt-2">
-      <h3>Your Upcoming Events</h3>
       <el-card class="box-card">
-        <h5>All Events</h5>
+        <h5>Your Upcoming Events</h5>
         <el-table
           ref="filterTable"
           :data="

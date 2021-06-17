@@ -3,7 +3,7 @@
     <div class="px-2 pt-2">
       <div class="row">
         <div class="col" style="color: red">
-          <i class="el-icon-trophy"></i> Trending Spaces
+          <i class="el-icon-trophy"></i> Trending Niches
         </div>
       </div>
       <el-carousel indicator-position="outside">
@@ -15,12 +15,16 @@
               backgroundPosition: 'center',
             }"
             @click="jumpToSpace(item.groupId)"
-          ></div>
+          >
+            <h2 class="py-4" style="color: white; text-align: center">
+              {{ item.title }}
+            </h2>
+          </div>
         </el-carousel-item>
       </el-carousel>
     </div>
     <div class="px-2 pt-2">
-      <h3>Space Catalogue</h3>
+      <h3>Niche Catalogue</h3>
       <div class="row pb-5">
         <div
           v-for="item in allNiches"
