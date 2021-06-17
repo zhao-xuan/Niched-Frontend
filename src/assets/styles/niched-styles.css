@@ -1,18 +1,22 @@
 body {
-    background: transparent;
-  }
-  
-.niched-bg {
-    background: linear-gradient(#4B6B7F, #575071);
-}
-.topbar {
-    background-color: #4B6B7F;
+  background: transparent;
 }
 
-html { 
-    background:  linear-gradient(#4B6B7F, #575071) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
+.niched-bg {
+  background-color: #e7e7ee;
+}
+
+.dashboard-bg {
+  background-color: white;
+}
+.topbar {
+  background-color: white;
+}
+
+html {
+  background-color: #e7e7ee;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
