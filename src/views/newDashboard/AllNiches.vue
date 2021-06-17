@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="fetching">
     <div class="px-2 pt-2">
       <el-carousel indicator-position="outside">
         <el-carousel-item v-for="item in popularNiches" :key="item">

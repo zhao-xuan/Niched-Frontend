@@ -5,11 +5,23 @@
     <div class="row py-5 niched-bg draw-bg">
       <div class="col-md-9 pt-2 pb-5 px-4 mx-auto dashboard-bg shadow-lg">
         <div class="pt-2">
-          <router-link :to="{ name: 'Home' }">Home </router-link>|
-          <router-link :to="{ name: 'MyNiches' }">My Events </router-link>|
-          <router-link :to="{ name: 'MyEvents' }">Home </router-link>|
-          <router-link :to="{ name: 'AllNiches' }">Find Niches </router-link>|
-          <router-link :to="{ name: 'AllEvents' }">Find Events </router-link>
+          <router-link class="px-2" :to="{ name: 'Home' }">Home </router-link>
+          <el-divider direction="vertical"></el-divider>
+          <router-link class="px-2" :to="{ name: 'MyNiches' }"
+            >My Niches</router-link
+          >
+          <el-divider direction="vertical"></el-divider>
+          <router-link class="px-2" :to="{ name: 'MyEvents' }">
+            My Events
+          </router-link>
+          <el-divider direction="vertical"></el-divider>
+          <router-link class="px-2" :to="{ name: 'AllNiches' }">
+            Find Niches
+          </router-link>
+          <el-divider direction="vertical"></el-divider>
+          <router-link class="px-2" :to="{ name: 'AllEvents' }">
+            Find Events</router-link
+          >
         </div>
 
         <hr />
@@ -20,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import TopBar from "../Topbar.vue";
+import TopBar from "./Topbar.vue";
 import { ref, defineComponent, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useState } from "@/state";
