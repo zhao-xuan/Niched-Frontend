@@ -76,9 +76,8 @@
                         </div>
                         <div>
                           <el-button type="text"
-                            ><b>{{
-                              new Date(thread.creationDate).toLocaleString() +
-                              " @" +
+                            ><b>{{ Moment(thread.creationDate).fromNow() +
+                              " @ " +
                               thread.authorId
                             }}</b></el-button
                           >
@@ -118,7 +117,7 @@
                             margin-top: -10px;
                             text-align: right;
                           "
-                          >{{ new Date(event.eventDate).toLocaleString()
+                          >{{ Moment(event.eventDate).format('LLL')
                           }}<br /><b>@{{ event.authorId }}</b></el-button
                         >
                       </div>
@@ -195,6 +194,8 @@ import Members from "@/components/Members.vue";
 import { useState } from "@/state";
 import { usePost } from "@/hooks/usePost";
 import { postJoinGroup, postLeaveGroup } from "@/api/space";
+import Moment from 'moment';
+
 export default defineComponent({
   name: "Space",
   components: { TopBar, AboutSpace, CreateThread, CreateEvent, Members },
@@ -309,6 +310,8 @@ export default defineComponent({
 
       joiningGroupStatus,
       leavingGroupStatus,
+
+      Moment,
     };
   },
 });
