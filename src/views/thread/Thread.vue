@@ -118,8 +118,8 @@
                         </div> -->
                         <div>
                           <el-button type="text"
-                            >{{ comment.creationDate
-                            }}<b>@{{ comment.userName }}</b></el-button
+                            >{{ Moment(comment.creationDate).fromNow()
+                            }}<b>&nbsp;@&nbsp;{{ comment.userName }}</b></el-button
                           >
                         </div>
                       </div>
@@ -157,14 +157,14 @@
                               margin-top: -10px;
                               text-align: right;
                             "
-                            >{{ creationDate }}<br /><b
-                              >@{{ authorId }}</b
+                            >{{ Moment(creationDate).calendar() }}<br /><b
+                              >&nbsp;@&nbsp;{{ authorId }}</b
                             ></el-button
                           >
                         </div>
                       </template>
                       <div class="text item pb-3">
-                        <b> Date and Time: {{ eventDate }} </b>
+                        <b> Date and Time: {{ Moment(eventDate).calendar() }} </b>
                       </div>
                       <div class="text item pb-3">
                         {{ "eventDescription" }}
@@ -246,12 +246,14 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent, watch } from "vue";
+import { ref, defineComponent } from "vue";
 import { useSpace } from "@/hooks/useSpace";
-import { useEvents } from "@/hooks/useEvent";
 import { useComment } from "@/hooks/useComment";
 import { useThread, useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
+import Moment from 'moment';
+
+
 export default defineComponent({
   name: "Thread",
   components: { TopBar },
@@ -294,17 +296,8 @@ export default defineComponent({
       });
     }
 
-    // watch([postingEvent, postingThread], ([ce, ct], [oe, ot]) => {
-    //   //reload events data when posting new event/thread ends
-    //   if (!ce && oe) {
-    //     doFetchEvents();
-    //   }
-    //   if (!ct && ot) {
-    //     doFetchThreads();
-    //   }
-    // });
-
     return {
+      Moment,
       name,
       imageUrl,
       spaceDescription,
