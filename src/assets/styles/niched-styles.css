@@ -4,10 +4,14 @@ body {
   }
   
 .niched-bg {
-    background: linear-gradient(#4B6B7F, #575071);
+  background-color: #e7e7ee;
+}
+
+.dashboard-bg {
+  background-color: white;
 }
 .topbar {
-    background-color: #4B6B7F;
+  background-color: white;
 }
 
 html { 
