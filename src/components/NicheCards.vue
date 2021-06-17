@@ -18,10 +18,15 @@
         </div>
       </div>
     </div>
-    <div class="niche-card-header px-2">
-      {{ item.title }}
-      <br />
-      {{ item.detail }}
+    <div class="row niche-card-header px-2">
+      <div class="col-sm-10">
+        {{ item.title }}
+        <br />
+        {{ item.detail }}
+      </div>
+      <div class="col-sm-2 d-flex justify-content-end">
+        <i class="el-icon-user"> {{ item.memberList.length }}</i>
+      </div>
     </div>
   </div>
 </template>
