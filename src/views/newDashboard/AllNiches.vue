@@ -9,16 +9,25 @@
       <el-carousel indicator-position="outside">
         <el-carousel-item v-for="item in popularNiches" :key="item">
           <div
-            class="all-niches-carousel clickable"
+            class="all-niches-carousel header-carousel-parent clickable"
             :style="{
               backgroundImage: 'url(' + item.imgUrl + ' )',
               backgroundPosition: 'center',
             }"
             @click="jumpToSpace(item.groupId)"
           >
-            <h2 class="py-4" style="color: white; text-align: center">
-              {{ item.title }}
-            </h2>
+            <div class="header-carousel-overlay">
+              <!-- <div class="niche-description px-2 py-2"></div> -->
+            </div>
+          </div>
+          <div class="row header-carousel-header px-5">
+            <div class="col-sm-10">
+              <h4 class="pb-3">{{ item.title }}</h4>
+              <h6>{{ item.detail }}</h6>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-end">
+              <i class="el-icon-user"> {{ item.memberList.length }}</i>
+            </div>
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -46,7 +55,6 @@
         </div>
       </div>
       <el-tabs v-model="selectedTab" @tab-click="handleClick">
-        <el-tab-pane label="Your Niches" name="userniche"></el-tab-pane>
         <el-tab-pane label="Catalogue" name="catalogue">
           <div class="row pb-5 px-2">
             <NicheCards
@@ -60,6 +68,8 @@
             />
           </div>
         </el-tab-pane>
+
+        <el-tab-pane label="Your Niches" name="userniche"></el-tab-pane>
       </el-tabs>
     </div>
   </div>

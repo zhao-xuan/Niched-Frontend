@@ -13,15 +13,7 @@
       }"
       @click="jumpToSpace(item.groupId)"
     >
-      <div class="niched-card-overlay">
-        <div class="niche-description px-2 py-2">
-          <b>
-            {{ item.detail }}
-            <br />
-            Members: {{ item.memberList.length }}
-          </b>
-        </div>
-      </div>
+      <div class="niched-card-overlay"></div>
     </div>
     <div class="row niche-card-header px-2">
       <div class="col-sm-10">

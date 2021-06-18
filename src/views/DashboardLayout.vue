@@ -19,16 +19,8 @@
         <div class="pt-2">
           <router-link class="px-2" :to="{ name: 'Home' }">Home </router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link class="px-2" :to="{ name: 'MyNiches' }"
-            >My Niches</router-link
-          >
-          <el-divider direction="vertical"></el-divider>
           <router-link class="px-2" :to="{ name: 'MyEvents' }">
             My Events
-          </router-link>
-          <el-divider direction="vertical"></el-divider>
-          <router-link class="px-2" :to="{ name: 'AllNiches' }">
-            Find Niches
           </router-link>
           <!-- <el-divider direction="vertical"></el-divider>
           <router-link class="px-2" :to="{ name: 'AllEvents' }">

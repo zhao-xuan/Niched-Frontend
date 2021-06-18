@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/home",
         name: "Home",
-        components: { default: Home },
+        components: { default: AllNiches },
       },
       {
         path: "/my-niches",
