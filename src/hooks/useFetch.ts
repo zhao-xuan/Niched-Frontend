@@ -36,7 +36,11 @@ export const useFetch = <Response>(
         const axiosError: AxiosError = error.value as AxiosError;
         if (axiosError.response?.data) {
           console.log(axiosError.response?.data?.detail);
-          alert(axiosError.response?.data?.detail.msg);
+          if (axiosError.response?.data?.detail.msg) {
+            alert(axiosError.response?.data?.detail.msg);
+          } else {
+            alert("something went wrong please try it again!");
+          }
         }
       } else {
         alert(error.value.message);
@@ -45,6 +49,7 @@ export const useFetch = <Response>(
   });
 
   const doFetch = async () => {
+    if (fetching.value) return;
     init();
     fetching.value = true;
     try {

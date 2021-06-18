@@ -1,5 +1,5 @@
 import { Ref, ref, ToRefs, watch } from "vue";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 
 export type PostType = {
   posting: boolean;
@@ -35,7 +35,11 @@ export const usePost = <Request, Response>(
         const axiosError: AxiosError = error.value as AxiosError;
         if (axiosError.response?.data) {
           console.log(axiosError.response?.data?.detail);
-          alert(axiosError.response?.data?.detail.msg);
+          if (axiosError.response?.data?.detail.msg) {
+            alert(axiosError.response?.data?.detail.msg);
+          } else {
+            alert("something went wrong please try it again!");
+          }
         }
       } else {
         alert(error.value.message);
@@ -44,6 +48,7 @@ export const usePost = <Request, Response>(
   });
 
   const doPost = async (req: Request) => {
+    if (posting.value) return;
     init();
     posting.value = true;
     try {

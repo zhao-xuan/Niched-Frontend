@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-sm topbar">
     <div class="container-fluid">
       <a class="navbar-brand" href="/home"
-        ><h1 class="text-light ml-0 pl-0">niched</h1>
+        ><h1 class="text-dark ml-0 pl-0">niched</h1>
       </a>
       <button
         class="navbar-toggler"
@@ -39,24 +39,50 @@
           @input="onChange"
         />
 
-        <button class="btn btn-info m-2 my-sm-0" @click="jumpToCreateSpace">
-          Create Space
+        <button class="btn btn-outline-success m-2 my-sm-0" @click="jumpToCreateSpace">
+          <div class="mx-1 my-1">Create&nbsp;Space</div>
         </button>
         <button
-          class="
-            btn btn-warning
-            m-2
-            my-sm-0
-            d-flex
-            flex-row
-            justify-content-around
-          "
+          class="btn btn-primary m-2 my-sm-0"
           @click="jumpToProfile"
+          v-if="!loggedIn"
         >
-          <el-avatar v-show="loggedIn" icon="el-icon-user-solid" />
-          <span v-show="loggedIn" class="my-2 ml-3">{{ userName }}</span>
-          <div v-show="!loggedIn">sign up!</div>
+          <div v-if="!loggedIn" class="mx-1 my-1">Login</div>
         </button>
+        <el-popover placement="top" :width="160" v-model:visible="visible">
+          <div>
+          <button
+            class="btn btn-outline-info w-100 my-1"
+            @click="jumpToProfile"
+            v-if="loggedIn"
+          >
+            <div v-if="loggedIn">My&nbsp;Profile</div>
+          </button>
+          <button
+            class="btn btn-outline-info w-100 my-1"
+            @click="onLogout"
+            v-if="loggedIn"
+          >
+            <div v-if="loggedIn">Logout</div>
+          </button>
+          </div>
+          <template #reference>
+            <div>
+            <button
+              class="btn btn-info m-2 my-sm-0 d-flex topbar-btn"
+              v-if="loggedIn"
+            >
+              <el-avatar
+                class="mt-1"
+                v-if="loggedIn"
+                icon="el-icon-user-solid"
+                size="small"
+              />
+              <span v-if="loggedIn" class="my-1 ml-3">{{ userName }}</span>
+            </button>
+            </div>
+          </template>
+        </el-popover>
       </div>
     </div>
   </nav>
@@ -74,7 +100,7 @@ export default defineComponent({
     };
     const router = useRouter();
 
-    const { userName, loggedIn } = useState();
+    const { userName, loggedIn, unsetUserState } = useState();
     return {
       onChange,
       jumpToCreateSpace() {
@@ -93,6 +119,9 @@ export default defineComponent({
             params: { userName: userName.value },
           });
         }
+      },
+      onLogout() {
+        unsetUserState();
       },
       loggedIn,
       userName,
