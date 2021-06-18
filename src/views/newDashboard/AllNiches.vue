@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="fetching">
     <div class="px-2 pt-2">
       <el-carousel indicator-position="outside">
         <el-carousel-item v-for="item in popularNiches" :key="item">
@@ -51,10 +51,9 @@
 <script lang="ts">
 import { useRoute, useRouter } from "vue-router";
 import { useState } from "@/state";
-import { defineComponent, toRefs, reactive, watchEffect } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { SpacesResponse, fetchSpaces } from "@/api/spaces";
-import { dashboardFixture } from "./fixtures";
 
 export default defineComponent({
   name: "Home",
@@ -67,7 +66,9 @@ export default defineComponent({
       memberList: string[];
     };
     var randomNiches: Niche[] = [];
-    const { allNiches, popularNiches } = toRefs(reactive(dashboardFixture));
+    // const { allNiches, popularNiches } = toRefs(reactive(dashboardFixture));
+    const allNiches = ref<Niche[]>([]);
+    const popularNiches = ref<Niche[]>([]);
 
     const { fetched, fetching, data } = useFetch<SpacesResponse>(
       fetchSpaces,
@@ -92,7 +93,6 @@ export default defineComponent({
         // Get 6 random niches to display!
         for (let i = 0; i < 6; i++) {
           randomNiches.push(items[Math.floor(Math.random() * items.length)]);
-          console.log(randomNiches);
         }
 
         popularNiches.value = randomNiches;
