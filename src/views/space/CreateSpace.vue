@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid h-100">
+  <div class="container-fluid h-100" v-loading.fullscreen.lock="posting">
     <div class="row d-flex h-100">
       <div class="col-lg-4">
         <div
@@ -169,6 +169,7 @@ export default defineComponent({
       showInput,
       handleClose,
       handleInputConfirm,
+      posting,
     };
   },
 });

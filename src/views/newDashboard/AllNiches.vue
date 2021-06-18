@@ -88,12 +88,11 @@
 </template>
 
 <script lang="ts">
-import { useRouter } from "vue-router";
-import { defineComponent, ref, toRefs, reactive, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useState } from "@/state";
+import { defineComponent, ref, watchEffect } from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { SpacesResponse, fetchSpaces } from "@/api/spaces";
-import { dashboardFixture } from "../../components/fixtures";
-import { useState } from "@/state";
 import NicheCards from "@/components/NicheCards.vue";
 
 export default defineComponent({
@@ -110,9 +109,10 @@ export default defineComponent({
       groupId: string;
     };
     var randomNiches: Niche[] = [];
-    const { allNiches, popularNiches, userNiches } = toRefs(
-      reactive(dashboardFixture)
-    );
+    // const { allNiches, popularNiches } = toRefs(reactive(dashboardFixture));
+    const allNiches = ref<Niche[]>([]);
+    const popularNiches = ref<Niche[]>([]);
+    const userNiches = ref<Niche[]>([]);
 
     const { fetched, fetching, data } = useFetch<SpacesResponse>(
       fetchSpaces,
