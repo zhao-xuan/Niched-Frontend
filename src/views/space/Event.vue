@@ -41,8 +41,7 @@
                       type="text"
                       style="float: right; margin-top: -10px; text-align: right"
                       >{{
-                        "Created on " +
-                        new Date(eventCreationDate).toLocaleString()
+                        "happening at: " + new Date(eventDate).toLocaleString()
                       }}<br /><b>@{{ authorId }}</b></el-button
                     >
                   </div>
@@ -160,7 +159,6 @@ export default defineComponent({
       authorId,
       title,
       description: eventDescription,
-      creationDate: eventCreationDate,
       eventDate,
       tags,
       members,
@@ -234,7 +232,6 @@ export default defineComponent({
       authorId,
       title,
       eventDescription,
-      eventCreationDate,
       eventDate,
       eventGroup,
       tags,

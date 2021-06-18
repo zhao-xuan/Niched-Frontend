@@ -91,7 +91,12 @@
                               >
                                 Close
                               </button>
-                              <button type="button" class="btn btn-primary" @click="submitComment()" data-bs-dismiss="modal">
+                              <button
+                                type="button"
+                                class="btn btn-primary"
+                                @click="submitComment()"
+                                data-bs-dismiss="modal"
+                              >
                                 Submit
                               </button>
                             </div>
@@ -103,33 +108,48 @@
                       >
                     </div>
                   </div>
-                  <el-card
-                    class="m-3"
-                    shadow="hover"
-                    v-for="comment in comments.slice().reverse()"
+                  <div
+                    class="my-3 mr-5"
+                    v-for="(comment, i) in comments"
                     :key="comment.commentId"
                   >
-                    <template #header>
-                      <div class="d-flex flex-row justify-content-between">
-                        <!-- <div>
-                          <span
-                            ><b>{{ comment.title /* This should be replaced by thread comment title */ }}</b></span
-                          >
-                        </div> -->
-                        <div>
-                          <el-button type="text"
-                            >{{ Moment(comment.creationDate).fromNow()
-                            }}<b>&nbsp;@&nbsp;{{ comment.userName }}</b></el-button
-                          >
+                    <card class="mt-3 px-3">
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img
+                            class="rounded-circle"
+                            :src="`https://randomuser.me/api/portraits/men/${i}.jpg`"
+                            style="width: 32px"
+                          />
+                          <div class="ml-2" style="font-weight: 500">
+                            {{ comment.userName }}
+                          </div>
+                        </div>
+                        <div class="text-secondary" style="font-weight: 400">
+                          {{ Moment(comment.creationDate).fromNow() }}
                         </div>
                       </div>
-                    </template>
-                    <div class="text item">
-                      {{
-                        comment.body /* This should be replaced by thread comment content */
-                      }}
-                    </div>
-                  </el-card>
+                      <div class="pl-3">
+                        <div>
+                          <div class="my-1">
+                            {{ comment.body }}
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                          <div class="mr-3">
+                            <i class="el-icon-top" /><b>{{
+                              Math.floor(Math.random() * 100 + 1)
+                            }}</b>
+                          </div>
+                          <div class="mr-3">
+                            <i class="el-icon-bottom" /><b>{{
+                              Math.floor(Math.random() * 100 + 1)
+                            }}</b>
+                          </div>
+                        </div>
+                      </div>
+                    </card>
+                  </div>
                 </el-tab-pane>
 
                 <el-tab-pane label="Events">
@@ -164,7 +184,9 @@
                         </div>
                       </template>
                       <div class="text item pb-3">
-                        <b> Date and Time: {{ Moment(eventDate).calendar() }} </b>
+                        <b>
+                          Date and Time: {{ Moment(eventDate).calendar() }}
+                        </b>
                       </div>
                       <div class="text item pb-3">
                         {{ "eventDescription" }}
@@ -251,12 +273,12 @@ import { useSpace } from "@/hooks/useSpace";
 import { useComment } from "@/hooks/useComment";
 import { useThread, useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
-import Moment from 'moment';
-
+import Card from "@/components/Card.vue";
+import Moment from "moment";
 
 export default defineComponent({
   name: "Thread",
-  components: { TopBar },
+  components: { TopBar, Card },
   setup() {
     const commentBody = ref("test");
     const router = useRouter();
@@ -276,14 +298,14 @@ export default defineComponent({
       title,
       description: threadDescription,
       creationDate: threadCreationDate,
-      fetching: fetchingThread
+      fetching: fetchingThread,
     } = useThread(threadId, true);
 
     const {
       comments,
       fetching: fetchingComments,
       doPostComment,
-      doFetch
+      doFetch,
     } = useComment(threadId, true);
 
     const jumpToEvent = (eventId: string) => {
@@ -294,7 +316,7 @@ export default defineComponent({
       doPostComment(commentBody.value).then(() => {
         doFetch();
       });
-    }
+    };
 
     return {
       Moment,
