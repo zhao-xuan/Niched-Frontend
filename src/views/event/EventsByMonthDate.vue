@@ -25,15 +25,14 @@
             }}
           </div>
           <div class="col-12 col-sm-10">
-            <div style="font-weight: 400; font-size: 14px; color: #a6a6a6">
-              organized by {{ event.authorId }}
-            </div>
             <div>
-              <div>
-                <div>
-                  <b>{{ event.title }}</b>
-                </div>
-              </div>
+              <b>{{ event.title }}</b>
+            </div>
+            <div
+              class="d-flex justify-content-end"
+              style="font-weight: 400; font-size: 14px; color: #a6a6a6"
+            >
+              organized by {{ event.authorId }}
             </div>
           </div>
         </div>

@@ -110,7 +110,7 @@
                             class="btn btn-info"
                             @click="jumpToThread(thread.threadId)"
                           >
-                            Reply!
+                            Join!
                           </button>
                         </div>
                       </div>
@@ -236,7 +236,7 @@ export default defineComponent({
     const sortedEvents = computed(() =>
       [...events.value].sort(
         (a: Event, b: Event) =>
-          Number(new Date(b.eventDate)) - Number(new Date(a.eventDate))
+          Number(new Date(a.eventDate)) - Number(new Date(b.eventDate))
       )
     );
 
