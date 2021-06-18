@@ -70,11 +70,7 @@
                           </div>
                         </div>
                         <div class="text-secondary" style="font-weight: 400">
-                          {{
-                            new Date(thread.creationDate)
-                              .toLocaleString()
-                              .split(",")[0]
-                          }}
+                          {{ Moment(thread.creationDate).fromNow() }}
                         </div>
                       </div>
                       <div>
@@ -197,6 +193,7 @@ import { postJoinGroup, postLeaveGroup } from "@/api/space";
 import Card from "@/components/Card.vue";
 import EventsByMonthDate from "../event/EventsByMonthDate.vue";
 import { Event } from "@/api/event";
+import Moment from "moment";
 
 export default defineComponent({
   name: "Space",
@@ -326,6 +323,8 @@ export default defineComponent({
 
       joiningGroupStatus,
       leavingGroupStatus,
+
+      Moment,
     };
   },
 });
