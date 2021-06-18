@@ -24,51 +24,41 @@
       </el-carousel>
     </div>
     <div class="pt-2">
-      <h5 style="color: red">
-        <i class="el-icon-medal-1"></i> Niche Catalogue
-      </h5>
+      <div class="row justify-content-between">
+        <div class="col-8">
+          <h4 style="color: red">
+            <i class="el-icon-medal-1"></i> Niche Catalogue
+          </h4>
+        </div>
+        <div class="col-4">
+          <div style="color: grey">
+            <div class="">
+              <el-input
+                v-model="search"
+                size="small "
+                placeholder="E.g. Counter Strike"
+              />
+            </div>
+            <div class="px-2" style="float: right">
+              <i class="el-icon-search"></i> Search by Space
+            </div>
+          </div>
+        </div>
+      </div>
       <el-tabs v-model="selectedTab" @tab-click="handleClick">
+        <el-tab-pane label="Your Niches" name="userniche"></el-tab-pane>
         <el-tab-pane label="Catalogue" name="catalogue">
           <div class="row pb-5 px-2">
-            <NicheCards :niches="allNiches" />
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="Search" name="search">
-          <el-card class="box-card" style="border-radius: 4px" shadow="hover">
-            <div style="color: red">
-              <div class="pb-2">
-                <i class="el-icon-search"></i> Search by Space
-              </div>
-              <div class="pb-2">
-                <el-input
-                  v-model="search"
-                  size="small "
-                  placeholder="E.g. Counter Strike"
-                />
-              </div>
-            </div>
-
-            <el-table
-              ref="filterTable"
-              :data="
+            <NicheCards
+              :niches="
                 allNiches.filter(
                   (data) =>
                     !search ||
                     data.title.toLowerCase().includes(search.toLowerCase())
                 )
               "
-              style="width: 100%"
-              :row-class-name="tableRowClassName"
-            >
-              <el-table-column prop="title" label="Title"> </el-table-column>
-              <el-table-column prop="groupId" label="Group ID">
-              </el-table-column>
-              <el-table-column prop="memberList.length" label="Members">
-              </el-table-column>
-              <el-table-column prop="detail" label="Detail" min-width="300">
-              </el-table-column>
-            </el-table>
-          </el-card>
+            />
+          </div>
         </el-tab-pane>
       </el-tabs>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <TopBar />
   <!-- <div class="container shadow py-5 px-4 dashboard-bg"> -->
-  <div class="container-fluid">
+  <div class="container homepage-container">
     <div class="row py-5">
       <div
         class="
@@ -69,4 +69,9 @@ export default defineComponent({
 <style>
 @import "../assets/styles/niched-styles.css";
 @import "../assets/styles/niched-styles.css";
+
+.homepage-container {
+  max-width: 1600px;
+  width: 100%;
+}
 </style>
