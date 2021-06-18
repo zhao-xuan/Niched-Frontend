@@ -9,7 +9,7 @@ import Register from "../views/Register.vue";
 import Playground from "../views/space/Playground.vue";
 import Thread from "../views/thread/Thread.vue";
 
-import DashboardLayout from "../views/newDashboard/DashboardLayout.vue";
+import DashboardLayout from "../views/DashboardLayout.vue";
 import Home from "../views/newDashboard/Home.vue";
 import MyNiches from "../views/newDashboard/MyNiches.vue";
 import MyEvents from "../views/newDashboard/MyEvents.vue";
@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/home",
         name: "Home",
-        components: { default: Home },
+        components: { default: AllNiches },
       },
       {
         path: "/my-niches",
