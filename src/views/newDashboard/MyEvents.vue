@@ -17,9 +17,7 @@
             }"
             @click="jumpToSpace(item.groupId)"
           >
-            <h2 class="py-4" style="color: white; text-align: center">
-              Event Title Here + some CSS to look good
-            </h2>
+            <h2 class="py-4" style="color: white; text-align: center"></h2>
           </div>
         </el-carousel-item>
       </el-carousel>
