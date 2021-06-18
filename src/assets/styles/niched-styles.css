@@ -1,24 +1,135 @@
 body {
-    background: transparent;
-    height: 100%;
-  }
-  
-.niched-bg {
-  background-color: #e7e7ee;
+  background: transparent;
 }
 
-.dashboard-bg {
-  background-color: white;
-}
 .topbar {
-  background-color: white;
+  background-color: whitesmoke;
 }
 
-html { 
-    height: 100%;
-    background:  linear-gradient(#4B6B7F, #575071) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
+.home-card-bg {
+  background-color: ghostwhite;
+}
+
+html {
+  background: rgb(223, 194, 164);
+  background: linear-gradient(23deg, #ddd6f3 0%, #faaca8 100%) no-repeat center
+    center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+draw-bg {
+  background-color: aqua;
+}
+
+.all-niches-carousel {
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.niche-image:hover {
+  overflow: hidden;
+  display: block;
+  background-size: cover;
+  opacity: 0.6;
+  height: 150px;
+  width: 100%;
+  transition: all 0.35s cubic-bezier(0.28, 0.04, 0.18, 0.97);
+  animation: recommend-fade 0.45s cubic-bezier(0.28, 0.04, 0.18, 0.97);
+  animation-fill-mode: forwards;
+}
+
+.niche-card-parent {
+  border-radius: 6px;
+  background-size: cover;
+  height: 150px;
+  width: 100%;
+  filter: brightness(100%);
+}
+
+.header-carousel-parent {
+  /* border-radius: 6px;
+  background-size: cover;
+  width: 100%; */
+
+  filter: brightness(100%);
+  height: 300px;
+}
+
+.header-carousel-parent:hover {
+  filter: brightness(50%);
+  transition: filter 0.3s ease;
+}
+
+.header-carousel-overlay {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  height: 350px;
+  width: 100%;
+}
+
+.header-carousel-header {
+  color: white;
+  position: relative;
+  height: 0;
+  top: -50px;
+}
+
+.header-carousel-parent:hover + .header-carousel-header {
+  top: -100px;
+  transition: 0.3s ease;
+}
+
+.header-carousel-header:hover {
+  top: -100px;
+  transition: 0.3s ease;
+}
+
+.niche-card-parent:hover {
+  filter: brightness(50%);
+  transition: filter 0.3s ease;
+}
+
+.niched-card-overlay {
+  border-radius: 6px;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  height: 150px;
+  width: 100%;
+}
+
+.niche-card-header {
+  color: white;
+  position: relative;
+  height: 0;
+  top: -30px;
+}
+
+.niche-card-header:hover {
+  top: -50px;
+  transition: 0.3s ease;
+}
+
+.niche-card-parent:hover + .niche-card-header {
+  top: -50px;
+  transition: 0.3s ease;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.niched-corner {
+  border-radius: 3px;
+}
