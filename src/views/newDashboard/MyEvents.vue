@@ -127,7 +127,8 @@ export default {
         {
           date: "2016-05-04",
           space: "Morgan",
-          details: "No. 189, Grove St, Los Angeles",
+          details:
+            "Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good, Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good,",
           status: "Going",
         },
         {
@@ -136,6 +137,34 @@ export default {
           details:
             "There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid ",
           status: "Interested",
+        },
+        {
+          date: "2016-05-02",
+          space: "Ramen Lovers",
+          details:
+            "let's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. ",
+          status: "Going",
+        },
+        {
+          date: "2016-05-04",
+          space: "Morgan",
+          details:
+            "Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good, Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good,",
+          status: "Interested",
+        },
+        {
+          date: "2016-05-01",
+          space: "Jessy",
+          details:
+            "There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid ",
+          status: "Interested",
+        },
+        {
+          date: "2016-05-02",
+          space: "Ramen Lovers",
+          details:
+            "let's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. ",
+          status: "Going",
         },
       ],
       search: "",

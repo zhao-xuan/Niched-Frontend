@@ -7,11 +7,17 @@ body {
 }
 
 .home-card-bg {
-  background-color: white;
+  background-color: ghostwhite;
 }
 
 html {
-  background: linear-gradient(#4b6b7f, #575071) no-repeat center center fixed;
+  background: rgb(223, 194, 164);
+  background: linear-gradient(
+      43deg,
+      rgba(223, 194, 164, 1) 0%,
+      rgba(170, 220, 224, 1) 100%
+    )
+    no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -21,13 +27,6 @@ html {
 draw-bg {
   background-color: aqua;
 }
-
-/* .niche-image {
-  border-radius: 3px;
-  background-size: cover;
-  height: 150px;
-  width: 100%;
-} */
 
 .all-niches-carousel {
   background-size: cover;
@@ -86,6 +85,11 @@ draw-bg {
   position: relative;
   height: 0;
   top: -30px;
+}
+
+.niche-card-header:hover {
+  top: -50px;
+  transition: 0.3s ease;
 }
 
 .niche-card-parent:hover + .niche-card-header {

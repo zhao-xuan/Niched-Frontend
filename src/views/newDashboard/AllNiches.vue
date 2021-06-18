@@ -33,12 +33,11 @@
 </template>
 
 <script lang="ts">
-import { useRoute, useRouter } from "vue-router";
-import { useState } from "@/state";
+import { useRouter } from "vue-router";
 import { defineComponent, toRefs, reactive, watchEffect } from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { SpacesResponse, fetchSpaces } from "@/api/spaces";
-import { dashboardFixture } from "./fixtures";
+import { dashboardFixture } from "../../components/fixtures";
 import NicheCards from "@/components/NicheCards.vue";
 
 export default defineComponent({
@@ -51,6 +50,7 @@ export default defineComponent({
       detail: string;
       imgUrl: string;
       memberList: string[];
+      groupId: string;
     };
     var randomNiches: Niche[] = [];
     const { allNiches, popularNiches } = toRefs(reactive(dashboardFixture));
