@@ -43,9 +43,10 @@ export default defineComponent({
     const route = useRoute();
     const groupId = route.params.id as string;
 
-    const { creationDate } = useSpace(groupId, true);
+    const { creationDate, description } = useSpace(groupId, true);
     return {
       creationDate,
+      description,
     };
   },
 });

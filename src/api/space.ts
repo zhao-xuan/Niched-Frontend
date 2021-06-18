@@ -10,6 +10,7 @@ export type SpaceResponse = {
   members: string[];
   image_url?: string;
   creation_date: string;
+  tags: string[];
 };
 
 export type Space = {
@@ -20,6 +21,7 @@ export type Space = {
   members: string[];
   imageUrl?: string;
   creationDate: string;
+  tags: string[];
 };
 
 export const fetchSpace = async (groupId: string): Promise<SpaceResponse> => {
@@ -35,6 +37,7 @@ type SpaceCreation = {
   description: string;
   image_url?: string;
   author_id: string;
+  tags: string[];
 };
 
 export const postSpaceCreation = async (

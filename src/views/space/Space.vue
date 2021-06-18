@@ -18,16 +18,7 @@
               backgroundPosition: 'center',
               height: '400px',
             }"
-          >
-            <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-                <!-- <h2 class="pt-5 my-4">
-
-                {{ "Apple WWDC Event Watching Session" }}
-              </h2> -->
-              </div>
-            </div>
-          </div>
+          ></div>
 
           <div class="row justify-content-between">
             <div class="col-sm-12 col-md-8">
@@ -55,78 +46,82 @@
           <div class="row pb-4 px-4">
             <div class="col-md-8">
               <el-tabs v-model="selectedTab">
-                <el-tab-pane name="threads">
+                <el-tab-pane name="threads" class="px-3">
                   <template #label>
                     <span
                       ><i class="el-icon-chat-line-square"></i> Threads</span
                     >
                   </template>
-                  <el-card
-                    shadow="hover"
-                    v-for="thread in threads.slice().reverse()"
+
+                  <div
+                    v-for="(thread, i) in threads.slice().reverse()"
                     :key="thread.threadId"
-                    style="margin: 20px auto"
                   >
-                    <template #header>
-                      <div class="d-flex flex-row justify-content-between">
-                        <div>
-                          <a href="" @click="jumpToThread(thread.threadId)"
-                            ><b>{{ thread.title }}</b></a
-                          >
+                    <card class="mt-3 px-3">
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img
+                            class="rounded-circle pl-1"
+                            :src="`https://randomuser.me/api/portraits/men/${i}.jpg`"
+                            style="width: 32px"
+                          />
+                          <div class="ml-2" style="font-weight: 500">
+                            {{ thread.authorId }}
+                          </div>
                         </div>
-                        <div>
-                          <el-button type="text"
-                            ><b>{{
-                              new Date(thread.creationDate).toLocaleString() +
-                              " @" +
-                              thread.authorId
-                            }}</b></el-button
-                          >
+                        <div class="text-secondary" style="font-weight: 400">
+                          {{ Moment(thread.creationDate).fromNow() }}
                         </div>
                       </div>
-                    </template>
-                    <div class="text item">
-                      {{ thread.description }}
-                    </div>
-                  </el-card>
+                      <div>
+                        <div>
+                          <div>
+                            <b>{{ thread.title }}</b>
+                          </div>
+                        </div>
+                        <div class="text item">
+                          {{ thread.description }}
+                        </div>
+                      </div>
+                      <div
+                        class="
+                          d-flex
+                          align-items-center
+                          justify-content-between
+                          mx-1
+                        "
+                        style="color: #b3b3b3"
+                      >
+                        <div class="d-flex">
+                          <div class="mr-3">
+                            <i class="el-icon-s-comment" /><b>{{
+                              Math.floor(Math.random() * 100 + 1)
+                            }}</b>
+                          </div>
+                          <div><i class="el-icon-share" />share</div>
+                        </div>
+                        <div>
+                          <button
+                            type="button"
+                            class="btn btn-info"
+                            @click="jumpToThread(thread.threadId)"
+                          >
+                            Join!
+                          </button>
+                        </div>
+                      </div>
+                    </card>
+                  </div>
                 </el-tab-pane>
-
-                <el-tab-pane name="events">
+                <el-tab-pane name="events" class="px-3">
                   <template #label>
                     <span><i class="el-icon-place"></i> Events </span>
                   </template>
-                  <el-card
-                    shadow="hover"
-                    v-for="event in events.slice().reverse()"
-                    :key="event.eventId"
-                    style="margin: 20px auto; background-color: #e7eeff"
-                  >
-                    <template #header>
-                      <div>
-                        <span>
-                          <a href="" @click="jumpToEvent(event.eventId)">
-                            <b
-                              ><font color="#FF7744">Event: </font>
-                              {{ event.title }}</b
-                            >
-                          </a>
-                        </span>
-                        <el-button
-                          type="text"
-                          style="
-                            float: right;
-                            margin-top: -10px;
-                            text-align: right;
-                          "
-                          >{{ new Date(event.eventDate).toLocaleString()
-                          }}<br /><b>@{{ event.authorId }}</b></el-button
-                        >
-                      </div>
-                    </template>
-                    <div class="text item">
-                      {{ event.description }}
-                    </div>
-                  </el-card>
+
+                  <EventsByMonthDate
+                    :events="events"
+                    @click-event="jumpToEvent"
+                  />
                 </el-tab-pane>
 
                 <el-tab-pane name="popular">
@@ -183,7 +178,7 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent, watch } from "vue";
+import { ref, defineComponent, watch, computed } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
 import { useThreads } from "@/hooks/useThread";
@@ -195,9 +190,22 @@ import Members from "@/components/Members.vue";
 import { useState } from "@/state";
 import { usePost } from "@/hooks/usePost";
 import { postJoinGroup, postLeaveGroup } from "@/api/space";
+import Card from "@/components/Card.vue";
+import EventsByMonthDate from "../event/EventsByMonthDate.vue";
+import { Event } from "@/api/event";
+import Moment from "moment";
+
 export default defineComponent({
   name: "Space",
-  components: { TopBar, AboutSpace, CreateThread, CreateEvent, Members },
+  components: {
+    TopBar,
+    AboutSpace,
+    EventsByMonthDate,
+    CreateThread,
+    CreateEvent,
+    Members,
+    Card,
+  },
   setup() {
     const postingThread = ref(false);
     const postingEvent = ref(false);
@@ -222,6 +230,12 @@ export default defineComponent({
       fetching: fetchingEvents,
       doFetch: doFetchEvents,
     } = useEvents(groupId, true);
+    const sortedEvents = computed(() =>
+      [...events.value].sort(
+        (a: Event, b: Event) =>
+          Number(new Date(a.eventDate)) - Number(new Date(b.eventDate))
+      )
+    );
 
     const { doPost: doPostJoinGroup, posting: joiningGroupStatus } =
       usePost(postJoinGroup);
@@ -291,7 +305,7 @@ export default defineComponent({
       members,
       creationDate,
 
-      events,
+      events: sortedEvents,
       fetchingEvents,
       postingEvent,
 
@@ -309,6 +323,8 @@ export default defineComponent({
 
       joiningGroupStatus,
       leavingGroupStatus,
+
+      Moment,
     };
   },
 });

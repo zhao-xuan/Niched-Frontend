@@ -10,10 +10,10 @@
             data-holder-rendered="true"
             :style="widthObject"
           />
-          <div v-if="!sm">
-            {{ userName }}
-          </div>
         </a>
+        <div>
+          {{ userName }}
+        </div>
       </div>
     </div>
   </div>
