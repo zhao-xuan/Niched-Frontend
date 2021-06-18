@@ -9,7 +9,7 @@ import { defineComponent, ref, PropType, watchEffect } from "vue";
 
 export default defineComponent({
   props: {},
-  setup(props) {},
+  // setup(props) {},
 });
 </script>
 
