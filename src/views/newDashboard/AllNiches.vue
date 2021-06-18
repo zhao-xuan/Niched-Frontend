@@ -69,7 +69,19 @@
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="Your Niches" name="userniche"></el-tab-pane>
+        <el-tab-pane label="Your Niches" name="userniche">
+          <div class="row pb-5 px-2">
+            <NicheCards
+              :niches="
+                userNiches.filter(
+                  (data) =>
+                    !search ||
+                    data.title.toLowerCase().includes(search.toLowerCase())
+                )
+              "
+            />
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -81,6 +93,7 @@ import { defineComponent, ref, toRefs, reactive, watchEffect } from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { SpacesResponse, fetchSpaces } from "@/api/spaces";
 import { dashboardFixture } from "../../components/fixtures";
+import { useState } from "@/state";
 import NicheCards from "@/components/NicheCards.vue";
 
 export default defineComponent({
@@ -88,6 +101,7 @@ export default defineComponent({
   name: "Home",
   setup() {
     const router = useRouter();
+    const { subscribedGroups } = useState();
     type Niche = {
       title: string;
       detail: string;
@@ -96,7 +110,9 @@ export default defineComponent({
       groupId: string;
     };
     var randomNiches: Niche[] = [];
-    const { allNiches, popularNiches } = toRefs(reactive(dashboardFixture));
+    const { allNiches, popularNiches, userNiches } = toRefs(
+      reactive(dashboardFixture)
+    );
 
     const { fetched, fetching, data } = useFetch<SpacesResponse>(
       fetchSpaces,
@@ -121,10 +137,13 @@ export default defineComponent({
         // Get 6 random niches to display!
         for (let i = 0; i < 6; i++) {
           randomNiches.push(items[Math.floor(Math.random() * items.length)]);
-          console.log(randomNiches);
         }
-
         popularNiches.value = randomNiches;
+
+        // Get user's niches
+        userNiches.value = items.filter((data) =>
+          subscribedGroups.value.includes(data.groupId)
+        );
       }
     });
 
@@ -134,6 +153,7 @@ export default defineComponent({
       allNiches,
       fetching,
       popularNiches,
+      userNiches,
       jumpToSpace(item: string) {
         router.push({ name: "Space", params: { id: item } });
       },
