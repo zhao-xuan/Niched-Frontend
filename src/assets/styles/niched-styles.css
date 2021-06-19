@@ -1,5 +1,6 @@
 body {
   background: transparent;
+  height: 100%;
 }
 
 .topbar {
@@ -11,6 +12,7 @@ body {
 }
 
 html {
+  height: 100%;
   background: rgb(223, 194, 164);
   background: linear-gradient(23deg, #ddd6f3 0%, #faaca8 100%) no-repeat center
     center fixed;
