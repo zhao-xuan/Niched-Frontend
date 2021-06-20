@@ -1,6 +1,6 @@
 <template>
   <TopBar />
-  <div class="container-fluid">
+  <div class="container homepage-container">
     <div class="row py-5 px-4 niched-bg">
       <div class="col-md-10 mx-auto">
         <!-- Profile widget -->
@@ -20,52 +20,22 @@
 
           <div class="row">
             <div class="col-sm-12">
-              <div class="px-4 py-3 d-flex text-left">
-                <h2>{{ name }}</h2>
-              </div>
-            </div>
-          </div>
-
-          <div class="row pb-4 px-4">
-            <div class="col-md-8 order-0 pb-4">
-              <el-card
-                class="margin: 20px auto;"
-                style="background-color: #e7eeff"
-              >
-                <template #header>
-                  <div>
-                    <span>
-                      <b><font color="#FF7744">Event: </font>{{ title }}</b>
-                    </span>
-                    <el-button
-                      type="text"
-                      style="float: right; margin-top: -10px; text-align: right"
-                      >{{
-                        "happening at: " + new Date(eventDate).toLocaleString()
-                      }}<br /><b>@{{ authorId }}</b></el-button
-                    >
+              <div class="px-4 py-3" style="background-color: #ffffff">
+                <h6 style="color: red">
+                  <span class="pr-2">
+                    <el-tag type="danger">Event</el-tag>
+                  </span>
+                  <span class="pr-2">
+                    {{ name }}
+                  </span>
+                </h6>
+                <div class="row">
+                  <div class="col-12 col-md-8">
+                    <h2>{{ title }}</h2>
                   </div>
-                </template>
-                <div class="text item pb-3">
-                  <b>
-                    Date and Time: {{ new Date(eventDate).toLocaleString() }}
-                  </b>
-                </div>
-                <div class="text item pb-3">
-                  {{ eventDescription }}
-                </div>
-              </el-card>
-            </div>
-
-            <div class="col-md-4 order-1">
-              <el-card class="margin: 20px auto;">
-                <div>
-                  <div class="pb-2">
-                    <h4>Express your interest!</h4>
-                  </div>
-                  <div class="container">
+                  <div class="col-12 col-md-4">
                     <div class="row">
-                      <div class="col">
+                      <div class="col-6">
                         <el-button
                           type="warning"
                           @click="onPostEventStatus(EventGroup.INTERESTED)"
@@ -79,7 +49,7 @@
                           >Interested</el-button
                         >
                       </div>
-                      <div class="col">
+                      <div class="col-6">
                         <el-button
                           type="success"
                           @click="onPostEventStatus(EventGroup.GOING)"
@@ -95,26 +65,65 @@
                     </div>
                   </div>
                 </div>
-              </el-card>
+              </div>
+            </div>
+          </div>
 
-              <el-card class="my-5">
-                <div>
-                  <h5>Event Organiser</h5>
-                  <button
-                    type="submit"
-                    class="btn btn-info mb-4"
-                    @click="goToProfile(authorId)"
-                  >
-                    @{{ authorId }}
-                  </button>
+          <div class="row pb-4 px-4">
+            <div class="col-md-8 pb-4">
+              <div class="text item py-4">
+                <h5>
+                  {{ eventDescription }}
+                </h5>
+              </div>
+            </div>
+
+            <div class="col-md-4 pt-3">
+              <el-card class="margin: 20px auto;" style="border-radius: 7px">
+                <div class="row pb-3">
+                  <div class="col-1">
+                    <i class="el-icon-time"></i>
+                  </div>
+                  <div class="col-11">
+                    <b
+                      >Happening at
+                      {{ new Date(eventDate).toLocaleString() }}</b
+                    >
+                  </div>
                 </div>
-                <div class="border-top-0">
-                  <div class="pb-4">
-                    <h6>Going ({{ members.going.length }})</h6>
+                <div class="row pb-3">
+                  <div class="col-1">
+                    <i class="el-icon-user"></i>
+                  </div>
+                  <div class="col-11">
+                    <b>Event Organiser: </b>
+
+                    <div class="pt-2">
+                      <button
+                        type="submit"
+                        class="btn btn-info"
+                        @click="goToProfile(authorId)"
+                      >
+                        @{{ authorId }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="row pb-3">
+                  <div class="col-1">
+                    <i class="el-icon-check"></i>
+                  </div>
+                  <div class="col-11">
+                    <b>Going ({{ members.going.length }})</b>
                     <Members :userNames="members.going" :sm="true" />
                   </div>
-                  <div class="pb-4">
-                    <h6>Interested ({{ members.interested.length }})</h6>
+                </div>
+                <div class="row pb-3">
+                  <div class="col-1">
+                    <i class="el-icon-star-off"></i>
+                  </div>
+                  <div class="col-11">
+                    <b>Interested ({{ members.interested.length }})</b>
                     <Members :userNames="members.interested" :sm="true" />
                   </div>
                 </div>
@@ -254,5 +263,22 @@ export default defineComponent({
 .cover {
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.homepage-container {
+  max-width: 1600px;
+  width: 100%;
+}
+
+.left {
+  display: block;
+  float: left;
+  width: 100px;
+}
+
+.right {
+  display: block;
+  float: right;
+  width: 100px;
 }
 </style>
