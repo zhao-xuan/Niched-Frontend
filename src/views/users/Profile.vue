@@ -30,7 +30,7 @@
                       x.members.includes(loggedInUserName)
                     )"
                     :key="group.groupId"
-                    class="col-lg-4 col-md-6 my-2 mx-2"
+                    class="col-lg-4 col-md-6 my-2"
                     style="overflow: hidden"
                   >
                     <div
@@ -64,7 +64,7 @@
                       (x) => !x.members.includes(loggedInUserName)
                     )"
                     :key="group.groupId"
-                    class="col-lg-4 col-md-6 my-2"
+                    class="col-lg-3 col-md-6 my-2"
                     style="overflow: hidden"
                   >
                     <div
