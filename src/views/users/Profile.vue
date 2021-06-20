@@ -1,6 +1,9 @@
 <template>
   <TopBar />
-  <div class="container homepage-container">
+  <div
+    class="container homepage-container"
+    v-loading.fullscreen.lock="fetching"
+  >
     <div class="row py-5 px-4 niched-bg">
       <div class="col-md-10 mx-auto">
         <!-- Profile widget -->
@@ -106,8 +109,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, ref, watchEffect } from "vue";
-import { useRouter } from "vue-router";
+import { defineComponent, toRefs, watch, ref, watchEffect } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import TopBar from "../Topbar.vue";
 import { useState } from "@/state";
 import { useFetch } from "@/hooks/useFetch";
@@ -120,6 +123,7 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
+    const route = useRoute();
     const { loggedIn, userName, subscribedGroups, interests } = useState();
     const imageUrl =
       "https://cdn.britannica.com/06/171306-050-C88DD752/Aurora-borealis-peninsula-Snaefellsnes-Iceland-March-2013.jpg";
@@ -132,16 +136,6 @@ export default defineComponent({
       groupId: string;
     };
     const userNiches = ref<Niche[]>([]);
-    const chosenNiches = [
-      "minecraft",
-      "csgo",
-      "k-drama",
-      "tech",
-      "drp-15",
-      "anime",
-      "casual-arena",
-      "bts",
-    ];
 
     const { fetched, fetching, data } = useFetch<SpacesResponse>(
       fetchSpaces,
@@ -167,11 +161,19 @@ export default defineComponent({
       }
     });
 
-    if (!loggedIn.value) {
-      router.push({ name: "Login" });
-    }
+    watch([loggedIn, userName], ([l, u]) => {
+      if (!l) {
+        router.push({ name: "Login" });
+      } else {
+        if (u !== route.params.userName) {
+          alert("please log in as:" + route.params.userName);
+        }
+      }
+    });
+
     return {
       userName,
+      fetching,
       subscribedGroups,
       interests,
       imageUrl,
