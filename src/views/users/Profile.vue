@@ -1,6 +1,5 @@
 <template>
   <TopBar />
-<<<<<<< HEAD
   <div class="container-fluid" v-loading.fullscreen.lock="lock">
     <div class="row py-5 px-4 niched-bg justify-content-center">
       <div class="col-lg-6 col-md-8">
@@ -9,26 +8,6 @@
           <div class="container-fluid">
             <div class="row justify-content-center">
               <el-avatar class="my-1" :size="60"> {{ userName }}</el-avatar>
-=======
-  <div
-    class="container homepage-container"
-    v-loading.fullscreen.lock="fetching"
-  >
-    <div class="row py-5 px-4 niched-bg">
-      <div class="col-md-10 mx-auto">
-        <!-- Profile widget -->
-        <div class="bg-light shadow rounded overflow-hidden mt-3s">
-          <div
-            class="px-4 pt-0 pb-5 cover rounded"
-            :style="{
-              backgroundImage: 'url(' + imageUrl + ')',
-              backgroundPosition: 'center',
-              height: '400px',
-            }"
-          >
-            <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4"></div>
->>>>>>> develop
             </div>
             <div class="row my-2 justify-content-center">
               <div class="col-11">
