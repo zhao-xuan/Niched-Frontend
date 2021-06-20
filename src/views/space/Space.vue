@@ -126,15 +126,6 @@
                   />
                 </el-tab-pane>
 
-                <el-tab-pane name="popular">
-                  <template #label>
-                    <span>
-                      <i class="el-icon-star-off"></i>
-                      Popular
-                    </span>
-                  </template>
-                  TODO
-                </el-tab-pane>
                 <el-tab-pane name="members">
                   <template #label>
                     <span

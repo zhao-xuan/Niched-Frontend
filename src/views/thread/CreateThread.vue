@@ -29,7 +29,7 @@
           <el-input
             type="textarea"
             :autosize="{ minRows: 3, maxRows: 10 }"
-            placeholder="Event Details"
+            placeholder="Say something..."
             v-model="threadDescription"
           ></el-input>
         </div>
@@ -99,6 +99,7 @@ export default defineComponent({
     const onSubmitThread = async () => {
       if (!loggedIn.value) {
         alert("Please login first");
+        return;
       }
 
       doPost({
