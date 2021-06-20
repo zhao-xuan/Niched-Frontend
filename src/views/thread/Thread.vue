@@ -238,14 +238,6 @@
                       </div>
                       <div>members</div>
                     </div>
-                    <!-- <div class="font-weight-bold">
-                      {{ threads.length }}
-                      <div class="font-weight-bold">threads</div>
-                    </div>
-                    <div class="font-weight-bold">
-                      {{ events.length }}
-                      <div class="font-weight-bold">events</div>
-                    </div> -->
                   </div>
                   <div class="border-top pt-2 text-muted font-weight-bold">
                     created :
@@ -257,7 +249,6 @@
                   </div>
                 </div>
               </el-card>
-              <!-- <CreateEvent v-model:postingEvent="postingEvent" /> -->
             </div>
           </div>
         </div>
