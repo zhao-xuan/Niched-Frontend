@@ -36,6 +36,7 @@ export const fetchEvent = async (eventId: string): Promise<EventResponse> => {
   return res.data;
 };
 
+
 //create event
 
 type EventCreation = {
@@ -64,6 +65,11 @@ export const fetchEvents = async (
   groupId: string
 ): Promise<EventCreationResponse[]> => {
   const res = await axios.get(`${SERVER_URL}/group/${groupId}/events`);
+  return res.data;
+};
+
+export const fetchAllEvents = async (): Promise<EventCreationResponse[]> => {
+  const res = await axios.get(`${SERVER_URL}/event`);
   return res.data;
 };
 

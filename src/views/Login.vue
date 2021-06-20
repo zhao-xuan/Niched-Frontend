@@ -128,6 +128,7 @@ export default defineComponent({
 
     const router = useRouter();
     const {
+      setLoading,
       setLoggedIn,
       setUserName,
       setSubscribedGroups,
@@ -138,6 +139,7 @@ export default defineComponent({
 
     const onLogin = async () => {
       try {
+        setLoading(true);
         const {
           user_details: { user_name, email, bio, subscribed_groups, interests },
         } = await loginUser(userNameInput.value, passwordInput.value);
@@ -148,6 +150,8 @@ export default defineComponent({
         setInterests(interests);
         setSubscribedGroups(subscribed_groups);
         setBio(bio || "");
+        setLoading(false);
+
         router.push({ name: "Home" });
       } catch (err) {
         const error = err as AxiosError;
