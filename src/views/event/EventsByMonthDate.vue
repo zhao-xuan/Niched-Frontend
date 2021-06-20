@@ -1,14 +1,14 @@
 <template>
   <div :key="i" v-for="(eventsByMonthDate, i) in eventsByMonthDates">
-    <div class="my-3">
-      <h4>{{ eventsByMonthDate.monthDate }}</h4>
+    <div class="my-3" style="color: red">
+      <i class="el-icon-date pr-3"></i>{{ eventsByMonthDate.monthDate }}
     </div>
-    <div>
+    <div class="pl-4">
       <card
         class="mt-3 p-3"
         v-for="event in eventsByMonthDate.events"
         :key="event.eventId"
-        style="cursor: pointer"
+        style="cursor: pointer; background-color: white; border-radius: 7px"
         @click="$emit('click-event', event.eventId)"
       >
         <div class="row">
@@ -16,7 +16,8 @@
             class="text-secondary col-12 col-sm-2 mr-0 pr-0"
             style="font-weight: 500; font-size: 15px; min-width: 37px"
           >
-            {{
+            <i class="el-icon-time pr-1"></i
+            >{{
               new Date(event.eventDate).toLocaleString("en-US", {
                 hour: "numeric",
                 minute: "numeric",
@@ -32,7 +33,8 @@
               class="d-flex justify-content-end"
               style="font-weight: 400; font-size: 14px; color: #a6a6a6"
             >
-              organized by {{ event.authorId }}
+              <i class="el-icon-user pt-1"></i>
+              <b class="pl-1">{{ event.authorId }}</b>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <TopBar />
   <div
-    class="container-fluid"
+    class="container space-page-container"
     v-loading.fullscreen.lock="
       postingEvent || postingThread || fetchingEvents || fetchingThreads
     "
@@ -115,15 +115,28 @@
                     </card>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane name="events" class="px-3">
+                <el-tab-pane name="upcomingEvents" class="px-3">
                   <template #label>
-                    <span><i class="el-icon-place"></i> Events </span>
+                    <span><i class="el-icon-place"></i> Upcoming Events</span>
                   </template>
+                  <div class="pb-5">
+                    <EventsByMonthDate
+                      :events="futureEvents"
+                      @click-event="jumpToEvent"
+                    />
+                  </div>
+                </el-tab-pane>
 
-                  <EventsByMonthDate
-                    :events="events"
-                    @click-event="jumpToEvent"
-                  />
+                <el-tab-pane name="pastEvents" class="px-3">
+                  <template #label>
+                    <span><i class="el-icon-place"></i> Past Events</span>
+                  </template>
+                  <div class="pb-5">
+                    <EventsByMonthDate
+                      :events="pastEvents"
+                      @click-event="jumpToEvent"
+                    />
+                  </div>
                 </el-tab-pane>
 
                 <el-tab-pane name="members">
@@ -149,7 +162,7 @@
                 :tags="tags"
               />
               <CreateEvent
-                v-show="selectedTab == 'events'"
+                v-show="selectedTab == 'upcomingEvents' || 'pastEvents'"
                 v-model:postingEvent="postingEvent"
               />
             </div>
@@ -162,7 +175,7 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent, watch, computed } from "vue";
+import { ref, defineComponent, watch, computed, ComputedRef } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
 import { useThreads } from "@/hooks/useThread";
@@ -218,8 +231,22 @@ export default defineComponent({
     const sortedEvents = computed(() =>
       [...events.value].sort(
         (a: Event, b: Event) =>
-          Number(new Date(a.eventDate)) - Number(new Date(b.eventDate))
+          Number(new Date(b.eventDate)) - Number(new Date(a.eventDate))
       )
+    );
+
+    const pastEvents = computed(() =>
+      [...sortedEvents.value].filter(
+        (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) >= 0
+      )
+    );
+
+    const futureEvents = computed(() =>
+      [...sortedEvents.value]
+        .reverse()
+        .filter(
+          (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) < 0
+        )
     );
 
     const { doPost: doPostJoinGroup, posting: joiningGroupStatus } =
@@ -311,6 +338,9 @@ export default defineComponent({
       leavingGroupStatus,
 
       Moment,
+
+      pastEvents,
+      futureEvents,
     };
   },
 });
@@ -326,5 +356,9 @@ export default defineComponent({
 .cover {
   background-size: cover;
   background-repeat: no-repeat;
+}
+.space-page-container {
+  max-width: 2000px;
+  width: 100%;
 }
 </style>
