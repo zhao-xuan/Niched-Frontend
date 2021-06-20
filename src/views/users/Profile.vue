@@ -1,6 +1,6 @@
 <template>
   <TopBar />
-  <div class="container-fluid">
+  <div class="container homepage-container">
     <div class="row py-5 px-4 niched-bg">
       <div class="col-md-10 mx-auto">
         <!-- Profile widget -->
@@ -8,21 +8,20 @@
           <div
             class="px-4 pt-0 pb-5 cover rounded"
             :style="{
-              backgroundImage: 'url(' + imageUrl +')',
+              backgroundImage: 'url(' + imageUrl + ')',
               backgroundPosition: 'center',
               height: '400px',
             }"
           >
             <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-              </div>
+              <div class="px-4"></div>
             </div>
           </div>
 
           <div class="row">
             <div class="col-sm-6">
               <div class="px-4 pt-3 pb-2 d-flex text-left">
-                <h2>{{userName}}'s Profile</h2>
+                <h2>{{ userName }}'s Profile</h2>
               </div>
             </div>
           </div>
@@ -32,61 +31,39 @@
               <el-card style="margin: 20px auto">
                 <template #header>
                   <div>
-                    <span><b>Introduction</b></span>
-                    <el-button type="text" style="float: right; margin-top: -10px"
+                    <span>@{{ userName }}'s <b>Interests</b></span>
+                    <el-button
+                      type="text"
+                      style="float: right; margin-top: -10px"
                       >Edit</el-button
                     >
                   </div>
                 </template>
-                <div class="text item">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  <br />
-                  <br />
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                  culpa qui officia deserunt mollit anim id est laborum.
+                <div
+                  v-for="interest in interests"
+                  :key="interest"
+                  class="pr-2"
+                  style="display: inline"
+                >
+                  <el-tag type="success">
+                    {{ interest }}
+                  </el-tag>
                 </div>
               </el-card>
 
               <el-card style="margin: 20px auto">
                 <template #header>
                   <div>
-                    <span>@{{ userName }}'s <b>Interests</b></span>
-                    <el-button type="text" style="float: right; margin-top: -10px"
+                    <span>@{{ userName }}'s <b>Niches</b></span>
+                    <el-button
+                      type="text"
+                      style="float: right; margin-top: -10px"
                       >Edit</el-button
                     >
                   </div>
                 </template>
-                <p>{{ interests }}</p>
-                <!-- <SpaceGroup
-                v-for="item in niches"
-                :key="item"
-                :spacelist="item.spaces"
-                :title="item.tagName"
-              /> -->
-              </el-card>
-
-              <el-card style="margin: 20px auto">
-                <template #header>
-                  <div>
-                    <span>@{{ userName }}'s <b>Spaces</b></span>
-                    <el-button type="text" style="float: right; margin-top: -10px"
-                      >Edit</el-button
-                    >
-                  </div>
-                </template>
-                <p>{{ subscribedGroups }}</p>
-                <!-- <SpaceGroup
-                v-for="item in niches"
-                :key="item"
-                :spacelist="item.spaces"
-                :title="item.tagName"
-              /> -->
-                <div v-for="o in 4" :key="o" class="text item">
-                  {{ "List item " + o }}
+                <div class="row px-2">
+                  <NicheCards :niches="userNiches" />
                 </div>
               </el-card>
             </div>
@@ -96,8 +73,8 @@
                 <div>
                   <h3>Welcome, @{{ userName }}</h3>
                   <p>
-                    Your personalized Niched homepage. Come here to check in with your
-                    favorite communities
+                    Your personalized Niched homepage. Come here to check in
+                    with your favorite communities
                   </p>
                   <div style="width: 150px; margin: auto">
                     <el-avatar
@@ -113,26 +90,11 @@
                           {{ subscribedGroups.length }}
                         </h5>
                         <small class="text-muted">
-                          <i class="fas fa-user mr-1"></i>Spaces Joined</small
+                          <i class="fas fa-user mr-1"></i>Niches Joined</small
                         >
                       </li>
                     </ul>
                   </div>
-                </div>
-              </el-card>
-              <el-card style="margin: 20px auto">
-                <div>
-                  <h3>Your Events</h3>
-                  <p>Check out the latest events you've signed up for here!</p>
-                  <el-card
-                    style="border-radius: 10px; margin-bottom: 10px"
-                    v-for="event in events"
-                    :key="event"
-                  >
-                    <h5>{{ event.title + " @ " + event.location }}</h5>
-                    <p>{{ event.datetime }}</p>
-                    <p>{{ event.detail }}</p>
-                  </el-card>
                 </div>
               </el-card>
             </div>
@@ -144,20 +106,66 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive } from "vue";
+import { defineComponent, toRefs, reactive, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
 import { useState } from "@/state";
-import { dashboardFixture } from "../dashboard/fixtures";
+import { useFetch } from "@/hooks/useFetch";
+import { SpacesResponse, fetchSpaces } from "@/api/spaces";
+import NicheCards from "@/components/NicheCards.vue";
 
 export default defineComponent({
   name: "Profile",
-  components: { TopBar },
+  components: { TopBar, NicheCards },
+
   setup() {
     const router = useRouter();
-    const { niches, events } = toRefs(reactive(dashboardFixture));
     const { loggedIn, userName, subscribedGroups, interests } = useState();
-    const imageUrl = "https://cdn.britannica.com/06/171306-050-C88DD752/Aurora-borealis-peninsula-Snaefellsnes-Iceland-March-2013.jpg"
+    const imageUrl =
+      "https://cdn.britannica.com/06/171306-050-C88DD752/Aurora-borealis-peninsula-Snaefellsnes-Iceland-March-2013.jpg";
+
+    type Niche = {
+      title: string;
+      detail: string;
+      imgUrl: string;
+      memberList: string[];
+      groupId: string;
+    };
+    const userNiches = ref<Niche[]>([]);
+    const chosenNiches = [
+      "minecraft",
+      "csgo",
+      "k-drama",
+      "tech",
+      "drp-15",
+      "anime",
+      "casual-arena",
+      "bts",
+    ];
+
+    const { fetched, fetching, data } = useFetch<SpacesResponse>(
+      fetchSpaces,
+      true
+    );
+    watchEffect(() => {
+      if (fetched.value) {
+        const items = Object.values(data.value || {}).map(
+          ({ group_id, name, description, image_url, members }) => ({
+            groupId: group_id,
+            title: name,
+            detail: description,
+            imgUrl:
+              image_url ||
+              "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dG9reW98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+            memberList: members,
+          })
+        );
+        // Get user's niches
+        userNiches.value = items.filter((data) =>
+          subscribedGroups.value.includes(data.groupId)
+        );
+      }
+    });
 
     if (!loggedIn.value) {
       router.push({ name: "Login" });
@@ -166,9 +174,19 @@ export default defineComponent({
       userName,
       subscribedGroups,
       interests,
-      events,
       imageUrl,
+      userNiches,
     };
   },
 });
 </script>
+
+<style>
+@import "../../assets/styles/niched-styles.css";
+@import "../../assets/styles/niched-styles.css";
+
+.homepage-container {
+  max-width: 1600px;
+  width: 100%;
+}
+</style>
