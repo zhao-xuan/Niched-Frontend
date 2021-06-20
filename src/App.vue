@@ -15,6 +15,7 @@ export default defineComponent({
   components: { StateProvider },
   setup() {
     const state = reactive<State>({
+      loading: false,
       loggedIn: false,
       userName: "",
       subscribedGroups: [],
@@ -23,6 +24,7 @@ export default defineComponent({
 
     const fetchAndSetUser = async () => {
       try {
+        state.loading = true;
         const { user_name, email, bio, interests, subscribed_groups } =
           await fetchUser(localStorage.userName);
         state.loggedIn = true;
@@ -31,8 +33,10 @@ export default defineComponent({
         state.email = email || "";
         state.interests = interests;
         state.subscribedGroups = subscribed_groups;
+        state.loading = false;
       } catch (err) {
         alert("cannot fetch user info");
+        state.loading = false;
       }
     };
 

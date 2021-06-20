@@ -7,7 +7,7 @@
     "
   >
     <div class="row py-5 px-4 niched-bg">
-      <div class="col-md-10 mx-auto">
+      <div class="col-md-8 mx-auto">
         <!-- Profile widget -->
         <div class="bg-light shadow rounded overflow-hidden mt-3s">
           <div
@@ -52,7 +52,10 @@
                       ><i class="el-icon-chat-line-square"></i> Threads</span
                     >
                   </template>
-
+                  <CreateThread
+                    v-show="selectedTab == 'threads'"
+                    v-model:postingThread="postingThread"
+                  />
                   <div
                     v-for="(thread, i) in threads.slice().reverse()"
                     :key="thread.threadId"
@@ -65,7 +68,7 @@
                             :src="`https://randomuser.me/api/portraits/men/${i}.jpg`"
                             style="width: 32px"
                           />
-                          <div class="ml-2" style="font-weight: 500">
+                          <div class="ml-2 my-2" style="font-weight: 500">
                             {{ thread.authorId }}
                           </div>
                         </div>
@@ -74,12 +77,10 @@
                         </div>
                       </div>
                       <div>
-                        <div>
-                          <div>
-                            <b>{{ thread.title }}</b>
-                          </div>
+                        <div class="my-1">
+                          <b>{{ thread.title }}</b>
                         </div>
-                        <div class="text item">
+                        <div class="text item my-1">
                           {{ thread.description }}
                         </div>
                       </div>
@@ -94,20 +95,21 @@
                       >
                         <div class="d-flex">
                           <div class="mr-3">
-                            <i class="el-icon-s-comment" /><b>{{
+                            <i class="el-icon-chat-line-round mx-1" /><b>{{
                               Math.floor(Math.random() * 100 + 1)
                             }}</b>
                           </div>
-                          <div><i class="el-icon-share" />share</div>
+                          <div><i class="el-icon-share mr-1" />share</div>
                         </div>
                         <div>
-                          <button
-                            type="button"
-                            class="btn btn-info"
+                          <el-button
+                            type="success"
+                            class="mx-1 my-2"
+                            plain
                             @click="jumpToThread(thread.threadId)"
                           >
                             Join!
-                          </button>
+                          </el-button>
                         </div>
                       </div>
                     </card>
@@ -124,15 +126,6 @@
                   />
                 </el-tab-pane>
 
-                <el-tab-pane name="popular">
-                  <template #label>
-                    <span>
-                      <i class="el-icon-star-off"></i>
-                      Popular
-                    </span>
-                  </template>
-                  TODO
-                </el-tab-pane>
                 <el-tab-pane name="members">
                   <template #label>
                     <span
@@ -149,20 +142,11 @@
 
             <div class="col-md-4">
               <AboutSpace
-                v-show="selectedTab == 'threads'"
+                v-show="selectedTab == 'threads' || selectedTab == 'members'"
                 :members="members"
                 :threads="threads"
                 :events="events"
-              />
-              <AboutSpace
-                v-show="selectedTab == 'members'"
-                :members="members"
-                :threads="threads"
-                :events="events"
-              />
-              <CreateThread
-                v-show="selectedTab == 'threads'"
-                v-model:postingThread="postingThread"
+                :tags="tags"
               />
               <CreateEvent
                 v-show="selectedTab == 'events'"
@@ -223,6 +207,7 @@ export default defineComponent({
       description,
       members,
       creationDate,
+      tags,
       doFetch: doFetchSpace,
     } = useSpace(groupId, true);
     const {
@@ -304,6 +289,7 @@ export default defineComponent({
       description,
       members,
       creationDate,
+      tags,
 
       events: sortedEvents,
       fetchingEvents,

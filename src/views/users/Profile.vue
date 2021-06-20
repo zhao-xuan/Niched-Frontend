@@ -1,194 +1,304 @@
 <template>
   <TopBar />
-  <div
-    class="container homepage-container"
-    v-loading.fullscreen.lock="fetching"
-  >
-    <div class="row py-5 px-4 niched-bg">
-      <div class="col-md-10 mx-auto">
-        <!-- Profile widget -->
-        <div class="bg-light shadow rounded overflow-hidden mt-3s">
-          <div
-            class="px-4 pt-0 pb-5 cover rounded"
-            :style="{
-              backgroundImage: 'url(' + imageUrl + ')',
-              backgroundPosition: 'center',
-              height: '400px',
-            }"
-          >
-            <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4"></div>
+  <div class="container-fluid" v-loading.fullscreen.lock="lock">
+    <div class="row py-5 px-4 niched-bg justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <card class="bg-light">
+          <!-- <img :src="imageUrl" style="height: 200px; object-fit: cover" /> -->
+          <div class="container-fluid">
+            <div class="row justify-content-center my-5">
+              <h2>{{ userName }}</h2>
+              <div
+                style="
+                  height: 3px;
+                  width: 100%;
+                  background: linear-gradient(23deg, #ddd6f3 0%, #faaca8 100%);
+                "
+                class="my-2"
+              />
             </div>
-          </div>
+            <div class="row my-2 justify-content-center">
+              <div class="col-11">
+                <div class="row my-2">
+                  <div class="col-12 my-1 mx-1">
+                    <h5>
+                      {{ selfProfile ? "Your Niches" : "Your common Niches" }}
+                    </h5>
+                  </div>
+                  <div
+                    v-for="group in groupsJoined.filter((x) =>
+                      x.members.includes(loggedInUserName)
+                    )"
+                    :key="group.groupId"
+                    class="col-lg-4 col-md-6 my-2"
+                    style="overflow: hidden"
+                  >
+                    <div
+                      class="niche-card-parent shadow-sm clickable"
+                      :style="{
+                        backgroundImage: 'url(' + group.imageUrl + ')',
+                        backgroundPosition: 'center',
+                      }"
+                      @click="jumpToSpace(group.groupId)"
+                    >
+                      <div class="niched-card-overlay"></div>
+                    </div>
+                    <div class="row niche-card-header px-2">
+                      <div class="col-sm-10">
+                        {{ group.name }}
+                        <br />
+                        {{ group.description }}
+                      </div>
+                      <div class="col-sm-2 d-flex justify-content-end">
+                        <i class="el-icon-user"> {{ group.members.length }}</i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-4" v-if="!selfProfile">
+                  <div class="col-12 my-2 mx-2">
+                    <h5>{{ "Niches " + userName + " is interested in" }}</h5>
+                  </div>
+                  <div
+                    v-for="group in groupsJoined.filter(
+                      (x) => !x.members.includes(loggedInUserName)
+                    )"
+                    :key="group.groupId"
+                    class="col-lg-3 col-md-6 my-2"
+                    style="overflow: hidden"
+                  >
+                    <div
+                      class="niche-card-parent shadow-sm clickable"
+                      :style="{
+                        backgroundImage: 'url(' + group.imageUrl + ')',
+                        backgroundPosition: 'center',
+                      }"
+                      @click="jumpToSpace(group.groupId)"
+                    >
+                      <div class="niched-card-overlay"></div>
+                    </div>
+                    <div class="row niche-card-header px-2">
+                      <div class="col-sm-10">
+                        {{ group.name }}
+                        <br />
+                        {{ group.description }}
+                      </div>
+                      <div class="col-sm-2 d-flex justify-content-end">
+                        <i class="el-icon-user"> {{ group.members.length }}</i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row my-2 justify-content-center">
+              <div class="col-11">
+                <h5>
+                  Interests
+                  <el-tooltip
+                    content="Your common interests are highlighted!"
+                    placement="top-start"
+                    transition="el-fade-in-linear"
+                    v-if="!selfProfile"
+                  >
+                    <i class="el-icon-info" style="font-size: 0.8em"> </i
+                  ></el-tooltip>
+                </h5>
+              </div>
+              <div class="col-11">
+                <el-tag
+                  class="mx-1 my-1"
+                  v-for="interest in interests"
+                  :key="interest"
+                  :effect="
+                    loggedInInterests.includes(interest) ? 'dark' : 'plain'
+                  "
+                  type="success"
+                >
+                  {{ interest }}
+                </el-tag>
+              </div>
+            </div>
 
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="px-4 pt-3 pb-2 d-flex text-left">
-                <h2>{{ userName }}'s Profile</h2>
+            <div class="row my-1 justify-content-center">
+              <div class="col-11"><h5>Events</h5></div>
+              <div class="col-11">
+                <div class="row">
+                  <div class="col-11">
+                    <card
+                      class="mt-3 p-3"
+                      v-for="event in eventsJoined.slice(0, 5)"
+                      :key="event.eventId"
+                      style="cursor: pointer"
+                      @click="$emit('click-event', event.eventId)"
+                    >
+                      <div class="row">
+                        <div
+                          class="text-secondary col-12 col-sm-2 mr-0 pr-0"
+                          style="font-size: 15px; min-width: 37px"
+                        >
+                          {{
+                            new Date(event.eventDate).toLocaleString("en-US", {
+                              hour: "numeric",
+                              minute: "numeric",
+                              hour12: true,
+                            })
+                          }}
+                        </div>
+                        <div class="col-12 col-sm-10">
+                          <div v-if="!selfProfile" class="pb-2">
+                            <el-tag
+                              v-if="
+                                event.members.going.includes(loggedInUserName)
+                              "
+                            >
+                              You're also going!
+                            </el-tag>
+                            <el-tag v-else> You're interested in this </el-tag>
+                          </div>
+                          <div class="p-1">
+                            <p>{{ event.title }}</p>
+                          </div>
+                          <div
+                            class="d-flex justify-content-end"
+                            style="
+                              font-weight: 400;
+                              font-size: 14px;
+                              color: #a6a6a6;
+                            "
+                          >
+                            Organised by {{ event.authorId }}
+                          </div>
+                        </div>
+                      </div>
+                    </card>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="row pb-4 px-4">
-            <div class="col-md-8 order-0">
-              <el-card style="margin: 20px auto">
-                <template #header>
-                  <div>
-                    <span>@{{ userName }}'s <b>Interests</b></span>
-                    <el-button
-                      type="text"
-                      style="float: right; margin-top: -10px"
-                      >Edit</el-button
-                    >
-                  </div>
-                </template>
-                <div
-                  v-for="interest in interests"
-                  :key="interest"
-                  class="pr-2"
-                  style="display: inline"
-                >
-                  <el-tag type="success">
-                    {{ interest }}
-                  </el-tag>
-                </div>
-              </el-card>
-
-              <el-card style="margin: 20px auto">
-                <template #header>
-                  <div>
-                    <span>@{{ userName }}'s <b>Niches</b></span>
-                    <el-button
-                      type="text"
-                      style="float: right; margin-top: -10px"
-                      >Edit</el-button
-                    >
-                  </div>
-                </template>
-                <div class="row px-2">
-                  <NicheCards :niches="userNiches" />
-                </div>
-              </el-card>
-            </div>
-
-            <div class="col-md-4 order-1">
-              <el-card style="margin: 20px auto">
-                <div>
-                  <h3>Welcome, @{{ userName }}</h3>
-                  <p>
-                    Your personalized Niched homepage. Come here to check in
-                    with your favorite communities
-                  </p>
-                  <div style="width: 150px; margin: auto">
-                    <el-avatar
-                      :size="150"
-                      src="https://www.petage.com/wp-content/uploads/2019/09/Depositphotos_74974941_xl-2015-e1569443284386-670x627.jpg"
-                      style="margin-top: 10px; margin-bottom: 10px; width: 100%"
-                    ></el-avatar>
-                  </div>
-                  <div class="px-4 d-flex justify-content-end text-center">
-                    <ul class="list-inline mb-0">
-                      <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">
-                          {{ subscribedGroups.length }}
-                        </h5>
-                        <small class="text-muted">
-                          <i class="fas fa-user mr-1"></i>Niches Joined</small
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </el-card>
-            </div>
-          </div>
-        </div>
+        </card>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, watch, ref, watchEffect } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { defineComponent, watch, ref, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
+import Card from "@/components/Card.vue";
 import { useState } from "@/state";
+import { useSpace } from "@/hooks/useSpace";
+import { Space } from "@/api/space";
+import { Event } from "@/api/event";
+import { useUser } from "@/hooks/useUser";
 import { useFetch } from "@/hooks/useFetch";
-import { SpacesResponse, fetchSpaces } from "@/api/spaces";
-import NicheCards from "@/components/NicheCards.vue";
+import { fetchSpaces, SpacesResponse } from "@/api/spaces";
+import { useAllEvents } from "@/hooks/useEvent";
 
 export default defineComponent({
   name: "Profile",
-  components: { TopBar, NicheCards },
-
+  components: { TopBar, Card },
   setup() {
-    const router = useRouter();
+    const lock = ref(true);
+    const groupsJoined = ref<Space[]>([]);
+    const eventsJoined = ref<Event[]>([]);
+    const selfProfile = ref(true);
+
     const route = useRoute();
-    const { loggedIn, userName, subscribedGroups, interests } = useState();
-    const imageUrl =
-      "https://cdn.britannica.com/06/171306-050-C88DD752/Aurora-borealis-peninsula-Snaefellsnes-Iceland-March-2013.jpg";
+    const router = useRouter();
+    const userName = route.params.userName as string;
+    const {
+      loading,
+      loggedIn,
+      userName: loggedInUserName,
+      subscribedGroups: loggedInGroups,
+      interests: loggedInInterests,
+    } = useState();
 
-    type Niche = {
-      title: string;
-      detail: string;
-      imgUrl: string;
-      memberList: string[];
-      groupId: string;
+    const { interests } = useUser(userName, true);
+    const { events } = useAllEvents(true);
+
+    const redirect = (loading: boolean, loggedIn: boolean) => {
+      if (!loading) {
+        lock.value = false;
+        if (!loggedIn) {
+          router.push({ name: "Login" });
+        }
+      }
     };
-    const userNiches = ref<Niche[]>([]);
 
-    const { fetched, fetching, data } = useFetch<SpacesResponse>(
+    watch([loading, loggedIn], ([loading, loggedIn]) => {
+      redirect(loading, loggedIn);
+    });
+
+    redirect(loading.value, loggedIn.value);
+
+    watch(loggedInUserName, (name) => (selfProfile.value = userName === name));
+
+    const { fetched: fetchedSpaces, data } = useFetch<SpacesResponse>(
       fetchSpaces,
       true
     );
+
     watchEffect(() => {
-      if (fetched.value) {
+      if (fetchedSpaces.value) {
         const items = Object.values(data.value || {}).map(
-          ({ group_id, name, description, image_url, members }) => ({
+          ({
+            group_id,
+            author_id,
+            name,
+            description,
+            image_url,
+            creation_date,
+            members,
+            tags,
+          }) => ({
             groupId: group_id,
-            title: name,
-            detail: description,
-            imgUrl:
+            authorId: author_id,
+            name,
+            description,
+            imageUrl:
               image_url ||
               "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dG9reW98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
-            memberList: members,
+            members,
+            tags,
+            creationDate: creation_date,
           })
         );
-        // Get user's niches
-        userNiches.value = items.filter((data) =>
-          subscribedGroups.value.includes(data.groupId)
+
+        groupsJoined.value = items.filter((group) =>
+          group.members.includes(userName)
         );
       }
-    });
 
-    watch([loggedIn, userName], ([l, u]) => {
-      if (!l) {
-        router.push({ name: "Login" });
-      } else {
-        if (u !== route.params.userName) {
-          alert("please log in as:" + route.params.userName);
-        }
+      if (events.value) {
+        eventsJoined.value = events.value.filter(
+          (e) =>
+            e.members.going.includes(userName) ||
+            e.members.interested.includes(userName)
+        );
       }
     });
 
     return {
+      eventsJoined,
+      groupsJoined,
+
       userName,
-      fetching,
-      subscribedGroups,
       interests,
-      imageUrl,
-      userNiches,
+      imageUrl: "",
+      selfProfile,
+
+      loggedInUserName,
+      loggedInInterests,
+      loggedInGroups,
+      lock,
+      jumpToSpace(item: string) {
+        router.push({ name: "Space", params: { id: item } });
+      },
     };
   },
 });
 </script>
-
-<style>
-@import "../../assets/styles/niched-styles.css";
-@import "../../assets/styles/niched-styles.css";
-
-.homepage-container {
-  max-width: 1600px;
-  width: 100%;
-}
-</style>
