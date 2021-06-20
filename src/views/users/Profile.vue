@@ -4,10 +4,92 @@
     <div class="row py-5 px-4 niched-bg justify-content-center">
       <div class="col-lg-6 col-md-8">
         <card class="bg-light">
-          <img :src="imageUrl" style="height: 200px; object-fit: cover" />
+          <!-- <img :src="imageUrl" style="height: 200px; object-fit: cover" /> -->
           <div class="container-fluid">
-            <div class="row justify-content-center">
-              <el-avatar class="my-1" :size="60"> {{ userName }}</el-avatar>
+            <div class="row justify-content-center my-5">
+              <h2>{{ userName }}</h2>
+              <div
+                style="
+                  height: 3px;
+                  width: 100%;
+                  background: linear-gradient(23deg, #ddd6f3 0%, #faaca8 100%);
+                "
+                class="my-2"
+              />
+            </div>
+            <div class="row my-2 justify-content-center">
+              <div class="col-11">
+                <div class="row my-2">
+                  <div class="col-12 my-1 mx-1">
+                    <h5>
+                      {{ selfProfile ? "Your Niches" : "Your common Niches" }}
+                    </h5>
+                  </div>
+                  <div
+                    v-for="group in groupsJoined.filter((x) =>
+                      x.members.includes(loggedInUserName)
+                    )"
+                    :key="group.groupId"
+                    class="col-lg-4 col-md-6 my-2 mx-2"
+                    style="overflow: hidden"
+                  >
+                    <div
+                      class="niche-card-parent shadow-sm clickable"
+                      :style="{
+                        backgroundImage: 'url(' + group.imageUrl + ')',
+                        backgroundPosition: 'center',
+                      }"
+                      @click="jumpToSpace(group.groupId)"
+                    >
+                      <div class="niched-card-overlay"></div>
+                    </div>
+                    <div class="row niche-card-header px-2">
+                      <div class="col-sm-10">
+                        {{ group.name }}
+                        <br />
+                        {{ group.description }}
+                      </div>
+                      <div class="col-sm-2 d-flex justify-content-end">
+                        <i class="el-icon-user"> {{ group.members.length }}</i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-4" v-if="!selfProfile">
+                  <div class="col-12 my-2 mx-2">
+                    <h5>{{ "Niches " + userName + " is interested in" }}</h5>
+                  </div>
+                  <div
+                    v-for="group in groupsJoined.filter(
+                      (x) => !x.members.includes(loggedInUserName)
+                    )"
+                    :key="group.groupId"
+                    class="col-lg-4 col-md-6 my-2"
+                    style="overflow: hidden"
+                  >
+                    <div
+                      class="niche-card-parent shadow-sm clickable"
+                      :style="{
+                        backgroundImage: 'url(' + group.imageUrl + ')',
+                        backgroundPosition: 'center',
+                      }"
+                      @click="jumpToSpace(group.groupId)"
+                    >
+                      <div class="niched-card-overlay"></div>
+                    </div>
+                    <div class="row niche-card-header px-2">
+                      <div class="col-sm-10">
+                        {{ group.name }}
+                        <br />
+                        {{ group.description }}
+                      </div>
+                      <div class="col-sm-2 d-flex justify-content-end">
+                        <i class="el-icon-user"> {{ group.members.length }}</i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="row my-2 justify-content-center">
               <div class="col-11">
@@ -35,79 +117,6 @@
                 >
                   {{ interest }}
                 </el-tag>
-              </div>
-            </div>
-            <div class="row my-2 justify-content-center">
-              <div class="col-11">
-                <h5>Niches</h5>
-                <div class="row">
-                  <div class="col-12 my-1 mx-1">
-                    {{ selfProfile ? "Your Niches" : "Your common Niches" }}
-                  </div>
-                  <div
-                    v-for="group in groupsJoined.filter((x) =>
-                      x.members.includes(loggedInUserName)
-                    )"
-                    :key="group.groupId"
-                    class="col-6 col-sm-3 my-2 mx-2"
-                    style="overflow: hidden"
-                  >
-                    <div
-                      class="niche-card-parent shadow-sm clickable"
-                      :style="{
-                        backgroundImage: 'url(' + group.imageUrl + ')',
-                        backgroundPosition: 'center',
-                      }"
-                      @click="jumpToSpace(group.groupId)"
-                    >
-                      <div class="niched-card-overlay"></div>
-                    </div>
-                    <div class="row niche-card-header px-2">
-                      <div class="col-sm-10">
-                        {{ group.name }}
-                        <br />
-                        {{ group.description }}
-                      </div>
-                      <div class="col-sm-2 d-flex justify-content-end">
-                        <i class="el-icon-user"> {{ group.members.length }}</i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row" v-if="!selfProfile">
-                  <div class="col-12 my-2 mx-2">
-                    {{ "Niches " + userName + " is interested in" }}
-                  </div>
-                  <div
-                    v-for="group in groupsJoined.filter(
-                      (x) => !x.members.includes(loggedInUserName)
-                    )"
-                    :key="group.groupId"
-                    class="col-6 col-sm-3 my-2 mx-2"
-                    style="overflow: hidden"
-                  >
-                    <div
-                      class="niche-card-parent shadow-sm clickable"
-                      :style="{
-                        backgroundImage: 'url(' + group.imageUrl + ')',
-                        backgroundPosition: 'center',
-                      }"
-                      @click="jumpToSpace(group.groupId)"
-                    >
-                      <div class="niched-card-overlay"></div>
-                    </div>
-                    <div class="row niche-card-header px-2">
-                      <div class="col-sm-10">
-                        {{ group.name }}
-                        <br />
-                        {{ group.description }}
-                      </div>
-                      <div class="col-sm-2 d-flex justify-content-end">
-                        <i class="el-icon-user"> {{ group.members.length }}</i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -264,11 +273,11 @@ export default defineComponent({
         );
       }
 
-      if (events.value && loggedInUserName.value) {
+      if (events.value) {
         eventsJoined.value = events.value.filter(
           (e) =>
-            e.members.going.includes(loggedInUserName.value) ||
-            e.members.interested.includes(loggedInUserName.value)
+            e.members.going.includes(userName) ||
+            e.members.interested.includes(userName)
         );
       }
     });
