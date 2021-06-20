@@ -45,7 +45,7 @@
           </div>
           <div>
             <el-button
-              type="danger"
+              type="success"
               class="mx-1 my-2"
               plain
               @click="onSubmitThread"

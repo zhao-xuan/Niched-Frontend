@@ -23,169 +23,149 @@
       </el-carousel>
     </div>
 
+    <div class="row justify-content-between">
+      <div class="col-8">
+        <h4 style="color: red"><i class="el-icon-medal-1"></i> Find Events</h4>
+      </div>
+      <div class="col-4">
+        <div style="color: grey">
+          <div class="">
+            <el-input
+              v-model="search"
+              size="small "
+              placeholder="E.g. Counter Strike"
+            />
+          </div>
+          <div class="px-2" style="float: right">
+            <i class="el-icon-search"></i> Search by Space
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="pt-2">
-      <el-card class="box-card" style="border-radius: 4px" shadow="hover">
-        <h5>Your Events</h5>
-        <el-table
-          ref="filterTable"
-          :data="
-            tableData.filter(
-              (data) =>
-                !search ||
-                data.space.toLowerCase().includes(search.toLowerCase())
-            )
-          "
-          style="width: 100%"
-        >
-          <el-table-column
-            label="Date"
-            prop="date"
-            sortable
-            width="120"
-            column-key="date"
-          >
-          </el-table-column>
-          <el-table-column label="Space" prop="space" width="150">
-          </el-table-column>
-          <el-table-column
-            label="Details"
-            prop="details"
-            min-width="300"
-            :formatter="formatter"
-          >
-          </el-table-column>
-          <el-table-column
-            label="Status"
-            prop="status"
-            sortable
-            width="100"
-            :filters="[
-              { text: 'Going', value: 'Going' },
-              { text: 'Interested', value: 'Interested' },
-            ]"
-            :filter-method="filterTag"
-            filter-placement="bottom-end"
-          >
-            <template v-slot="scope">
-              <el-tag
-                :type="scope.row.status === 'Going' ? 'success' : 'primary'"
-                disable-transitions
-                >{{ scope.row.status }}</el-tag
-              >
-            </template>
-          </el-table-column>
-          <el-table-column align="right" width="180">
-            <template v-slot:header>
-              <el-input
-                v-model="search"
-                size="mini"
-                placeholder="Search by Space"
+      <el-tabs v-model="selectedTab" @tab-click="handleClick">
+        <el-tab-pane label="Upcoming" name="upcomingEvents">
+          <div class="row">
+            <div class="col-0 col-md-2"></div>
+            <div class="col-12 col-md-8">
+              <EventsByMonthDate
+                :events="allEvents"
+                :niches="allNiches"
+                @click-event="jumpToEvent"
               />
-            </template>
-            <template v-slot="scope">
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)"
-                >Edit</el-button
-              >
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
-                >Delete</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-card>
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Past" name="pastEvents"> </el-tab-pane>
+        <el-tab-pane label="Popular" name="popularEvents"> </el-tab-pane>
+        <el-tab-pane label="All" name="allEvents"> </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
 
-<script>
-import { getConfig } from "element-plus/lib/utils/config";
-export default {
-  data() {
+<script lang="ts">
+import {
+  defineComponent,
+  watch,
+  ref,
+  watchEffect,
+  computed,
+  ComputedRef,
+} from "vue";
+import { useRoute, useRouter } from "vue-router";
+import TopBar from "../Topbar.vue";
+import Card from "@/components/Card.vue";
+import { useState } from "@/state";
+import { useSpace } from "@/hooks/useSpace";
+import { Space } from "@/api/space";
+import { Event } from "@/api/event";
+import { useUser } from "@/hooks/useUser";
+import { useFetch } from "@/hooks/useFetch";
+import { fetchSpaces, SpacesResponse } from "@/api/spaces";
+import { useAllEvents } from "@/hooks/useEvent";
+import EventsByMonthDate from "../event/EventsForHomepage.vue";
+
+export default defineComponent({
+  name: "AllEvents",
+  components: { EventsByMonthDate },
+  setup() {
+    const lock = ref(true);
+    const groupsJoined = ref<Space[]>([]);
+    const allEvents = ref<Event[]>([]);
+    const selfProfile = ref(true);
+
+    const route = useRoute();
+    const router = useRouter();
+    const userName = route.params.userName as string;
+    const {
+      loading,
+      loggedIn,
+      userName: loggedInUserName,
+      subscribedGroups: loggedInGroups,
+      interests: loggedInInterests,
+    } = useState();
+    const allNiches = ref<Space[]>([]);
+
+    const { events } = useAllEvents(true);
+    const sortedEvents = computed(() =>
+      [...events.value].sort(
+        (a: Event, b: Event) =>
+          Number(new Date(b.eventDate)) - Number(new Date(a.eventDate))
+      )
+    );
+
+    const { fetched: fetchedSpaces, data } = useFetch<SpacesResponse>(
+      fetchSpaces,
+      true
+    );
+
+    watchEffect(() => {
+      if (fetchedSpaces.value) {
+        const items = Object.values(data.value || {}).map(
+          ({
+            group_id,
+            author_id,
+            name,
+            description,
+            image_url,
+            creation_date,
+            members,
+            tags,
+          }) => ({
+            groupId: group_id,
+            authorId: author_id,
+            name,
+            description,
+            imageUrl:
+              image_url ||
+              "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dG9reW98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+            members,
+            tags,
+            creationDate: creation_date,
+          })
+        );
+
+        allNiches.value = items;
+      }
+
+      if (events.value) {
+        allEvents.value = events.value;
+      }
+    });
+
+    const selectedTab = ref("upcomingEvents");
+
     return {
-      tableData: [
-        {
-          date: "2016-05-03",
-          space: "CSGO",
-          details:
-            "There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?",
-          status: "Going",
-        },
-        {
-          date: "2016-05-02",
-          space: "Ramen Lovers",
-          details:
-            "let's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. ",
-          status: "Going",
-        },
-        {
-          date: "2016-05-04",
-          space: "Morgan",
-          details:
-            "Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good, Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good,",
-          status: "Going",
-        },
-        {
-          date: "2016-05-01",
-          space: "Jessy",
-          details:
-            "There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid ",
-          status: "Interested",
-        },
-        {
-          date: "2016-05-02",
-          space: "Ramen Lovers",
-          details:
-            "let's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. ",
-          status: "Going",
-        },
-        {
-          date: "2016-05-04",
-          space: "Morgan",
-          details:
-            "Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good, Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid on the scene - Hoang TBP. Seems really good,",
-          status: "Interested",
-        },
-        {
-          date: "2016-05-01",
-          space: "Jessy",
-          details:
-            "There is a new kid on the scene - Hoang TBP. Seems really good, but is he really good enough to beat our master GW?There is a new kid ",
-          status: "Interested",
-        },
-        {
-          date: "2016-05-02",
-          space: "Ramen Lovers",
-          details:
-            "let's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. i just dont think its legitlet's disucss more about chicken ramens dude. ",
-          status: "Going",
-        },
-      ],
-      search: "",
+      selectedTab,
+      allEvents,
+      allNiches,
+      jumpToSpace(item: string) {
+        router.push({ name: "Space", params: { id: item } });
+      },
     };
   },
-  methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
-    },
-    handleDelete(index, row) {
-      console.log(index, row);
-    },
-    resetDateFilter() {
-      this.$refs.filterTable.clearFilter("date");
-    },
-    clearFilter() {
-      this.$refs.filterTable.clearFilter();
-    },
-    filterTag(value, row) {
-      return row.status === value;
-    },
-  },
-};
+});
 </script>
 
 <style>

@@ -76,7 +76,10 @@
                           {{ Moment(thread.creationDate).fromNow() }}
                         </div>
                       </div>
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="jumpToThread(thread.threadId)"
+                      >
                         <div class="my-1">
                           <b>{{ thread.title }}</b>
                         </div>
@@ -103,12 +106,12 @@
                         </div>
                         <div>
                           <el-button
-                            type="success"
+                            type="primary"
                             class="mx-1 my-2"
                             plain
                             @click="jumpToThread(thread.threadId)"
                           >
-                            Join!
+                            Reply
                           </el-button>
                         </div>
                       </div>

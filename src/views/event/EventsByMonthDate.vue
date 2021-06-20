@@ -8,7 +8,7 @@
         class="mt-3 p-3"
         v-for="event in eventsByMonthDate.events"
         :key="event.eventId"
-        style="cursor: pointer; background-color: white; border-radius: 7px"
+        style="cursor: pointer"
         @click="$emit('click-event', event.eventId)"
       >
         <div class="row">
