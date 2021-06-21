@@ -50,6 +50,6 @@ export type ThreadCreationResponse = ThreadResponse;
 export const postThreadCreation = async (
   req: ThreadCreation
 ): Promise<ThreadCreationResponse> => {
-  const res = await axios.post(`${SERVER_URL}/thread/`, req);
+  const res = await axios.post(`${SERVER_URL}/thread`, req);
   return res.data;
 };
