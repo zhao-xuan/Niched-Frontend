@@ -22,11 +22,11 @@
           </div>
           <div class="row header-carousel-header px-5">
             <div class="col-sm-10">
-              <h4 class="pb-3">{{ item.title }}</h4>
-              <h6>{{ item.detail }}</h6>
+              <h4 class="pb-3">{{ item.name }}</h4>
+              <h6>{{ item.description }}</h6>
             </div>
             <div class="col-sm-2 d-flex justify-content-end">
-              <i class="el-icon-user"> {{ item.memberList.length }}</i>
+              <i class="el-icon-user"> {{ item.members.length }}</i>
             </div>
           </div>
         </el-carousel-item>
@@ -67,7 +67,7 @@
                 recommendedNiches.filter(
                   (data) =>
                     !search ||
-                    data.title.toLowerCase().includes(search.toLowerCase())
+                    data.name.toLowerCase().includes(search.toLowerCase())
                 )
               "
             />
@@ -84,7 +84,7 @@
                 mostMemberNiches.filter(
                   (data) =>
                     !search ||
-                    data.title.toLowerCase().includes(search.toLowerCase())
+                    data.name.toLowerCase().includes(search.toLowerCase())
                 )
               "
             />
@@ -101,7 +101,7 @@
                 newNiches.filter(
                   (data) =>
                     !search ||
-                    data.title.toLowerCase().includes(search.toLowerCase())
+                    data.name.toLowerCase().includes(search.toLowerCase())
                 )
               "
             />
@@ -120,7 +120,7 @@
                 allNiches.filter(
                   (data) =>
                     !search ||
-                    data.title.toLowerCase().includes(search.toLowerCase())
+                    data.name.toLowerCase().includes(search.toLowerCase())
                 )
               "
             />
@@ -157,28 +157,21 @@ import { defineComponent, ref, watchEffect } from "vue";
 import { useFetch } from "@/hooks/useFetch";
 import { SpacesResponse, fetchSpaces } from "@/api/spaces";
 import NicheCards from "@/components/NicheCards.vue";
+import { Space } from "@/api/space";
 
 export default defineComponent({
   components: { NicheCards },
   name: "Home",
   setup() {
     const router = useRouter();
-    const { subscribedGroups } = useState();
-    type Niche = {
-      title: string;
-      detail: string;
-      imgUrl: string;
-      memberList: string[];
-      groupId: string;
-    };
-    var randomNiches: Niche[] = [];
-    // const { allNiches, popularNiches } = toRefs(reactive(dashboardFixture));
-    const allNiches = ref<Niche[]>([]);
-    const popularNiches = ref<Niche[]>([]);
-    const userNiches = ref<Niche[]>([]);
-    const recommendedNiches = ref<Niche[]>([]);
-    const mostMemberNiches = ref<Niche[]>([]);
-    const newNiches = ref<Niche[]>([]);
+    const { userName, subscribedGroups } = useState();
+    var randomNiches: Space[] = [];
+    const allNiches = ref<Space[]>([]);
+    const popularNiches = ref<Space[]>([]);
+    const userNiches = ref<Space[]>([]);
+    const recommendedNiches = ref<Space[]>([]);
+    const mostMemberNiches = ref<Space[]>([]);
+    const newNiches = ref<Space[]>([]);
     const chosenNiches = [
       "minecraft",
       "csgo",
@@ -197,14 +190,26 @@ export default defineComponent({
     watchEffect(() => {
       if (fetched.value) {
         const items = Object.values(data.value || {}).map(
-          ({ group_id, name, description, image_url, members }) => ({
+          ({
+            group_id,
+            author_id,
+            name,
+            description,
+            image_url,
+            creation_date,
+            members,
+            tags,
+          }) => ({
             groupId: group_id,
-            title: name,
-            detail: description,
-            imgUrl:
+            authorId: author_id,
+            name,
+            description,
+            imageUrl:
               image_url ||
               "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dG9reW98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
-            memberList: members,
+            members,
+            tags,
+            creationDate: creation_date,
           })
         );
 
@@ -217,8 +222,8 @@ export default defineComponent({
         popularNiches.value = randomNiches;
 
         // Get user's niches
-        userNiches.value = items.filter((data) =>
-          subscribedGroups.value.includes(data.groupId)
+        userNiches.value = items.filter((group) =>
+          group.members.includes(userName.value)
         );
 
         // Display recommended Niches on first tab
@@ -228,7 +233,7 @@ export default defineComponent({
 
         mostMemberNiches.value = items
           .sort(function (a, b) {
-            return b.memberList.length - a.memberList.length;
+            return b.members.length - a.members.length;
           })
           .slice(0, 8);
 

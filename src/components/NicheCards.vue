@@ -8,7 +8,7 @@
     <div
       class="niche-card-parent shadow-sm clickable"
       :style="{
-        backgroundImage: 'url(' + item.imgUrl + ')',
+        backgroundImage: 'url(' + item.imageUrl + ')',
         backgroundPosition: 'center',
       }"
       @click="jumpToSpace(item.groupId)"
@@ -17,12 +17,12 @@
     </div>
     <div class="row niche-card-header px-2">
       <div class="col-sm-10">
-        {{ item.title }}
+        {{ item.name }}
         <br />
-        {{ item.detail }}
+        {{ item.description }}
       </div>
       <div class="col-sm-2 d-flex justify-content-end">
-        <i class="el-icon-user"> {{ item.memberList.length }}</i>
+        <i class="el-icon-user"> {{ item.members.length }}</i>
       </div>
     </div>
   </div>
@@ -30,24 +30,14 @@
 
 <script lang="ts">
 import { useRouter } from "vue-router";
-import { defineComponent, toRefs, ref, PropType, watchEffect } from "vue";
-import { useFetch } from "@/hooks/useFetch";
-import { SpacesResponse, fetchSpaces } from "@/api/spaces";
-import { dashboardFixture } from "./fixtures";
-
-type Niche = {
-  title: string;
-  detail: string;
-  imgUrl: string;
-  memberList: string[];
-  id: string;
-};
+import { defineComponent, PropType } from "vue";
+import { Space } from "@/api/space";
 
 export default defineComponent({
   props: {
     niches: {
       required: true,
-      type: Array as PropType<Niche[]>,
+      type: Array as PropType<Space[]>,
     },
   },
   setup() {
