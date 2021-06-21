@@ -28,9 +28,9 @@ export const fetchComments = async (
 //create comment
 
 type CommentCreation = {
-    thread_id: string,
-    body: string,
-    user_name?: string
+  thread_id: string,
+  body: string,
+  user_name?: string
 };
 
 export type CommentCreationResponse = CommentResponse;
@@ -38,6 +38,6 @@ export type CommentCreationResponse = CommentResponse;
 export const postCommentCreation = async (
   req: CommentCreation
 ): Promise<CommentCreationResponse> => {
-  const res = await axios.post(`${SERVER_URL}/comment/`, req);
+  const res = await axios.post(`${SERVER_URL}/comment`, req);
   return res.data;
 };
