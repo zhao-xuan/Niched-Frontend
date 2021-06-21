@@ -20,12 +20,12 @@
 
           <div class="row">
             <div class="col-sm-12">
-              <div class="px-4 py-3" style="background-color: #ffffff">
+              <div class="px-4 py-3" style="background-color: white">
                 <h6 style="color: red">
                   <span class="pr-2">
-                    <el-tag type="danger">Event</el-tag>
+                    <el-tag type="success" effect="dark">Event</el-tag>
                   </span>
-                  <span class="pr-2">
+                  <span class="pr-2 clickable" @click="jumpToSpace(groupId)">
                     {{ name }}
                   </span>
                 </h6>
@@ -235,6 +235,7 @@ export default defineComponent({
 
     return {
       name,
+      groupId,
       imageUrl,
       description,
       creationDate,
@@ -251,6 +252,9 @@ export default defineComponent({
 
       loadInterested,
       loadGoing,
+      jumpToSpace(item: string) {
+        router.push({ name: "Space", params: { id: item } });
+      },
     };
   },
 });

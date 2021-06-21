@@ -21,15 +21,28 @@
             }"
           ></div>
 
-          <div class="row justify-content-between">
+          <div
+            class="row justify-content-between py-3"
+            style="background-color: white"
+          >
+            <div class="col-12">
+              <h6 class="pl-4 pb-0 mb-0" style="color: red">
+                <span class="pr-2">
+                  <el-tag type="danger" effect="dark">Niche</el-tag>
+                </span>
+                <span class="pr-2 clickable" @click="jumpToSpace(groupId)">
+                  {{ groupId }}
+                </span>
+              </h6>
+            </div>
             <div class="col-sm-12 col-md-8">
-              <div class="px-5 pt-3 d-flex text-left">
+              <div class="pl-4 d-flex text-left">
                 <h2>{{ name }}</h2>
               </div>
             </div>
-            <div class="col-md-4 col-sm-12">
+            <div class="col-sm-12 col-md-4">
               <div class="row justify-content-end">
-                <div class="px-5 pt-3 col-xl-6 col-lg-8 col-md-12 col-sm-12">
+                <div class="px-5 col-xl-6 col-lg-8 col-md-12 col-sm-12">
                   <el-button
                     @click="onJoinGroup()"
                     type="primary"

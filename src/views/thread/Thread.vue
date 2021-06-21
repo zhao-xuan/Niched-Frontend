@@ -22,9 +22,22 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="px-4 pt-3 d-flex text-left">
+          <div class="row px-4 py-3" style="background-color: white">
+            <div class="col-12">
+              <h6 class="pb-0 mb-0" style="color: red">
+                <span class="pr-2">
+                  <el-tag effect="dark">Thread</el-tag>
+                </span>
+                <span class="pr-2 clickable" @click="jumpToSpace(groupId)">
+                  {{ groupId }}
+                </span>
+              </h6>
+            </div>
+            <div class="col-12">
+              <div
+                class="d-flex text-left clickable"
+                @click="jumpToSpace(groupId)"
+              >
                 <h2>{{ name }}</h2>
               </div>
             </div>
@@ -264,6 +277,10 @@ export default defineComponent({
       comments,
       commentBody,
       fetchingComments,
+
+      jumpToSpace(item: string) {
+        router.push({ name: "Space", params: { id: item } });
+      },
     };
   },
 });
