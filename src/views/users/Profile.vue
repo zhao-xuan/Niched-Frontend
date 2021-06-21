@@ -1,6 +1,6 @@
 <template>
   <TopBar />
-  <div class="container-fluid" v-loading.fullscreen.lock="lock">
+  <div class="container-fluid" v-loading.fullscreen.lock="lock || fetching">
     <div class="row py-5 px-4 niched-bg justify-content-center">
       <div class="col-lg-6 col-md-8">
         <card class="bg-light">
@@ -17,6 +17,35 @@
                 class="my-2"
               />
             </div>
+            <div class="row my-2">
+              <div class="col-11 pl-5">
+                <h5>
+                  Interests
+                  <el-tooltip
+                    content="Your common interests are highlighted!"
+                    placement="top-start"
+                    transition="el-fade-in-linear"
+                    v-if="!selfProfile"
+                  >
+                    <i class="el-icon-info" style="font-size: 0.8em"> </i
+                  ></el-tooltip>
+                </h5>
+              </div>
+              <div class="col-11 pl-5">
+                <el-tag
+                  class="mx-1 my-1"
+                  v-for="interest in interests"
+                  :key="interest"
+                  :effect="
+                    loggedInInterests.includes(interest) ? 'dark' : 'plain'
+                  "
+                  type="success"
+                >
+                  {{ interest }}
+                </el-tag>
+              </div>
+            </div>
+
             <div class="row my-2 justify-content-center">
               <div class="col-11">
                 <div class="row my-2">
@@ -91,34 +120,6 @@
                 </div>
               </div>
             </div>
-            <div class="row my-2 justify-content-center">
-              <div class="col-11">
-                <h5>
-                  Interests
-                  <el-tooltip
-                    content="Your common interests are highlighted!"
-                    placement="top-start"
-                    transition="el-fade-in-linear"
-                    v-if="!selfProfile"
-                  >
-                    <i class="el-icon-info" style="font-size: 0.8em"> </i
-                  ></el-tooltip>
-                </h5>
-              </div>
-              <div class="col-11">
-                <el-tag
-                  class="mx-1 my-1"
-                  v-for="interest in interests"
-                  :key="interest"
-                  :effect="
-                    loggedInInterests.includes(interest) ? 'dark' : 'plain'
-                  "
-                  type="success"
-                >
-                  {{ interest }}
-                </el-tag>
-              </div>
-            </div>
 
             <div class="row my-1 justify-content-center">
               <div class="col-11"><h5>Events</h5></div>
@@ -130,7 +131,7 @@
                       v-for="event in eventsJoined.slice(0, 5)"
                       :key="event.eventId"
                       style="cursor: pointer"
-                      @click="$emit('click-event', event.eventId)"
+                      @click="jumpToEvent(event.groupId, event.eventId)"
                     >
                       <div class="row">
                         <div
@@ -237,10 +238,11 @@ export default defineComponent({
 
     watch(loggedInUserName, (name) => (selfProfile.value = userName === name));
 
-    const { fetched: fetchedSpaces, data } = useFetch<SpacesResponse>(
-      fetchSpaces,
-      true
-    );
+    const {
+      fetched: fetchedSpaces,
+      fetching,
+      data,
+    } = useFetch<SpacesResponse>(fetchSpaces, true);
 
     watchEffect(() => {
       if (fetchedSpaces.value) {
@@ -285,6 +287,7 @@ export default defineComponent({
     return {
       eventsJoined,
       groupsJoined,
+      fetching,
 
       userName,
       interests,
@@ -297,6 +300,9 @@ export default defineComponent({
       lock,
       jumpToSpace(item: string) {
         router.push({ name: "Space", params: { id: item } });
+      },
+      jumpToEvent(groupId: string, eventId: string) {
+        router.push({ path: `/event/${groupId}/${eventId}` });
       },
     };
   },
