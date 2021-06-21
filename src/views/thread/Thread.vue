@@ -39,216 +39,134 @@
                       ><i class="el-icon-chat-line-square"></i>Thread Feed</span
                     >
                   </template>
-                  <div class="card">
-                    <h5 class="card-header">Pinned Message</h5>
-                    <div class="card-body">
-                      <h5 class="card-title">{{ title }}</h5>
-                      <p class="card-text">
-                        {{ threadDescription }}
-                      </p>
-                      <a class="btn btn-primary mr-3">Like</a>
-                      <a
-                        class="btn btn-primary mr-3"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        >Comment</a
-                      >
-                      <!-- Modal -->
-                      <div
-                        class="modal fade"
-                        id="exampleModal"
-                        tabindex="-1"
-                        aria-labelledby="exampleModalLabel"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">
-                                Modal title
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-12">
+                        <card class="mt-3 px-3">
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                              <el-avatar icon="el-icon-user-solid" :size="30" />
+                              <div class="ml-2 my-2" style="font-weight: 500">
+                                {{ authorId }}
+                              </div>
                             </div>
-                            <div class="modal-body">
-                              <textarea
-                                type="text"
-                                class="form-control"
-                                rows="3"
-                                placeholder="Enter your comment"
-                                v-model="commentBody"
-                              ></textarea>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                              >
-                                Close
-                              </button>
-                              <button
-                                type="button"
-                                class="btn btn-primary"
-                                @click="submitComment()"
-                                data-bs-dismiss="modal"
-                              >
-                                Submit
-                              </button>
+                            <div
+                              class="text-secondary"
+                              style="font-weight: 400"
+                            >
+                              {{ Moment(threadCreationDate).fromNow() }}
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <a href="#" class="btn btn-primary mr-3"
-                        >Add A Related Event</a
-                      >
-                    </div>
-                  </div>
-                  <div
-                    class="my-3 mr-5"
-                    v-for="(comment, i) in comments"
-                    :key="comment.commentId"
-                  >
-                    <card class="mt-3 px-3">
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center">
-                          <img
-                            class="rounded-circle"
-                            :src="`https://randomuser.me/api/portraits/men/${i}.jpg`"
-                            style="width: 32px"
-                          />
-                          <div class="ml-2" style="font-weight: 500">
-                            {{ comment.userName }}
+                          <div
+                            class="clickable"
+                            @click="jumpToThread(thread.threadId)"
+                          >
+                            <div class="my-1">
+                              <b>{{ title }}</b>
+                            </div>
+                            <div class="text item my-3">
+                              {{ threadDescription }}
+                            </div>
                           </div>
-                        </div>
-                        <div class="text-secondary" style="font-weight: 400">
-                          {{ Moment(comment.creationDate).fromNow() }}
-                        </div>
-                      </div>
-                      <div class="pl-3">
-                        <div>
-                          <div class="my-1">
-                            {{ comment.body }}
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                          <div class="mr-3">
-                            <i class="el-icon-top" /><b>{{
-                              Math.floor(Math.random() * 100 + 1)
-                            }}</b>
-                          </div>
-                          <div class="mr-3">
-                            <i class="el-icon-bottom" /><b>{{
-                              Math.floor(Math.random() * 100 + 1)
-                            }}</b>
-                          </div>
-                        </div>
-                      </div>
-                    </card>
-                  </div>
-                </el-tab-pane>
-
-                <el-tab-pane label="Events">
-                  <template #label>
-                    <span><i class="el-icon-place"></i>Related Event</span>
-                  </template>
-                  <div class="col-md-12 order-0">
-                    <el-card style="background-color: #ffe8e0">
-                      <template #header>
-                        <div>
-                          <span>
-                            <a href="https://www.google.co.uk">
-                              <b
-                                ><font color="#FF7744">Event: </font
-                                >{{
-                                  title /* This should be replaced by thread related event title */
-                                }}</b
-                              >
-                            </a>
-                          </span>
-                          <el-button
-                            type="text"
-                            style="
-                              float: right;
-                              margin-top: -10px;
-                              text-align: right;
+                          <div
+                            class="
+                              d-flex
+                              align-items-center
+                              justify-content-between
+                              mx-1
                             "
-                            >{{ Moment(creationDate).calendar() }}<br /><b
-                              >&nbsp;@&nbsp;{{ authorId }}</b
-                            ></el-button
+                            style="color: #b3b3b3"
                           >
+                            <div class="d-flex">
+                              <div class="mr-3">
+                                <i class="el-icon-chat-line-round mx-1" /><b>{{
+                                  comments.length
+                                }}</b>
+                              </div>
+                              <div><i class="el-icon-share mr-1" />share</div>
+                            </div>
+                          </div>
+                        </card>
+                      </div>
+                    </div>
+
+                    <div class="row d-flex flex-row-reverse">
+                      <div class="col-11">
+                        <div
+                          v-for="(comment, i) in comments"
+                          :key="comment.commentId"
+                        >
+                          <card class="mt-3 px-3">
+                            <div class="d-flex justify-content-between">
+                              <div class="d-flex align-items-center">
+                                <img
+                                  class="rounded-circle"
+                                  :src="`https://randomuser.me/api/portraits/men/${i}.jpg`"
+                                  style="width: 32px"
+                                />
+                                <div class="ml-2" style="font-weight: 500">
+                                  {{ comment.userName }}
+                                </div>
+                              </div>
+                              <div
+                                class="text-secondary"
+                                style="font-weight: 400"
+                              >
+                                {{ Moment(comment.creationDate).fromNow() }}
+                              </div>
+                            </div>
+                            <div class="pl-3 my-2">
+                              <div class="my-1">
+                                {{ comment.body }}
+                              </div>
+                            </div>
+                          </card>
                         </div>
-                      </template>
-                      <div class="text item pb-3">
-                        <b>
-                          Date and Time: {{ Moment(eventDate).calendar() }}
-                        </b>
+                        <card class="mt-3 px-3">
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                              <el-avatar icon="el-icon-user-solid" :size="30" />
+                              <div class="ml-2" style="font-weight: 500">
+                                {{ userName }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="pl-3 my-1">
+                            <div class="my-1">
+                              <el-input
+                                class="rounded my-1"
+                                type="textarea"
+                                :rows="1"
+                                placeholder="Say somthing here..."
+                                v-model="commentBody"
+                              ></el-input>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                              <el-button
+                                type="primary"
+                                plain
+                                @click="submitComment()"
+                              >
+                                Comment
+                              </el-button>
+                            </div>
+                          </div>
+                        </card>
                       </div>
-                      <div class="text item pb-3">
-                        {{ "eventDescription" }}
-                      </div>
-                      <div class="text item pb-4">
-                        <b> X Interested - X Going </b>
-                      </div>
-                      <div class="row justify-content-md-center pb-1">
-                        <div class="col col-lg-2">
-                          <button
-                            type="submit"
-                            class="btn btn-warning mb-2"
-                            @click="Interested"
-                          >
-                            Interested
-                          </button>
-                        </div>
-                        <div class="col col-lg-2">
-                          <button
-                            type="submit"
-                            class="btn btn-success mb-2"
-                            @click="Going"
-                          >
-                            Going
-                          </button>
-                        </div>
-                      </div>
-                    </el-card>
+                    </div>
                   </div>
                 </el-tab-pane>
               </el-tabs>
             </div>
 
             <div class="col-md-4">
-              <el-card class="my-5">
-                <div>
-                  <div>
-                    <h3>About the group</h3>
-                  </div>
-                </div>
-                <div class="p-2">
-                  <div class="mb-3">
-                    {{ spaceDescription }}
-                  </div>
-                  <div class="d-flex flex-row justify-content-between mb-3">
-                    <div class="font-weight-bold">
-                      <div>
-                        {{ members.length }}
-                      </div>
-                      <div>members</div>
-                    </div>
-                  </div>
-                  <div class="border-top pt-2 text-muted font-weight-bold">
-                    created :
-                    {{
-                      spaceCreationDate.split("-")[1] +
-                      "/" +
-                      spaceCreationDate.split("-")[0]
-                    }}
-                  </div>
-                </div>
-              </el-card>
+              <AboutSpace
+                :members="members"
+                :threads="threads"
+                :events="events"
+                :tags="tags"
+                :groupId="groupId"
+              />
             </div>
           </div>
         </div>
@@ -266,27 +184,34 @@ import { useThread, useThreads } from "@/hooks/useThread";
 import { useRoute, useRouter } from "vue-router";
 import Card from "@/components/Card.vue";
 import Moment from "moment";
+import AboutSpace from "@/views/space/AboutSpace.vue";
+import { useEvents } from "@/hooks/useEvent";
+import { useState } from "@/state";
 
 export default defineComponent({
   name: "Thread",
-  components: { TopBar, Card },
+  components: { TopBar, Card, AboutSpace },
   setup() {
-    const commentBody = ref("test");
+    const commentBody = ref("");
     const router = useRouter();
     const route = useRoute();
     const groupId = route.params.groupId as string;
     const threadId = route.params.threadId as string;
+
+    const { userName } = useState();
 
     const {
       name,
       imageUrl,
       description: spaceDescription,
       members,
+      tags,
       creationDate: spaceCreationDate,
     } = useSpace(groupId, true);
 
     const {
       title,
+      authorId,
       description: threadDescription,
       creationDate: threadCreationDate,
       fetching: fetchingThread,
@@ -298,6 +223,9 @@ export default defineComponent({
       doPostComment,
       doFetch,
     } = useComment(threadId, true);
+
+    const { events } = useEvents(groupId, true);
+    const { threads } = useThreads(groupId, true);
 
     const jumpToEvent = (eventId: string) => {
       router.push({ path: `/event/${groupId}/${eventId}` });
@@ -311,11 +239,19 @@ export default defineComponent({
 
     return {
       Moment,
+      userName,
+
+      groupId,
       name,
+      events,
+      threads,
+      tags,
       imageUrl,
       spaceDescription,
       members,
       spaceCreationDate,
+
+      authorId,
 
       title,
       threadDescription,

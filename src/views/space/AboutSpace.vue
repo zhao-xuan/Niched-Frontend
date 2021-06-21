@@ -74,10 +74,10 @@ import Moment from "moment";
 
 export default defineComponent({
   name: "Space",
-  props: ["members", "threads", "events", "tags"],
-  setup() {
+  props: ["members", "threads", "events", "tags", "groupId"],
+  setup(props) {
     const route = useRoute();
-    const groupId = route.params.id as string;
+    const groupId = props.groupId as string;
 
     const { authorId, creationDate, description } = useSpace(groupId, true);
     return {
