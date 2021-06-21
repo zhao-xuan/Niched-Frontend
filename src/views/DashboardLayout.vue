@@ -16,19 +16,6 @@
           home-card-bg
         "
       >
-        <div class="pt-2">
-          <router-link class="px-2" :to="{ name: 'Home' }">Home </router-link>
-          <el-divider direction="vertical"></el-divider>
-          <router-link class="px-2" :to="{ name: 'MyEvents' }">
-            My Events
-          </router-link>
-          <!-- <el-divider direction="vertical"></el-divider>
-          <router-link class="px-2" :to="{ name: 'AllEvents' }">
-            Find Events</router-link
-          > -->
-        </div>
-
-        <hr />
         <router-view />
       </div>
     </div>

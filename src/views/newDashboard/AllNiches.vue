@@ -11,7 +11,7 @@
           <div
             class="all-niches-carousel header-carousel-parent clickable"
             :style="{
-              backgroundImage: 'url(' + item.imgUrl + ' )',
+              backgroundImage: 'url(' + item.imageUrl + ' )',
               backgroundPosition: 'center',
             }"
             @click="jumpToSpace(item.groupId)"
@@ -41,15 +41,13 @@
         </div>
         <div class="col-4">
           <div style="color: grey">
-            <div class="">
+            <div class="d-flex align-items-center">
               <el-input
                 v-model="search"
                 size="small "
                 placeholder="E.g. Counter Strike"
               />
-            </div>
-            <div class="px-2" style="float: right">
-              <i class="el-icon-search"></i> Search by Space
+              <i class="el-icon-search ml-2"></i>
             </div>
           </div>
         </div>
@@ -151,7 +149,7 @@
 </template>
 
 <script lang="ts">
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useState } from "@/state";
 import { defineComponent, ref, watchEffect } from "vue";
 import { useFetch } from "@/hooks/useFetch";
@@ -164,7 +162,7 @@ export default defineComponent({
   name: "Home",
   setup() {
     const router = useRouter();
-    const { userName, subscribedGroups } = useState();
+    const { userName } = useState();
     var randomNiches: Space[] = [];
     const allNiches = ref<Space[]>([]);
     const popularNiches = ref<Space[]>([]);

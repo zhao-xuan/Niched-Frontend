@@ -69,6 +69,7 @@ export default defineComponent({
     watch(
       () => props.events,
       (es) => {
+        console.log(es, "HERE");
         if (es) {
           const parsedEvents: (Event & { parsedEventDate: string })[] = es.map(
             (e) => ({
