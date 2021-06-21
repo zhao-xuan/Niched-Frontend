@@ -164,6 +164,7 @@
                 :threads="threads"
                 :events="events"
                 :tags="tags"
+                :groupId="groupId"
               />
               <div class="mt-5">
                 <DatePicker
@@ -356,6 +357,7 @@ export default defineComponent({
       members,
       creationDate,
       tags,
+      groupId,
 
       events: filteredSortedEvents,
       fetchingEvents,
