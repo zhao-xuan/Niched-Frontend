@@ -109,6 +109,11 @@
         </el-tab-pane>
 
         <el-tab-pane label="Catalogue" name="catalogue">
+          <div class="row">
+            <div class="col" style="color: red">
+              <i class="el-icon-trophy"></i> Browse all Niches!
+            </div>
+          </div>
           <div class="row pb-5 px-2">
             <NicheCards
               :niches="
@@ -123,6 +128,11 @@
         </el-tab-pane>
 
         <el-tab-pane label="Your Niches" name="userniche">
+          <div class="row">
+            <div class="col" style="color: red">
+              <i class="el-icon-trophy"></i> Find Niches you've joined here
+            </div>
+          </div>
           <div class="row pb-5 px-2">
             <NicheCards
               :niches="

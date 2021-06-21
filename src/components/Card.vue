@@ -15,8 +15,9 @@ export default defineComponent({
 
 <style scoped>
 .card-container {
+  background-color: white;
   border: 0.5px solid #d3d3d3;
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.1);
   transition: 0.3s;
 }

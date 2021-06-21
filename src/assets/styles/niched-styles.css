@@ -7,6 +7,11 @@ body {
   background-color: whitesmoke;
 }
 
+.homepage-container {
+  max-width: 1600px;
+  width: 100%;
+}
+
 .home-card-bg {
   background-color: ghostwhite;
 }

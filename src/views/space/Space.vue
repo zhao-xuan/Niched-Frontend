@@ -2,7 +2,7 @@
   <TopBar />
 
   <div
-    class="container-fluid"
+    class="container space-page-container"
     v-loading.fullscreen.lock="
       postingEvent || postingThread || fetchingEvents || fetchingThreads
     "
@@ -21,15 +21,28 @@
             }"
           ></div>
 
-          <div class="row justify-content-between">
+          <div
+            class="row justify-content-between py-3"
+            style="background-color: white"
+          >
+            <div class="col-12">
+              <h6 class="pl-4 pb-0 mb-0" style="color: red">
+                <span class="pr-2">
+                  <el-tag type="danger" effect="dark">Niche</el-tag>
+                </span>
+                <span class="pr-2 clickable" @click="jumpToSpace(groupId)">
+                  {{ groupId }}
+                </span>
+              </h6>
+            </div>
             <div class="col-sm-12 col-md-8">
-              <div class="px-5 pt-3 d-flex text-left">
+              <div class="pl-4 d-flex text-left">
                 <h2>{{ name }}</h2>
               </div>
             </div>
-            <div class="col-md-4 col-sm-12">
+            <div class="col-sm-12 col-md-4">
               <div class="row justify-content-end">
-                <div class="px-5 pt-3 col-xl-6 col-lg-8 col-md-12 col-sm-12">
+                <div class="px-5 col-xl-6 col-lg-8 col-md-12 col-sm-12">
                   <el-button
                     @click="onJoinGroup()"
                     type="primary"
@@ -77,7 +90,10 @@
                           {{ Moment(thread.creationDate).fromNow() }}
                         </div>
                       </div>
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="jumpToThread(thread.threadId)"
+                      >
                         <div class="my-1">
                           <b>{{ thread.title }}</b>
                         </div>
@@ -104,27 +120,40 @@
                         </div>
                         <div>
                           <el-button
-                            type="success"
+                            type="primary"
                             class="mx-1 my-2"
                             plain
                             @click="jumpToThread(thread.threadId)"
                           >
-                            Join!
+                            Reply
                           </el-button>
                         </div>
                       </div>
                     </card>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane name="events" class="px-3">
+                <el-tab-pane name="upcomingEvents" class="px-3">
                   <template #label>
-                    <span><i class="el-icon-place"></i> Events </span>
+                    <span><i class="el-icon-place"></i> Upcoming Events</span>
                   </template>
+                  <div class="pb-5">
+                    <EventsByMonthDate
+                      :events="futureEvents"
+                      @click-event="jumpToEvent"
+                    />
+                  </div>
+                </el-tab-pane>
 
-                  <EventsByMonthDate
-                    :events="events"
-                    @click-event="jumpToEvent"
-                  />
+                <el-tab-pane name="pastEvents" class="px-3">
+                  <template #label>
+                    <span><i class="el-icon-place"></i> Past Events</span>
+                  </template>
+                  <div class="pb-5">
+                    <EventsByMonthDate
+                      :events="pastEvents"
+                      @click-event="jumpToEvent"
+                    />
+                  </div>
                 </el-tab-pane>
 
                 <el-tab-pane name="members">
@@ -148,16 +177,22 @@
                 :threads="threads"
                 :events="events"
                 :tags="tags"
+                :groupId="groupId"
               />
               <div class="mt-5">
                 <DatePicker
                   v-model="date"
-                  v-show="selectedTab == 'events'"
+                  v-show="
+                    selectedTab == 'upcomingEvents' ||
+                    selectedTab == 'pastEvents'
+                  "
                   is-expanded
                 />
               </div>
               <CreateEvent
-                v-show="selectedTab == 'events'"
+                v-show="
+                  selectedTab == 'upcomingEvents' || selectedTab == 'pastEvents'
+                "
                 v-model:postingEvent="postingEvent"
               />
             </div>
@@ -170,7 +205,7 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent, watch, computed } from "vue";
+import { ref, defineComponent, watch, computed, ComputedRef } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useEvents } from "@/hooks/useEvent";
 import { useThreads } from "@/hooks/useThread";
@@ -228,8 +263,36 @@ export default defineComponent({
     const sortedEvents = computed(() =>
       [...events.value].sort(
         (a: Event, b: Event) =>
-          Number(new Date(a.eventDate)) - Number(new Date(b.eventDate))
+          Number(new Date(b.eventDate)) - Number(new Date(a.eventDate))
       )
+    );
+
+    const pastEvents = computed(() =>
+      [...sortedEvents.value].filter((e: Event) => {
+        if (!date.value) {
+          (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) >= 0;
+        } else {
+          return (
+            new Date(e.eventDate).getFullYear() === date.value.getFullYear() &&
+            new Date(e.eventDate).getDate() === date.value.getDate() &&
+            new Date(e.eventDate).getMonth() === date.value.getMonth()
+          );
+        }
+      })
+    );
+
+    const futureEvents = computed(() =>
+      [...sortedEvents.value].reverse().filter((e: Event) => {
+        if (!date.value) {
+          return Number(new Date()) - Number(new Date(e.eventDate)) < 0;
+        } else {
+          return (
+            new Date(e.eventDate).getFullYear() === date.value.getFullYear() &&
+            new Date(e.eventDate).getDate() === date.value.getDate() &&
+            new Date(e.eventDate).getMonth() === date.value.getMonth()
+          );
+        }
+      })
     );
 
     const { doPost: doPostJoinGroup, posting: joiningGroupStatus } =
@@ -293,18 +356,9 @@ export default defineComponent({
 
     const date = ref<Date | null>(null);
     const filteredSortedEvents = ref(sortedEvents.value);
+
     watch(sortedEvents, (se) => {
       filteredSortedEvents.value = se;
-    });
-    watch(date, (date) => {
-      filteredSortedEvents.value = events.value.filter((e) => {
-        if (!date) return true;
-        return (
-          new Date(e.eventDate).getFullYear() === date.getFullYear() &&
-          new Date(e.eventDate).getDate() === date.getDate() &&
-          new Date(e.eventDate).getMonth() === date.getMonth()
-        );
-      });
     });
 
     return {
@@ -316,6 +370,7 @@ export default defineComponent({
       members,
       creationDate,
       tags,
+      groupId,
 
       events: filteredSortedEvents,
       fetchingEvents,
@@ -338,6 +393,9 @@ export default defineComponent({
 
       Moment,
       date,
+
+      pastEvents,
+      futureEvents,
     };
   },
 });
@@ -353,5 +411,9 @@ export default defineComponent({
 .cover {
   background-size: cover;
   background-repeat: no-repeat;
+}
+.space-page-container {
+  max-width: 2000px;
+  width: 100%;
 }
 </style>
