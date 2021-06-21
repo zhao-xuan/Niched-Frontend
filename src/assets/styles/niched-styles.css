@@ -8,8 +8,13 @@ body {
 }
 
 .homepage-container {
-  max-width: 1600px;
+  max-width: 1000px;
   width: 100%;
+}
+
+.card-page-container {
+  max-width: 1100px;
+  width: auto;
 }
 
 .home-card-bg {
@@ -18,9 +23,13 @@ body {
 
 html {
   height: 100%;
-  background: rgb(223, 194, 164);
-  background: linear-gradient(23deg, #ddd6f3 0%, #faaca8 100%) no-repeat center
-    center fixed;
+  background: rgb(255, 161, 139);
+  background: linear-gradient(
+      146deg,
+      rgba(255, 161, 139, 1) 0%,
+      rgba(255, 212, 155, 1) 100%
+    )
+    no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

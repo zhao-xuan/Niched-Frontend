@@ -1,11 +1,11 @@
 <template>
   <TopBar />
   <div
-    class="container-fluid"
+    class="container card-page-container"
     v-loading.fullscreen.lock="fetchingThread | fetchingComments"
   >
     <div class="row py-5 px-4 niched-bg">
-      <div class="col-md-10 mx-auto">
+      <div class="col-md-12 mx-auto">
         <!-- Profile widget -->
         <div class="bg-light shadow rounded overflow-hidden mt-3s">
           <div
