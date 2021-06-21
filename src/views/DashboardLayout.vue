@@ -60,10 +60,4 @@ export default defineComponent({
 
 <style>
 @import "../assets/styles/niched-styles.css";
-@import "../assets/styles/niched-styles.css";
-
-.homepage-container {
-  max-width: 1600px;
-  width: 100%;
-}
 </style>

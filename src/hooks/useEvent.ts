@@ -5,6 +5,7 @@ import {
   fetchEvent,
   EventCreationResponse,
   fetchEvents,
+  fetchAllEvents,
   Event,
 } from "@/api/event";
 
@@ -89,4 +90,36 @@ export const useEvent = (
 
 
   return { ...toRefs(event), doFetch, ...res };
+};
+
+export const useAllEvents = (
+  immediate: boolean
+): EventsReturnType => {
+  const events: Ref<Event[]> = ref<Event[]>([]);
+
+  const {
+    data: eventsData,
+    doFetch,
+    ...res
+  } = useFetch<EventCreationResponse[]>(() => fetchAllEvents(), immediate);
+
+  watch(eventsData, () => {
+    if (eventsData && eventsData.value) {
+      events.value = eventsData.value.map((item: EventCreationResponse) => {
+        return {
+          groupId: item.group_id,
+          authorId: item.author_id,
+          eventId: item.event_id,
+          title: item.title,
+          description: item.description,
+          tags: item.tags,
+          members: item.members,
+          eventDate: item.event_date,
+          creationDate: item.creation_date,
+        };
+      });
+    }
+  });
+
+  return { events, doFetch, ...res };
 };

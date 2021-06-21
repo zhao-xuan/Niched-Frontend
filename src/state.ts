@@ -3,6 +3,7 @@ import { reactive, inject, readonly, provide, toRefs, ToRefs } from "vue";
 
 type GlobalState = {
   state: {
+    loading: boolean;
     loggedIn: boolean;
   } & User;
 };
@@ -10,6 +11,7 @@ type GlobalState = {
 //global state of the app. it holds login status and the user info
 const globalState = reactive<GlobalState>({
   state: {
+    loading: true,
     loggedIn: false,
     userName: "",
     subscribedGroups: [],
@@ -19,6 +21,9 @@ const globalState = reactive<GlobalState>({
 
 // methods that can mutate the global state
 const mutations = {
+  setLoading(loading: boolean) {
+    globalState.state.loading = loading;
+  },
   setLoggedIn(loggedIn: boolean) {
     globalState.state.loggedIn = loggedIn;
   },
@@ -38,6 +43,7 @@ const mutations = {
     globalState.state.interests = is;
   },
   unsetUserState() {
+    globalState.state.loading = true;
     localStorage.clear();
     globalState.state.loggedIn = false;
     globalState.state.userName = "";
@@ -45,6 +51,7 @@ const mutations = {
     globalState.state.bio = "";
     globalState.state.subscribedGroups = [];
     globalState.state.interests = [];
+    globalState.state.loading = false;
   }
 };
 

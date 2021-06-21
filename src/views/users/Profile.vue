@@ -1,173 +1,303 @@
 <template>
   <TopBar />
-  <div class="container-fluid">
-    <div class="row py-5 px-4 niched-bg">
-      <div class="col-md-10 mx-auto">
-        <!-- Profile widget -->
-        <div class="bg-light shadow rounded overflow-hidden mt-3s">
-          <div
-            class="px-4 pt-0 pb-5 cover rounded"
-            :style="{
-              backgroundImage: 'url(' + imageUrl +')',
-              backgroundPosition: 'center',
-              height: '400px',
-            }"
-          >
-            <div class="mb-2 text-white d-flex justify-content-center">
-              <div class="px-4">
-              </div>
+  <div class="container-fluid" v-loading.fullscreen.lock="lock">
+    <div class="row py-5 px-4 niched-bg justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <card class="bg-light">
+          <!-- <img :src="imageUrl" style="height: 200px; object-fit: cover" /> -->
+          <div class="container-fluid">
+            <div class="row justify-content-center my-5">
+              <h2>{{ userName }}</h2>
+              <div
+                style="
+                  height: 3px;
+                  width: 100%;
+                  background: linear-gradient(23deg, #ddd6f3 0%, #faaca8 100%);
+                "
+                class="my-2"
+              />
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="px-4 pt-3 pb-2 d-flex text-left">
-                <h2>{{userName}}'s Profile</h2>
-              </div>
-            </div>
-          </div>
-
-          <div class="row pb-4 px-4">
-            <div class="col-md-8 order-0">
-              <el-card style="margin: 20px auto">
-                <template #header>
-                  <div>
-                    <span><b>Introduction</b></span>
-                    <el-button type="text" style="float: right; margin-top: -10px"
-                      >Edit</el-button
-                    >
+            <div class="row my-2 justify-content-center">
+              <div class="col-11">
+                <div class="row my-2">
+                  <div class="col-12 my-1 mx-1">
+                    <h5>
+                      {{ selfProfile ? "Your Niches" : "Your common Niches" }}
+                    </h5>
                   </div>
-                </template>
-                <div class="text item">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  <br />
-                  <br />
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                  culpa qui officia deserunt mollit anim id est laborum.
-                </div>
-              </el-card>
-
-              <el-card style="margin: 20px auto">
-                <template #header>
-                  <div>
-                    <span>@{{ userName }}'s <b>Interests</b></span>
-                    <el-button type="text" style="float: right; margin-top: -10px"
-                      >Edit</el-button
-                    >
-                  </div>
-                </template>
-                <p>{{ interests }}</p>
-                <!-- <SpaceGroup
-                v-for="item in niches"
-                :key="item"
-                :spacelist="item.spaces"
-                :title="item.tagName"
-              /> -->
-              </el-card>
-
-              <el-card style="margin: 20px auto">
-                <template #header>
-                  <div>
-                    <span>@{{ userName }}'s <b>Spaces</b></span>
-                    <el-button type="text" style="float: right; margin-top: -10px"
-                      >Edit</el-button
-                    >
-                  </div>
-                </template>
-                <p>{{ subscribedGroups }}</p>
-                <!-- <SpaceGroup
-                v-for="item in niches"
-                :key="item"
-                :spacelist="item.spaces"
-                :title="item.tagName"
-              /> -->
-                <div v-for="o in 4" :key="o" class="text item">
-                  {{ "List item " + o }}
-                </div>
-              </el-card>
-            </div>
-
-            <div class="col-md-4 order-1">
-              <el-card style="margin: 20px auto">
-                <div>
-                  <h3>Welcome, @{{ userName }}</h3>
-                  <p>
-                    Your personalized Niched homepage. Come here to check in with your
-                    favorite communities
-                  </p>
-                  <div style="width: 150px; margin: auto">
-                    <el-avatar
-                      :size="150"
-                      src="https://www.petage.com/wp-content/uploads/2019/09/Depositphotos_74974941_xl-2015-e1569443284386-670x627.jpg"
-                      style="margin-top: 10px; margin-bottom: 10px; width: 100%"
-                    ></el-avatar>
-                  </div>
-                  <div class="px-4 d-flex justify-content-end text-center">
-                    <ul class="list-inline mb-0">
-                      <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">
-                          {{ subscribedGroups.length }}
-                        </h5>
-                        <small class="text-muted">
-                          <i class="fas fa-user mr-1"></i>Spaces Joined</small
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </el-card>
-              <el-card style="margin: 20px auto">
-                <div>
-                  <h3>Your Events</h3>
-                  <p>Check out the latest events you've signed up for here!</p>
-                  <el-card
-                    style="border-radius: 10px; margin-bottom: 10px"
-                    v-for="event in events"
-                    :key="event"
+                  <div
+                    v-for="group in groupsJoined.filter((x) =>
+                      x.members.includes(loggedInUserName)
+                    )"
+                    :key="group.groupId"
+                    class="col-lg-4 col-md-6 my-2"
+                    style="overflow: hidden"
                   >
-                    <h5>{{ event.title + " @ " + event.location }}</h5>
-                    <p>{{ event.datetime }}</p>
-                    <p>{{ event.detail }}</p>
-                  </el-card>
+                    <div
+                      class="niche-card-parent shadow-sm clickable"
+                      :style="{
+                        backgroundImage: 'url(' + group.imageUrl + ')',
+                        backgroundPosition: 'center',
+                      }"
+                      @click="jumpToSpace(group.groupId)"
+                    >
+                      <div class="niched-card-overlay"></div>
+                    </div>
+                    <div class="row niche-card-header px-2">
+                      <div class="col-sm-10">
+                        {{ group.name }}
+                        <br />
+                        {{ group.description }}
+                      </div>
+                      <div class="col-sm-2 d-flex justify-content-end">
+                        <i class="el-icon-user"> {{ group.members.length }}</i>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </el-card>
+                <div class="row my-4" v-if="!selfProfile">
+                  <div class="col-12 my-2 mx-2">
+                    <h5>{{ "Niches " + userName + " is interested in" }}</h5>
+                  </div>
+                  <div
+                    v-for="group in groupsJoined.filter(
+                      (x) => !x.members.includes(loggedInUserName)
+                    )"
+                    :key="group.groupId"
+                    class="col-lg-3 col-md-6 my-2"
+                    style="overflow: hidden"
+                  >
+                    <div
+                      class="niche-card-parent shadow-sm clickable"
+                      :style="{
+                        backgroundImage: 'url(' + group.imageUrl + ')',
+                        backgroundPosition: 'center',
+                      }"
+                      @click="jumpToSpace(group.groupId)"
+                    >
+                      <div class="niched-card-overlay"></div>
+                    </div>
+                    <div class="row niche-card-header px-2">
+                      <div class="col-sm-10">
+                        {{ group.name }}
+                        <br />
+                        {{ group.description }}
+                      </div>
+                      <div class="col-sm-2 d-flex justify-content-end">
+                        <i class="el-icon-user"> {{ group.members.length }}</i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row my-2 justify-content-center">
+              <div class="col-11">
+                <h5>
+                  Interests
+                  <el-tooltip
+                    content="Your common interests are highlighted!"
+                    placement="top-start"
+                    transition="el-fade-in-linear"
+                    v-if="!selfProfile"
+                  >
+                    <i class="el-icon-info" style="font-size: 0.8em"> </i
+                  ></el-tooltip>
+                </h5>
+              </div>
+              <div class="col-11">
+                <el-tag
+                  class="mx-1 my-1"
+                  v-for="interest in interests"
+                  :key="interest"
+                  :effect="
+                    loggedInInterests.includes(interest) ? 'dark' : 'plain'
+                  "
+                  type="success"
+                >
+                  {{ interest }}
+                </el-tag>
+              </div>
+            </div>
+
+            <div class="row my-1 justify-content-center">
+              <div class="col-11"><h5>Events</h5></div>
+              <div class="col-11">
+                <div class="row">
+                  <div class="col-11">
+                    <card
+                      class="mt-3 p-3"
+                      v-for="event in eventsJoined.slice(0, 5)"
+                      :key="event.eventId"
+                      style="cursor: pointer"
+                      @click="$emit('click-event', event.eventId)"
+                    >
+                      <div class="row">
+                        <div
+                          class="text-secondary col-12 col-sm-2 mr-0 pr-0"
+                          style="font-size: 15px; min-width: 37px"
+                        >
+                          {{
+                            new Date(event.eventDate).toLocaleString("en-US", {
+                              hour: "numeric",
+                              minute: "numeric",
+                              hour12: true,
+                            })
+                          }}
+                        </div>
+                        <div class="col-12 col-sm-10">
+                          <div v-if="!selfProfile" class="pb-2">
+                            <el-tag
+                              v-if="
+                                event.members.going.includes(loggedInUserName)
+                              "
+                            >
+                              You're also going!
+                            </el-tag>
+                            <el-tag v-else> You're interested in this </el-tag>
+                          </div>
+                          <div class="p-1">
+                            <p>{{ event.title }}</p>
+                          </div>
+                          <div
+                            class="d-flex justify-content-end"
+                            style="
+                              font-weight: 400;
+                              font-size: 14px;
+                              color: #a6a6a6;
+                            "
+                          >
+                            Organised by {{ event.authorId }}
+                          </div>
+                        </div>
+                      </div>
+                    </card>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </card>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { defineComponent, watch, ref, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
+import Card from "@/components/Card.vue";
 import { useState } from "@/state";
-import { dashboardFixture } from "../dashboard/fixtures";
+import { useSpace } from "@/hooks/useSpace";
+import { Space } from "@/api/space";
+import { Event } from "@/api/event";
+import { useUser } from "@/hooks/useUser";
+import { useFetch } from "@/hooks/useFetch";
+import { fetchSpaces, SpacesResponse } from "@/api/spaces";
+import { useAllEvents } from "@/hooks/useEvent";
 
 export default defineComponent({
   name: "Profile",
-  components: { TopBar },
+  components: { TopBar, Card },
   setup() {
-    const router = useRouter();
-    const { niches, events } = toRefs(reactive(dashboardFixture));
-    const { loggedIn, userName, subscribedGroups, interests } = useState();
-    const imageUrl = "https://cdn.britannica.com/06/171306-050-C88DD752/Aurora-borealis-peninsula-Snaefellsnes-Iceland-March-2013.jpg"
+    const lock = ref(true);
+    const groupsJoined = ref<Space[]>([]);
+    const eventsJoined = ref<Event[]>([]);
+    const selfProfile = ref(true);
 
-    if (!loggedIn.value) {
-      router.push({ name: "Login" });
-    }
+    const route = useRoute();
+    const router = useRouter();
+    const userName = route.params.userName as string;
+    const {
+      loading,
+      loggedIn,
+      userName: loggedInUserName,
+      subscribedGroups: loggedInGroups,
+      interests: loggedInInterests,
+    } = useState();
+
+    const { interests } = useUser(userName, true);
+    const { events } = useAllEvents(true);
+
+    const redirect = (loading: boolean, loggedIn: boolean) => {
+      if (!loading) {
+        lock.value = false;
+        if (!loggedIn) {
+          router.push({ name: "Login" });
+        }
+      }
+    };
+
+    watch([loading, loggedIn], ([loading, loggedIn]) => {
+      redirect(loading, loggedIn);
+    });
+
+    redirect(loading.value, loggedIn.value);
+
+    watch(loggedInUserName, (name) => (selfProfile.value = userName === name));
+
+    const { fetched: fetchedSpaces, data } = useFetch<SpacesResponse>(
+      fetchSpaces,
+      true
+    );
+
+    watchEffect(() => {
+      if (fetchedSpaces.value) {
+        const items = Object.values(data.value || {}).map(
+          ({
+            group_id,
+            author_id,
+            name,
+            description,
+            image_url,
+            creation_date,
+            members,
+            tags,
+          }) => ({
+            groupId: group_id,
+            authorId: author_id,
+            name,
+            description,
+            imageUrl:
+              image_url ||
+              "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dG9reW98ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+            members,
+            tags,
+            creationDate: creation_date,
+          })
+        );
+
+        groupsJoined.value = items.filter((group) =>
+          group.members.includes(userName)
+        );
+      }
+
+      if (events.value) {
+        eventsJoined.value = events.value.filter(
+          (e) =>
+            e.members.going.includes(userName) ||
+            e.members.interested.includes(userName)
+        );
+      }
+    });
+
     return {
+      eventsJoined,
+      groupsJoined,
+
       userName,
-      subscribedGroups,
       interests,
-      events,
-      imageUrl,
+      imageUrl: "",
+      selfProfile,
+
+      loggedInUserName,
+      loggedInInterests,
+      loggedInGroups,
+      lock,
+      jumpToSpace(item: string) {
+        router.push({ name: "Space", params: { id: item } });
+      },
     };
   },
 });

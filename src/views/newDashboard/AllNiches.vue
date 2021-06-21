@@ -55,7 +55,65 @@
         </div>
       </div>
       <el-tabs v-model="selectedTab" @tab-click="handleClick">
+        <el-tab-pane label="Hot" name="hot">
+          <div class="row">
+            <div class="col" style="color: red">
+              <i class="el-icon-trophy"></i> Recommended for You
+            </div>
+          </div>
+          <div class="row pb-4 px-2">
+            <NicheCards
+              :niches="
+                recommendedNiches.filter(
+                  (data) =>
+                    !search ||
+                    data.title.toLowerCase().includes(search.toLowerCase())
+                )
+              "
+            />
+          </div>
+
+          <div class="row">
+            <div class="col" style="color: red">
+              <i class="el-icon-trophy"></i> Most Popular
+            </div>
+          </div>
+          <div class="row pb-4 px-2">
+            <NicheCards
+              :niches="
+                mostMemberNiches.filter(
+                  (data) =>
+                    !search ||
+                    data.title.toLowerCase().includes(search.toLowerCase())
+                )
+              "
+            />
+          </div>
+
+          <div class="row">
+            <div class="col" style="color: red">
+              <i class="el-icon-trophy"></i> Newest Niches
+            </div>
+          </div>
+          <div class="row pb-4 px-2">
+            <NicheCards
+              :niches="
+                newNiches.filter(
+                  (data) =>
+                    !search ||
+                    data.title.toLowerCase().includes(search.toLowerCase())
+                )
+              "
+            />
+          </div>
+        </el-tab-pane>
+
         <el-tab-pane label="Catalogue" name="catalogue">
+          <div class="row">
+            <div class="col" style="color: red">
+              <i class="el-icon-trophy"></i> Browse all Niches!
+            </div>
+          </div>
           <div class="row pb-5 px-2">
             <NicheCards
               :niches="
@@ -70,6 +128,11 @@
         </el-tab-pane>
 
         <el-tab-pane label="Your Niches" name="userniche">
+          <div class="row">
+            <div class="col" style="color: red">
+              <i class="el-icon-trophy"></i> Find Niches you've joined here
+            </div>
+          </div>
           <div class="row pb-5 px-2">
             <NicheCards
               :niches="
@@ -113,6 +176,19 @@ export default defineComponent({
     const allNiches = ref<Niche[]>([]);
     const popularNiches = ref<Niche[]>([]);
     const userNiches = ref<Niche[]>([]);
+    const recommendedNiches = ref<Niche[]>([]);
+    const mostMemberNiches = ref<Niche[]>([]);
+    const newNiches = ref<Niche[]>([]);
+    const chosenNiches = [
+      "minecraft",
+      "csgo",
+      "k-drama",
+      "tech",
+      "drp-15",
+      "anime",
+      "casual-arena",
+      "bts",
+    ];
 
     const { fetched, fetching, data } = useFetch<SpacesResponse>(
       fetchSpaces,
@@ -144,16 +220,32 @@ export default defineComponent({
         userNiches.value = items.filter((data) =>
           subscribedGroups.value.includes(data.groupId)
         );
+
+        // Display recommended Niches on first tab
+        recommendedNiches.value = items.filter((data) =>
+          chosenNiches.includes(data.groupId)
+        );
+
+        mostMemberNiches.value = items
+          .sort(function (a, b) {
+            return b.memberList.length - a.memberList.length;
+          })
+          .slice(0, 8);
+
+        newNiches.value = items.reverse().slice(0, 8);
       }
     });
 
-    const selectedTab = ref("catalogue");
+    const selectedTab = ref("hot");
 
     return {
       allNiches,
       fetching,
       popularNiches,
       userNiches,
+      recommendedNiches,
+      mostMemberNiches,
+      newNiches,
       jumpToSpace(item: string) {
         router.push({ name: "Space", params: { id: item } });
       },
