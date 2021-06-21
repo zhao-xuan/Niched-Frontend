@@ -140,21 +140,8 @@ export default defineComponent({
   name: "AllEvents",
   components: { EventsByMonthDate },
   setup() {
-    const lock = ref(true);
-    const groupsJoined = ref<Space[]>([]);
-    const allEvents = ref<Event[]>([]);
-    const selfProfile = ref(true);
-
-    const route = useRoute();
     const router = useRouter();
-    const userName = route.params.userName as string;
-    const {
-      loading,
-      loggedIn,
-      userName: loggedInUserName,
-      subscribedGroups: loggedInGroups,
-      interests: loggedInInterests,
-    } = useState();
+
     const allNiches = ref<Space[]>([]);
 
     const { events } = useAllEvents(true);

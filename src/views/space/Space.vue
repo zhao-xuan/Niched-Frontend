@@ -2,14 +2,13 @@
   <TopBar />
 
   <div
-    class="container space-page-container"
+    class="container card-page-container"
     v-loading.fullscreen.lock="
       postingEvent || postingThread || fetchingEvents || fetchingThreads
     "
   >
     <div class="row py-5 px-4 niched-bg">
-      <div class="col-md-8 mx-auto">
-        <!-- Profile widget -->
+      <div class="col-md-12 mx-auto">
         <div class="bg-light shadow rounded overflow-hidden mt-3s">
           <div
             class="px-4 pt-0 pb-5 cover rounded"
@@ -411,9 +410,5 @@ export default defineComponent({
 .cover {
   background-size: cover;
   background-repeat: no-repeat;
-}
-.space-page-container {
-  max-width: 2000px;
-  width: 100%;
 }
 </style>

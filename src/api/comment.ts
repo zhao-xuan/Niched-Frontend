@@ -2,19 +2,19 @@ import axios from "axios";
 import { SERVER_URL } from "@/api/constant";
 
 export type Comment = {
-  commentId: string,
-  threadId: string,
-  userName: string,
-  creationDate: string,
-  body: string
+  commentId: string;
+  threadId: string;
+  userName: string;
+  creationDate: string;
+  body: string;
 };
 
 export type CommentResponse = {
-  comment_id: string,
-  thread_id: string,
-  user_name: string,
-  creation_date: string,
-  body: string
+  comment_id: string;
+  thread_id: string;
+  user_name: string;
+  creation_date: string;
+  body: string;
 };
 
 //fetch comments
@@ -28,9 +28,9 @@ export const fetchComments = async (
 //create comment
 
 type CommentCreation = {
-  thread_id: string,
-  body: string,
-  user_name?: string
+  thread_id: string;
+  body: string;
+  user_name?: string;
 };
 
 export type CommentCreationResponse = CommentResponse;

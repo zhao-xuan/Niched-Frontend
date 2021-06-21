@@ -1,34 +1,20 @@
 <template>
   <TopBar />
-  <!-- <div class="container shadow py-5 px-4 dashboard-bg"> -->
-  <div class="container homepage-container">
+  <div class="container">
     <div class="row py-5">
       <div
         class="
           niched-corner
-          col-md-9
+          col-md-12
           pt-2
           pb-5
           px-4
           mx-auto
-          dashboard-bg
           shadow-lg
           home-card-bg
+          homepage-container
         "
       >
-        <div class="pt-2">
-          <router-link class="px-2" :to="{ name: 'Home' }">Home </router-link>
-          <el-divider direction="vertical"></el-divider>
-          <router-link class="px-2" :to="{ name: 'MyEvents' }">
-            My Events
-          </router-link>
-          <!-- <el-divider direction="vertical"></el-divider>
-          <router-link class="px-2" :to="{ name: 'AllEvents' }">
-            Find Events</router-link
-          > -->
-        </div>
-
-        <hr />
         <router-view />
       </div>
     </div>

@@ -9,7 +9,7 @@ import Playground from "../views/space/Playground.vue";
 import Thread from "../views/thread/Thread.vue";
 
 import DashboardLayout from "../views/DashboardLayout.vue";
-import MyEvents from "../views/newDashboard/MyEvents.vue";
+import Events from "../views/newDashboard/Events.vue";
 import AllNiches from "../views/newDashboard/AllNiches.vue";
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,9 +24,9 @@ const routes: Array<RouteRecordRaw> = [
         components: { default: AllNiches },
       },
       {
-        path: "/my-events",
-        name: "MyEvents",
-        components: { default: MyEvents },
+        path: "/events",
+        name: "Events",
+        components: { default: Events },
       },
     ],
   },
@@ -64,7 +64,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/event/:groupId/:eventId",
     name: "Event",
     component: Event,
-  }
+  },
 ];
 
 const router = createRouter({
