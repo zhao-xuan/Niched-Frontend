@@ -57,7 +57,7 @@ export type EventCreationResponse = EventCreation & {
 export const postEventCreation = async (
   req: EventCreation
 ): Promise<EventCreationResponse> => {
-  const res = await axios.post(`${SERVER_URL}/event/`, req);
+  const res = await axios.post(`${SERVER_URL}/event`, req);
   return res.data;
 };
 
