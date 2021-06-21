@@ -168,12 +168,17 @@
               <div class="mt-5">
                 <DatePicker
                   v-model="date"
-                  v-show="selectedTab == 'events'"
+                  v-show="
+                    selectedTab == 'upcomingEvents' ||
+                    selectedTab == 'pastEvents'
+                  "
                   is-expanded
                 />
               </div>
               <CreateEvent
-                v-show="selectedTab == 'upcomingEvents' || 'pastEvents'"
+                v-show="
+                  selectedTab == 'upcomingEvents' || selectedTab == 'pastEvents'
+                "
                 v-model:postingEvent="postingEvent"
               />
             </div>
@@ -249,17 +254,31 @@ export default defineComponent({
     );
 
     const pastEvents = computed(() =>
-      [...sortedEvents.value].filter(
-        (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) >= 0
-      )
+      [...sortedEvents.value].filter((e: Event) => {
+        if (!date.value) {
+          (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) >= 0;
+        } else {
+          return (
+            new Date(e.eventDate).getFullYear() === date.value.getFullYear() &&
+            new Date(e.eventDate).getDate() === date.value.getDate() &&
+            new Date(e.eventDate).getMonth() === date.value.getMonth()
+          );
+        }
+      })
     );
 
     const futureEvents = computed(() =>
-      [...sortedEvents.value]
-        .reverse()
-        .filter(
-          (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) < 0
-        )
+      [...sortedEvents.value].reverse().filter((e: Event) => {
+        if (!date.value) {
+          return Number(new Date()) - Number(new Date(e.eventDate)) < 0;
+        } else {
+          return (
+            new Date(e.eventDate).getFullYear() === date.value.getFullYear() &&
+            new Date(e.eventDate).getDate() === date.value.getDate() &&
+            new Date(e.eventDate).getMonth() === date.value.getMonth()
+          );
+        }
+      })
     );
 
     const { doPost: doPostJoinGroup, posting: joiningGroupStatus } =
@@ -323,18 +342,9 @@ export default defineComponent({
 
     const date = ref<Date | null>(null);
     const filteredSortedEvents = ref(sortedEvents.value);
+
     watch(sortedEvents, (se) => {
       filteredSortedEvents.value = se;
-    });
-    watch(date, (date) => {
-      filteredSortedEvents.value = events.value.filter((e) => {
-        if (!date) return true;
-        return (
-          new Date(e.eventDate).getFullYear() === date.getFullYear() &&
-          new Date(e.eventDate).getDate() === date.getDate() &&
-          new Date(e.eventDate).getMonth() === date.getMonth()
-        );
-      });
     });
 
     return {
