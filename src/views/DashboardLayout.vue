@@ -1,17 +1,18 @@
 <template>
   <TopBar />
-  <div class="container homepage-container">
+  <div class="container">
     <div class="row py-5">
       <div
         class="
           niched-corner
-          col-md-8
+          col-md-12
           pt-2
           pb-5
           px-4
           mx-auto
           shadow-lg
           home-card-bg
+          homepage-container
         "
       >
         <div class="pt-2">
