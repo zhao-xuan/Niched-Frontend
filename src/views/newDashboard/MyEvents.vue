@@ -1,43 +1,20 @@
 <template>
-  <div>
-    <div class="px-2 pt-2">
-      <div class="row">
-        <div class="col" style="color: red">
-          <i class="el-icon-date"></i> Upcoming Events
-        </div>
-      </div>
-      <el-carousel indicator-position="outside">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <div
-            class="all-niches-carousel clickable"
-            :style="{
-              backgroundImage:
-                'url(https://pokemongolive.com/img/posts/anniversaryposter2019.jpg)',
-              backgroundPosition: 'center',
-            }"
-            @click="jumpToSpace(item.groupId)"
-          >
-            <h2 class="py-4" style="color: white; text-align: center"></h2>
-          </div>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-
+  <div class="pt-2">
     <div class="row justify-content-between">
       <div class="col-8">
-        <h4 style="color: red"><i class="el-icon-medal-1"></i> Find Events</h4>
+        <h4 style="color: red"><i class="el-icon-date"></i> Find Events</h4>
       </div>
       <div class="col-4">
         <div style="color: grey">
           <div class="">
             <el-input
-              v-model="search"
+              v-model="titleSearch"
               size="small "
-              placeholder="E.g. Counter Strike"
+              placeholder="E.g. Tournament"
             />
           </div>
           <div class="px-2" style="float: right">
-            <i class="el-icon-search"></i> Search by Space
+            <i class="el-icon-search"></i> Search by Keyword
           </div>
         </div>
       </div>
@@ -45,20 +22,93 @@
     <div class="pt-2">
       <el-tabs v-model="selectedTab" @tab-click="handleClick">
         <el-tab-pane label="Upcoming" name="upcomingEvents">
+          <h5 class="text-dark">
+            Check out upcoming events from other Niches!
+          </h5>
           <div class="row">
             <div class="col-0 col-md-2"></div>
             <div class="col-12 col-md-8">
               <EventsByMonthDate
-                :events="allEvents"
+                :events="
+                  futureEvents.filter(
+                    (data) =>
+                      !titleSearch ||
+                      data.title
+                        .toLowerCase()
+                        .includes(titleSearch.toLowerCase())
+                  )
+                "
                 :niches="allNiches"
                 @click-event="jumpToEvent"
               />
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Past" name="pastEvents"> </el-tab-pane>
-        <el-tab-pane label="Popular" name="popularEvents"> </el-tab-pane>
-        <el-tab-pane label="All" name="allEvents"> </el-tab-pane>
+        <el-tab-pane label="Past" name="pastEvents">
+          <h5 class="text-dark">Find past events here</h5>
+          <div class="row">
+            <div class="col-0 col-md-2"></div>
+            <div class="col-12 col-md-8">
+              <EventsByMonthDate
+                :events="
+                  pastEvents.filter(
+                    (data) =>
+                      !titleSearch ||
+                      data.title
+                        .toLowerCase()
+                        .includes(titleSearch.toLowerCase())
+                  )
+                "
+                :niches="allNiches"
+                @click-event="jumpToEvent"
+              />
+            </div></div
+        ></el-tab-pane>
+        <el-tab-pane label="Popular" name="popularEvents">
+          <h5 class="text-dark">See the trending events on Niched.</h5>
+          <div class="row">
+            <div class="col-0 col-md-2"></div>
+            <div class="col-12 col-md-8">
+              <EventsByMonthDate
+                :events="
+                  popularEvents.filter(
+                    (data) =>
+                      !titleSearch ||
+                      data.title
+                        .toLowerCase()
+                        .includes(titleSearch.toLowerCase())
+                  )
+                "
+                :niches="allNiches"
+                @click-event="jumpToEvent"
+              />
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="All" name="allEvents">
+          <h5 class="text-dark">
+            Search the entire collection of all events: past, present and
+            future!
+          </h5>
+          <div class="row">
+            <div class="col-0 col-md-2"></div>
+            <div class="col-12 col-md-8">
+              <EventsByMonthDate
+                :events="
+                  sortedEvents.filter(
+                    (data) =>
+                      !titleSearch ||
+                      data.title
+                        .toLowerCase()
+                        .includes(titleSearch.toLowerCase())
+                  )
+                "
+                :niches="allNiches"
+                @click-event="jumpToEvent"
+              />
+            </div>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -114,6 +164,25 @@ export default defineComponent({
           Number(new Date(b.eventDate)) - Number(new Date(a.eventDate))
       )
     );
+    const pastEvents = computed(() =>
+      [...sortedEvents.value].filter(
+        (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) >= 0
+      )
+    );
+    const futureEvents = computed(() =>
+      [...sortedEvents.value]
+        .reverse()
+        .filter(
+          (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) < 0
+        )
+    );
+
+    // Define popular events to be events with more than 1 person interested.
+    const popularEvents = computed(() =>
+      [...sortedEvents.value].filter(
+        (a: Event) => a.members.going.length + a.members.interested.length >= 1
+      )
+    );
 
     const { fetched: fetchedSpaces, data } = useFetch<SpacesResponse>(
       fetchSpaces,
@@ -148,21 +217,25 @@ export default defineComponent({
 
         allNiches.value = items;
       }
-
-      if (events.value) {
-        allEvents.value = events.value;
-      }
     });
 
     const selectedTab = ref("upcomingEvents");
 
     return {
       selectedTab,
-      allEvents,
       allNiches,
+      sortedEvents,
+      pastEvents,
+      futureEvents,
+      popularEvents,
       jumpToSpace(item: string) {
         router.push({ name: "Space", params: { id: item } });
       },
+    };
+  },
+  data() {
+    return {
+      titleSearch: "",
     };
   },
 });

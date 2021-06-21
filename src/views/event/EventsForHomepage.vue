@@ -10,7 +10,7 @@
         :key="event.eventId"
         :style="{
           backgroundImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(' +
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(' +
             getNicheImage(event.groupId) +
             ')',
           backgroundPosition: 'center',
@@ -41,7 +41,7 @@
               <h5 style="color: white">{{ event.title }}</h5>
             </div>
             <div class="pt-2">
-              <span class="text-light">
+              <span style="color: grey">
                 {{ event.members.going.length }} Going -
                 {{ event.members.interested.length }} Interested</span
               >
