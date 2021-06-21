@@ -8,8 +8,13 @@ body {
 }
 
 .homepage-container {
-  max-width: 1600px;
+  max-width: 1100px;
   width: 100%;
+}
+
+.card-page-container {
+  max-width: 1100px;
+  width: auto;
 }
 
 .home-card-bg {

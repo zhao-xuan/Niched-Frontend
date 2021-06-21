@@ -215,6 +215,8 @@ export default defineComponent({
 
         allNiches.value = items;
 
+        newNiches.value = [...items].reverse().slice(0, 8);
+
         // Get 6 random niches to display!
         for (let i = 0; i < 6; i++) {
           randomNiches.push(items[Math.floor(Math.random() * items.length)]);
@@ -236,8 +238,6 @@ export default defineComponent({
             return b.members.length - a.members.length;
           })
           .slice(0, 8);
-
-        newNiches.value = items.reverse().slice(0, 8);
       }
     });
 

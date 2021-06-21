@@ -1,17 +1,15 @@
 <template>
   <TopBar />
-  <!-- <div class="container shadow py-5 px-4 dashboard-bg"> -->
   <div class="container homepage-container">
     <div class="row py-5">
       <div
         class="
           niched-corner
-          col-md-9
+          col-md-8
           pt-2
           pb-5
           px-4
           mx-auto
-          dashboard-bg
           shadow-lg
           home-card-bg
         "
