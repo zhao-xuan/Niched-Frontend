@@ -10,7 +10,7 @@
         :key="event.eventId"
         :style="{
           backgroundImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(' +
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url(' +
             getNicheImage(event.groupId) +
             ')',
           backgroundPosition: 'center',

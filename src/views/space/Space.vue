@@ -1,5 +1,6 @@
 <template>
   <TopBar />
+
   <div
     class="container space-page-container"
     v-loading.fullscreen.lock="
@@ -164,6 +165,13 @@
                 :events="events"
                 :tags="tags"
               />
+              <div class="mt-5">
+                <DatePicker
+                  v-model="date"
+                  v-show="selectedTab == 'events'"
+                  is-expanded
+                />
+              </div>
               <CreateEvent
                 v-show="selectedTab == 'upcomingEvents' || 'pastEvents'"
                 v-model:postingEvent="postingEvent"
@@ -194,6 +202,7 @@ import Card from "@/components/Card.vue";
 import EventsByMonthDate from "../event/EventsByMonthDate.vue";
 import { Event } from "@/api/event";
 import Moment from "moment";
+import { DatePicker } from "v-calendar";
 
 export default defineComponent({
   name: "Space",
@@ -205,6 +214,7 @@ export default defineComponent({
     CreateEvent,
     Members,
     Card,
+    DatePicker,
   },
   setup() {
     const postingThread = ref(false);
@@ -311,6 +321,22 @@ export default defineComponent({
 
     const selectedTab = ref("threads");
 
+    const date = ref<Date | null>(null);
+    const filteredSortedEvents = ref(sortedEvents.value);
+    watch(sortedEvents, (se) => {
+      filteredSortedEvents.value = se;
+    });
+    watch(date, (date) => {
+      filteredSortedEvents.value = events.value.filter((e) => {
+        if (!date) return true;
+        return (
+          new Date(e.eventDate).getFullYear() === date.getFullYear() &&
+          new Date(e.eventDate).getDate() === date.getDate() &&
+          new Date(e.eventDate).getMonth() === date.getMonth()
+        );
+      });
+    });
+
     return {
       userName,
 
@@ -321,7 +347,7 @@ export default defineComponent({
       creationDate,
       tags,
 
-      events: sortedEvents,
+      events: filteredSortedEvents,
       fetchingEvents,
       postingEvent,
 
@@ -341,6 +367,7 @@ export default defineComponent({
       leavingGroupStatus,
 
       Moment,
+      date,
 
       pastEvents,
       futureEvents,

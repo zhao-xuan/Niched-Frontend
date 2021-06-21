@@ -231,6 +231,12 @@ export default defineComponent({
       jumpToSpace(item: string) {
         router.push({ name: "Space", params: { id: item } });
       },
+      jumpToEvent(eventId: string) {
+        const groupId = sortedEvents.value.find(
+          (item) => item.eventId === eventId
+        )?.groupId;
+        router.push({ path: `/event/${groupId}/${eventId}` });
+      },
     };
   },
   data() {
