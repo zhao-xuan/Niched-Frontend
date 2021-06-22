@@ -44,7 +44,7 @@
             <div class="d-flex align-items-center">
               <el-input
                 v-model="search"
-                size="small "
+                size="small"
                 placeholder="E.g. Counter Strike"
               />
               <i class="el-icon-search ml-2"></i>
@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <el-tabs v-model="selectedTab" @tab-click="handleClick">
+      <el-tabs v-model="selectedTab">
         <el-tab-pane label="Hot" name="hot">
           <div class="row">
             <div class="col" style="color: red">

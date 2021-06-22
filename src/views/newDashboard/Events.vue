@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="pt-2">
-      <el-tabs v-model="selectedTab" @tab-click="handleClick">
+      <el-tabs v-model="selectedTab">
         <el-tab-pane label="Upcoming" name="upcomingEvents">
           <h5 class="text-dark">
             Check out upcoming events from other Niches!
