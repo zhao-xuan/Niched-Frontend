@@ -4,11 +4,11 @@
       <div class="col-lg-4">
         <div
           class="row align-items-center justify-content-center h-100 text-white"
-          style="background-color: rgb(140, 175, 244)"
+          style="background-color: rgb(29, 29, 29)"
         >
           <div class="col-lg-10">
-            <h2>Create your space!</h2>
-            <p>Please fill in the following form to create your own space!</p>
+            <h1>Create your space!</h1>
+            <h4>Please fill in the following form to create your own space!</h4>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@
         Welcome to<br />
         Niched!
       </h1>
-      <p>Login or register from here to access.</p>
+      <h4>Login or register from here to access.</h4>
     </div>
   </div>
   <div class="main">
