@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm topbar">
+  <nav class="navbar navbar-expand-sm topbar shadow">
     <div class="container-fluid d-flex justify-content-space">
       <div class="d-flex align-items-end">
         <a class="navbar-brand" href="/home"

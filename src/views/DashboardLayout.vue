@@ -10,7 +10,7 @@
           pb-5
           px-4
           mx-auto
-          shadow-lg
+          shadow
           home-card-bg
           homepage-container
         "

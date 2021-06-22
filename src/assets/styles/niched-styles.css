@@ -1,10 +1,12 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 body {
   background: transparent;
   height: 100%;
 }
 
 .topbar {
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 .homepage-container {
@@ -18,18 +20,12 @@ body {
 }
 
 .home-card-bg {
-  background-color: ghostwhite;
+  background-color: white;
 }
 
 html {
   height: 100%;
-  background: rgb(255, 161, 139);
-  background: linear-gradient(
-      146deg,
-      rgba(255, 161, 139, 1) 0%,
-      rgba(255, 212, 155, 1) 100%
-    )
-    no-repeat center center fixed;
+  background: ghostwhite no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -133,13 +129,17 @@ draw-bg {
 }
 
 .niche-card-header:hover {
-  top: -50px;
+  top: -140px;
   transition: 0.3s ease;
 }
 
 .niche-card-parent:hover + .niche-card-header {
-  top: -50px;
+  top: -140px;
   transition: 0.3s ease;
+}
+
+.header-title {
+  line-height: 160%;
 }
 
 .clickable {
@@ -148,4 +148,20 @@ draw-bg {
 
 .niched-corner {
   border-radius: 3px;
+}
+
+/* ------------------------ TEXT STYLES ------------------------ */
+h1 {
+  font-weight: normal;
+  font-family: Montserrat;
+}
+
+h4 {
+  font-weight: normal;
+  font-family: Montserrat;
+}
+
+h6 {
+  font-weight: normal;
+  font-family: Montserrat;
 }

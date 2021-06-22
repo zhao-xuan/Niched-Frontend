@@ -3,11 +3,11 @@
   <div class="container-fluid" v-loading.fullscreen.lock="lock || fetching">
     <div class="row py-5 px-4 niched-bg justify-content-center">
       <div class="col-lg-6 col-md-8">
-        <card class="bg-light">
+        <card class="shadow" style="border-radius: 4px">
           <!-- <img :src="imageUrl" style="height: 200px; object-fit: cover" /> -->
           <div class="container-fluid">
             <div class="row justify-content-center my-5">
-              <h2>{{ userName }}</h2>
+              <h4>{{ userName }}</h4>
               <div
                 style="
                   height: 3px;
@@ -19,7 +19,7 @@
             </div>
             <div class="row my-2">
               <div class="col-11 pl-5">
-                <h5>
+                <h4>
                   Interests
                   <el-tooltip
                     content="Your common interests are highlighted!"
@@ -29,7 +29,7 @@
                   >
                     <i class="el-icon-info" style="font-size: 0.8em"> </i
                   ></el-tooltip>
-                </h5>
+                </h4>
               </div>
               <div class="col-11 pl-5">
                 <el-tag
@@ -50,9 +50,9 @@
               <div class="col-11">
                 <div class="row my-2">
                   <div class="col-12 my-1 mx-1">
-                    <h5>
+                    <h4>
                       {{ selfProfile ? "Your Niches" : "Your common Niches" }}
-                    </h5>
+                    </h4>
                   </div>
                   <div
                     v-for="group in groupsJoined.filter((x) =>
@@ -74,9 +74,11 @@
                     </div>
                     <div class="row niche-card-header px-2">
                       <div class="col-sm-10">
-                        {{ group.name }}
-                        <br />
-                        {{ group.description }}
+                        <h6 class="header-title">
+                          {{ group.name }}
+                          <br />
+                          {{ group.description }}
+                        </h6>
                       </div>
                       <div class="col-sm-2 d-flex justify-content-end">
                         <i class="el-icon-user"> {{ group.members.length }}</i>
@@ -122,7 +124,7 @@
             </div>
 
             <div class="row my-1 justify-content-center">
-              <div class="col-11"><h5>Events</h5></div>
+              <div class="col-11"><h4>Events</h4></div>
               <div class="col-11">
                 <div class="row">
                   <div class="col-11">

@@ -2,7 +2,7 @@
   <div class="pt-2">
     <div class="row justify-content-between">
       <div class="col-8">
-        <h4 style="color: red"><i class="el-icon-date"></i> Find Events</h4>
+        <h4><i class="el-icon-date"></i> Find Events</h4>
       </div>
       <div class="col-4">
         <div style="color: grey">
@@ -22,9 +22,9 @@
     <div class="pt-2">
       <el-tabs v-model="selectedTab" @tab-click="handleClick">
         <el-tab-pane label="Upcoming" name="upcomingEvents">
-          <h5 class="text-dark">
+          <h6 class="text-dark">
             Check out upcoming events from other Niches!
-          </h5>
+          </h6>
           <div class="row">
             <div class="col-0 col-md-2"></div>
             <div class="col-12 col-md-8">
@@ -45,7 +45,7 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="Past" name="pastEvents">
-          <h5 class="text-dark">Find past events here</h5>
+          <h6 class="text-dark">Find all past events here.</h6>
           <div class="row">
             <div class="col-0 col-md-2"></div>
             <div class="col-12 col-md-8">
@@ -65,7 +65,7 @@
             </div></div
         ></el-tab-pane>
         <el-tab-pane label="Popular" name="popularEvents">
-          <h5 class="text-dark">See the trending events on Niched.</h5>
+          <h6 class="text-dark">See the trending events on Niched.</h6>
           <div class="row">
             <div class="col-0 col-md-2"></div>
             <div class="col-12 col-md-8">
@@ -86,10 +86,10 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="All" name="allEvents">
-          <h5 class="text-dark">
+          <h6 class="text-dark">
             Search the entire collection of all events: past, present and
             future!
-          </h5>
+          </h6>
           <div class="row">
             <div class="col-0 col-md-2"></div>
             <div class="col-12 col-md-8">
