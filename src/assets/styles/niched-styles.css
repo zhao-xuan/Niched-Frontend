@@ -7,6 +7,7 @@ body {
 
 .topbar {
   background-color: white;
+  height: 70px;
 }
 
 .homepage-container {
@@ -25,7 +26,7 @@ body {
 
 html {
   height: 100%;
-  background: ghostwhite no-repeat center center fixed;
+  background: #f8ddbe no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

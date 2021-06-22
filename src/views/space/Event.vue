@@ -31,7 +31,7 @@
                 </h6>
                 <div class="row">
                   <div class="col-12 col-md-8">
-                    <h2>{{ title }}</h2>
+                    <h4>{{ title }}</h4>
                   </div>
                   <div class="col-12 col-md-4">
                     <div class="row">
@@ -72,9 +72,9 @@
           <div class="row pb-4 px-4">
             <div class="col-md-8 pb-4">
               <div class="text item py-4">
-                <h5>
+                <h6>
                   {{ eventDescription }}
-                </h5>
+                </h6>
               </div>
             </div>
 
@@ -85,10 +85,12 @@
                     <i class="el-icon-time"></i>
                   </div>
                   <div class="col-11">
-                    <b
-                      >Happening at
-                      {{ new Date(eventDate).toLocaleString() }}</b
-                    >
+                    <h6>
+                      <b
+                        >Happening at
+                        {{ new Date(eventDate).toLocaleString() }}</b
+                      >
+                    </h6>
                   </div>
                 </div>
                 <div class="row pb-3">
@@ -96,17 +98,19 @@
                     <i class="el-icon-user"></i>
                   </div>
                   <div class="col-11">
-                    <b>Event Organiser: </b>
+                    <h6>
+                      <b>Event Organiser: </b>
 
-                    <div class="pt-2">
-                      <button
-                        type="submit"
-                        class="btn btn-info"
-                        @click="goToProfile(authorId)"
-                      >
-                        @{{ authorId }}
-                      </button>
-                    </div>
+                      <div class="pt-2">
+                        <button
+                          type="submit"
+                          class="btn btn-info"
+                          @click="goToProfile(authorId)"
+                        >
+                          @{{ authorId }}
+                        </button>
+                      </div>
+                    </h6>
                   </div>
                 </div>
                 <div class="row pb-3">
@@ -114,8 +118,10 @@
                     <i class="el-icon-check"></i>
                   </div>
                   <div class="col-11">
-                    <b>Going ({{ members.going.length }})</b>
-                    <Members :userNames="members.going" :sm="true" />
+                    <h6>
+                      <b>Going ({{ members.going.length }})</b>
+                      <Members :userNames="members.going" :sm="true" />
+                    </h6>
                   </div>
                 </div>
                 <div class="row pb-3">
@@ -123,8 +129,10 @@
                     <i class="el-icon-star-off"></i>
                   </div>
                   <div class="col-11">
-                    <b>Interested ({{ members.interested.length }})</b>
-                    <Members :userNames="members.interested" :sm="true" />
+                    <h6>
+                      <b>Interested ({{ members.interested.length }})</b>
+                      <Members :userNames="members.interested" :sm="true" />
+                    </h6>
                   </div>
                 </div>
               </el-card>

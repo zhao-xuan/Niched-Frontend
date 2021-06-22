@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm topbar shadow">
+  <nav class="navbar navbar-expand-sm shadow topbar">
     <div class="container-fluid d-flex justify-content-space">
       <div class="d-flex align-items-end">
         <a class="navbar-brand" href="/home"
@@ -34,20 +34,17 @@
         </button>
 
         <div class="collapse navbar-collapse px-2" id="navbarSupportedContent">
-          <button
-            class="btn btn-outline-success m-2 my-sm-0"
-            @click="jumpToEvents"
-          >
+          <button class="btn btn btn-light m-2 my-sm-0" @click="jumpToEvents">
             <h6 class="mx-1 my-1">Events</h6>
           </button>
           <button
-            class="btn btn-outline-success m-2 my-sm-0"
+            class="btn btn btn-light m-2 my-sm-0"
             @click="jumpToCreateSpace"
           >
             <h6 class="mx-1 my-1">Create&nbsp;Space</h6>
           </button>
           <button
-            class="btn btn-primary m-2 my-sm-0"
+            class="btn btn-secondary m-2 my-sm-0"
             @click="jumpToProfile"
             v-if="!loggedIn"
           >
@@ -75,13 +72,15 @@
                 class="d-flex flex-column align-items-center text-center mx-2"
                 style="cursor: pointer"
               >
-                <el-avatar
+                <!-- <el-avatar
                   class="mt-1 pb-0 mb-0"
                   v-if="loggedIn"
                   icon="el-icon-user-solid"
-                />
+                /> -->
                 <div>
-                  <h6 v-if="loggedIn">{{ userName }}</h6>
+                  <button class="btn btn btn-info w-100 my-1" v-if="loggedIn">
+                    <h6 class="mx-1 my-1" v-if="loggedIn">{{ userName }}</h6>
+                  </button>
                 </div>
               </div>
             </template>

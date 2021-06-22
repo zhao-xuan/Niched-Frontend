@@ -1,21 +1,24 @@
 <template>
-  <TopBar />
-  <div class="container">
-    <div class="row py-5">
-      <div
-        class="
-          niched-corner
-          col-md-12
-          pt-2
-          pb-5
-          px-4
-          mx-auto
-          shadow
-          home-card-bg
-          homepage-container
-        "
-      >
-        <router-view />
+  <div class="dashboard-bg">
+    <TopBar />
+
+    <div class="container">
+      <div class="row py-5">
+        <div
+          class="
+            niched-corner
+            col-md-12
+            pt-2
+            pb-5
+            px-4
+            shadow
+            mx-auto
+            home-card-bg
+            homepage-container
+          "
+        >
+          <router-view />
+        </div>
       </div>
     </div>
   </div>

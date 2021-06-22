@@ -20,7 +20,7 @@
       </div>
       <el-tabs v-model="selectedTab" @tab-click="handleClick">
         <el-tab-pane label="Hot" name="hot">
-          <div class="px-1 pt-2">
+          <div class="px-0 pt-2">
             <div class="row">
               <div class="col">
                 <h6><i class="el-icon-trophy"></i> Trending Niches</h6>
@@ -112,7 +112,7 @@
         <el-tab-pane label="Catalogue" name="catalogue">
           <div class="row">
             <div class="col">
-              <i class="el-icon-trophy"></i> Browse all Niches!
+              <h6><i class="el-icon-trophy"></i> Browse all Niches!</h6>
             </div>
           </div>
           <div class="row pb-5 px-2">
@@ -131,7 +131,9 @@
         <el-tab-pane label="Your Niches" name="userniche">
           <div class="row">
             <div class="col">
-              <i class="el-icon-trophy"></i> Find Niches you've joined here
+              <h6>
+                <i class="el-icon-trophy"></i> Find Niches you've joined here
+              </h6>
             </div>
           </div>
           <div class="row pb-5 px-2">
