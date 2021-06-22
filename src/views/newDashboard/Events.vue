@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-2">
+  <div class="pt-2" v-loading.fullscreen.lock="fetching">
     <div class="row justify-content-between">
       <div class="col-8">
         <h4 style="color: red"><i class="el-icon-date"></i> Find Events</h4>
@@ -171,10 +171,11 @@ export default defineComponent({
       )
     );
 
-    const { fetched: fetchedSpaces, data } = useFetch<SpacesResponse>(
-      fetchSpaces,
-      true
-    );
+    const {
+      fetched: fetchedSpaces,
+      fetching,
+      data,
+    } = useFetch<SpacesResponse>(fetchSpaces, true);
 
     watchEffect(() => {
       if (fetchedSpaces.value) {
@@ -207,6 +208,7 @@ export default defineComponent({
     });
 
     const selectedTab = ref("upcomingEvents");
+    const titleSearch = ref("");
 
     return {
       selectedTab,
@@ -215,6 +217,9 @@ export default defineComponent({
       pastEvents,
       futureEvents,
       popularEvents,
+      fetching,
+      titleSearch,
+
       jumpToSpace(item: string) {
         router.push({ name: "Space", params: { id: item } });
       },
@@ -224,11 +229,6 @@ export default defineComponent({
         )?.groupId;
         router.push({ path: `/event/${groupId}/${eventId}` });
       },
-    };
-  },
-  data() {
-    return {
-      titleSearch: "",
     };
   },
 });
