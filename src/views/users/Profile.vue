@@ -135,25 +135,30 @@
                     >
                       <div class="row">
                         <div
-                          class="text-secondary col-12 col-sm-2 mr-0 pr-0"
+                          class="text-secondary col-12 col-sm-4"
                           style="
                             font-weight: 500;
-                            font-size: 15px;
-                            min-width: 37px;
+                            font-size: 14px;
+                            min-width: 190px;
                           "
                         >
-                          <i class="el-icon-time pr-1"></i
-                          >{{
-                            new Date(event.eventDate).toLocaleString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                              hour: "numeric",
-                              minute: "numeric",
-                              hour12: true,
-                            })
-                          }}
+                          <div class="pb-2">
+                            {{
+                              new Date(event.eventDate).toLocaleString(
+                                "en-US",
+                                {
+                                  month: "long",
+                                  day: "numeric",
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  hour12: true,
+                                }
+                              )
+                            }}
+                            <i class="el-icon-time pl-1" />
+                          </div>
                         </div>
-                        <div class="col-12 col-sm-10">
+                        <div class="col-12 col-sm-8">
                           <div v-if="!selfProfile" class="pb-2">
                             <el-tag
                               v-if="
@@ -198,7 +203,6 @@ import { useRoute, useRouter } from "vue-router";
 import TopBar from "../Topbar.vue";
 import Card from "@/components/Card.vue";
 import { useState } from "@/state";
-import { useSpace } from "@/hooks/useSpace";
 import { Space } from "@/api/space";
 import { Event } from "@/api/event";
 import { useUser } from "@/hooks/useUser";
