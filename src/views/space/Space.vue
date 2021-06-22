@@ -47,7 +47,7 @@
                     type="primary"
                     :plain="joinedGroup"
                     :loading="joiningGroupStatus || leavingGroupStatus"
-                    :icon="joinedGroup && 'el-icon-check'"
+                    :icon="joinedGroup ? 'el-icon-check' : ''"
                   >
                     <b> {{ joinedGroup ? "Joined" : "Join" }}</b>
                   </el-button>

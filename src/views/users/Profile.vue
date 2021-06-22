@@ -199,53 +199,6 @@
                         </div>
                       </div>
                     </card>
-                    <!-- <card
-                      class="mt-3 p-3"
-                      v-for="event in eventsJoined.slice(0, 5)"
-                      :key="event.eventId"
-                      style="cursor: pointer"
-                      @click="jumpToEvent(event.groupId, event.eventId)"
-                    >
-                      <div class="row">
-                        <div
-                          class="text-secondary col-12 col-sm-2 mr-0 pr-0"
-                          style="font-size: 15px; min-width: 37px"
-                        >
-                          {{
-                            new Date(event.eventDate).toLocaleString("en-US", {
-                              hour: "numeric",
-                              minute: "numeric",
-                              hour12: true,
-                            })
-                          }}
-                        </div>
-                        <div class="col-12 col-sm-10">
-                          <div v-if="!selfProfile" class="pb-2">
-                            <el-tag
-                              v-if="
-                                event.members.going.includes(loggedInUserName)
-                              "
-                            >
-                              You're also going!
-                            </el-tag>
-                            <el-tag v-else> You're interested in this </el-tag>
-                          </div>
-                          <div class="p-1">
-                            <p>{{ event.title }}</p>
-                          </div>
-                          <div
-                            class="d-flex justify-content-end"
-                            style="
-                              font-weight: 400;
-                              font-size: 14px;
-                              color: #a6a6a6;
-                            "
-                          >
-                            Organised by {{ event.authorId }}
-                          </div>
-                        </div>
-                      </div>
-                    </card> -->
                   </div>
                 </div>
               </div>

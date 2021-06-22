@@ -43,8 +43,9 @@
                           plain
                           :loading="loadInterested"
                           :icon="
-                            eventGroup === EventGroup.INTERESTED &&
-                            'el-icon-check'
+                            eventGroup === EventGroup.INTERESTED
+                              ? 'el-icon-check'
+                              : ''
                           "
                           >Interested</el-button
                         >
@@ -57,7 +58,9 @@
                           plain
                           :loading="loadGoing"
                           :icon="
-                            eventGroup === EventGroup.GOING && 'el-icon-check'
+                            eventGroup === EventGroup.GOING
+                              ? 'el-icon-check'
+                              : ''
                           "
                           >Going!</el-button
                         >
