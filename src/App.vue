@@ -9,6 +9,7 @@ import { defineComponent, reactive } from "vue";
 import StateProvider from "./hooks/providers/StateProvider.vue";
 import { State } from "./state";
 import { fetchUser } from "./api/user";
+import { setAuthToken } from "./api/auth";
 
 export default defineComponent({
   name: "App",
@@ -34,6 +35,7 @@ export default defineComponent({
         state.interests = interests;
         state.subscribedGroups = subscribed_groups;
         state.loading = false;
+        setAuthToken(localStorage.token);
       } catch (err) {
         alert("cannot fetch user info");
         state.loading = false;

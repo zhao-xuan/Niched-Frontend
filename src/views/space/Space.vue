@@ -269,7 +269,7 @@ export default defineComponent({
     const pastEvents = computed(() =>
       [...sortedEvents.value].filter((e: Event) => {
         if (!date.value) {
-          (a: Event) => Number(new Date()) - Number(new Date(a.eventDate)) >= 0;
+          return Number(new Date()) - Number(new Date(e.eventDate)) >= 0;
         } else {
           return (
             new Date(e.eventDate).getFullYear() === date.value.getFullYear() &&
