@@ -5,7 +5,7 @@
         Welcome to<br />
         Niched!
       </h1>
-      <p>Login or register from here to access.</p>
+      <h4>Login or register from here to access.</h4>
     </div>
   </div>
   <div class="main">
@@ -50,7 +50,7 @@ body {
 
 .sidenav {
   height: 100%;
-  background-color: rgb(140, 175, 244);
+  background-color: rgb(29, 29, 29);
   overflow-x: hidden;
   padding-top: 20px;
 }

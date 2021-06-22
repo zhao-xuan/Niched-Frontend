@@ -15,11 +15,17 @@
     >
       <div class="niched-card-overlay"></div>
     </div>
-    <div class="row niche-card-header px-2">
+    <div
+      class="row niche-card-header px-2 clickable"
+      @click="jumpToSpace(item.groupId)"
+    >
       <div class="col-sm-10">
-        {{ item.name }}
-        <br />
-        {{ item.description }}
+        <h6 class="header-title">
+          {{ item.name }}
+        </h6>
+        <h6>
+          {{ item.description }}
+        </h6>
       </div>
       <div class="col-sm-2 d-flex justify-content-end">
         <i class="el-icon-user"> {{ item.members.length }}</i>

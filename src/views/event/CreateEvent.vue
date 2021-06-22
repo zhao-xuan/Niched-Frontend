@@ -1,7 +1,7 @@
 <template>
-  <el-card class="mt-5 mx-auto">
+  <el-card class="mt-5 mx-auto" style="broder-radius: 10px" shadow="hover">
     <div>
-      <h3>Organise a new Event!</h3>
+      <h4>Organise a new Event!</h4>
       <form class="pt-2" @submit.prevent>
         <div class="form-group">
           <input

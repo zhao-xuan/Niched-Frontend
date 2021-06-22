@@ -22,36 +22,38 @@
             class="text-light col-12 col-sm-2 mr-0 pr-0"
             style="font-weight: 500; font-size: 15px; min-width: 37px"
           >
-            <i class="el-icon-time pr-1"></i
-            >{{
-              new Date(event.eventDate).toLocaleString("en-US", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true,
-              })
-            }}
+            <h6>
+              <i class="el-icon-time pr-1"></i
+              >{{
+                new Date(event.eventDate).toLocaleString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })
+              }}
+            </h6>
           </div>
           <div class="col-12 col-sm-10">
             <div>
-              <b style="color: orange">
+              <h6 style="color: orange">
                 {{ getNicheName(event.groupId) }}
-              </b>
+              </h6>
             </div>
             <div>
-              <h5 style="color: white">{{ event.title }}</h5>
+              <h4 style="color: white">{{ event.title }}</h4>
             </div>
             <div class="pt-2">
-              <span style="color: grey">
+              <h6 style="color: grey">
                 {{ event.members.going.length }} Going -
-                {{ event.members.interested.length }} Interested</span
-              >
+                {{ event.members.interested.length }} Interested
+              </h6>
             </div>
             <div
               class="d-flex justify-content-end"
               style="font-weight: 400; font-size: 14px; color: #a6a6a6"
             >
               <i class="el-icon-user pt-1"></i>
-              <b class="pl-1">{{ event.authorId }}</b>
+              <h6 class="pl-1">{{ event.authorId }}</h6>
             </div>
           </div>
         </div>
@@ -140,3 +142,7 @@ export default defineComponent({
   // },
 });
 </script>
+
+<style>
+@import "../../assets/styles/niched-styles.css";
+</style>

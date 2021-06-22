@@ -36,7 +36,7 @@
             </div>
             <div class="col-sm-12 col-md-8">
               <div class="pl-4 d-flex text-left">
-                <h2>{{ name }}</h2>
+                <h4>{{ name }}</h4>
               </div>
             </div>
             <div class="col-sm-12 col-md-4">
@@ -82,11 +82,15 @@
                             style="width: 32px"
                           />
                           <div class="ml-2 my-2" style="font-weight: 500">
-                            {{ thread.authorId }}
+                            <h6>
+                              {{ thread.authorId }}
+                            </h6>
                           </div>
                         </div>
                         <div class="text-secondary" style="font-weight: 400">
-                          {{ Moment(thread.creationDate).fromNow() }}
+                          <h6>
+                            {{ Moment(thread.creationDate).fromNow() }}
+                          </h6>
                         </div>
                       </div>
                       <div
@@ -94,10 +98,14 @@
                         @click="jumpToThread(thread.threadId)"
                       >
                         <div class="my-1">
-                          <b>{{ thread.title }}</b>
+                          <h6>
+                            <b>{{ thread.title }}</b>
+                          </h6>
                         </div>
                         <div class="text item my-1">
-                          {{ thread.description }}
+                          <h6>
+                            {{ thread.description }}
+                          </h6>
                         </div>
                       </div>
                       <div
@@ -115,17 +123,21 @@
                               Math.floor(Math.random() * 100 + 1)
                             }}</b>
                           </div>
-                          <div><i class="el-icon-share mr-1" />share</div>
+                          <div>
+                            <h6><i class="el-icon-share mr-1" />share</h6>
+                          </div>
                         </div>
                         <div>
-                          <el-button
-                            type="primary"
-                            class="mx-1 my-2"
-                            plain
-                            @click="jumpToThread(thread.threadId)"
-                          >
-                            Reply
-                          </el-button>
+                          <h6>
+                            <el-button
+                              type="primary"
+                              class="mx-1 my-2"
+                              plain
+                              @click="jumpToThread(thread.threadId)"
+                            >
+                              Reply
+                            </el-button>
+                          </h6>
                         </div>
                       </div>
                     </card>
