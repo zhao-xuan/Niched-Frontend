@@ -1,5 +1,9 @@
 <template>
-  <el-card class="border border-light my-5" style="border-radius: 5px">
+  <el-card
+    class="border border-light my-5"
+    shadow="hover"
+    style="border-radius: 10px"
+  >
     <div>
       <div class="mb-1">
         <h4>About the group</h4>

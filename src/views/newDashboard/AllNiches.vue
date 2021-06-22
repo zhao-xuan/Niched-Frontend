@@ -3,7 +3,7 @@
     <div class="pt-2">
       <div class="row justify-content-between">
         <div class="col-8">
-          <h4><i class="el-icon-medal-1"></i> Niche Catalogue</h4>
+          <h4><i class="el-icon-medal-1"></i> niched homepage</h4>
         </div>
         <div class="col-4">
           <div style="color: grey">

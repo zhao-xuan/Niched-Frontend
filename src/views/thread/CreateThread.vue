@@ -7,12 +7,14 @@
           :src="`https://randomuser.me/api/portraits/men/1.jpg`"
           style="width: 32px"
         />
-        <div class="ml-2 my-3" style="font-weight: 500">
-          {{ userName }}
+        <div class="ml-2 my-3">
+          <h6>
+            {{ userName }}
+          </h6>
         </div>
       </div>
       <div class="ml-2 my-3">
-        <el-tag type="warning"> Tell me what you're thinking... </el-tag>
+        <h6>Tell me what you're thinking...</h6>
       </div>
     </div>
     <div>
@@ -44,14 +46,16 @@
             <div><i class="el-icon-share mr-1" />share</div>
           </div>
           <div>
-            <el-button
-              type="success"
-              class="mx-1 my-2"
-              plain
-              @click="onSubmitThread"
-            >
-              Create
-            </el-button>
+            <h6>
+              <el-button
+                type="success"
+                class="mx-1 my-2"
+                plain
+                @click="onSubmitThread"
+              >
+                Create
+              </el-button>
+            </h6>
           </div>
         </div>
       </form>

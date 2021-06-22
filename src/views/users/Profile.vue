@@ -72,7 +72,10 @@
                     >
                       <div class="niched-card-overlay"></div>
                     </div>
-                    <div class="row niche-card-header px-2">
+                    <div
+                      class="row niche-card-header px-2 clickable"
+                      @click="jumpToSpace(group.groupId)"
+                    >
                       <div class="col-sm-10">
                         <h6 class="header-title">
                           {{ group.name }}
@@ -88,7 +91,7 @@
                 </div>
                 <div class="row my-4" v-if="!selfProfile">
                   <div class="col-12 my-2 mx-2">
-                    <h5>{{ "Niches " + userName + " is interested in" }}</h5>
+                    <h4>{{ "Niches " + userName + " is interested in" }}</h4>
                   </div>
                   <div
                     v-for="group in groupsJoined.filter(
@@ -108,14 +111,18 @@
                     >
                       <div class="niched-card-overlay"></div>
                     </div>
-                    <div class="row niche-card-header px-2">
-                      <div class="col-sm-10">
-                        {{ group.name }}
+                    <div
+                      class="row niche-card-header px-2 clickable"
+                      @click="jumpToSpace(group.groupId)"
+                    >
+                      <div class="col-sm-12">
+                        <h6>
+                          {{ group.name }}
+                        </h6>
                         <br />
-                        {{ group.description }}
-                      </div>
-                      <div class="col-sm-2 d-flex justify-content-end">
-                        <i class="el-icon-user"> {{ group.members.length }}</i>
+                        <h6>
+                          {{ group.description }}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -127,7 +134,7 @@
               <div class="col-11"><h4>Events</h4></div>
               <div class="col-11">
                 <div class="row">
-                  <div class="col-11">
+                  <div class="col-11 pb-4">
                     <card
                       class="mt-3 p-3"
                       v-for="event in eventsJoined.slice(0, 5)"
@@ -144,28 +151,39 @@
                             min-width: 37px;
                           "
                         >
-                          <i class="el-icon-time pr-1"></i
-                          >{{
-                            new Date(event.eventDate).toLocaleString("en-US", {
-                              hour: "numeric",
-                              minute: "numeric",
-                              hour12: true,
-                            })
-                          }}
+                          <h6>
+                            <i class="el-icon-time pr-1"></i
+                            >{{
+                              new Date(event.eventDate).toLocaleString(
+                                "en-US",
+                                {
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  hour12: true,
+                                }
+                              )
+                            }}
+                          </h6>
                         </div>
                         <div class="col-12 col-sm-10">
                           <div v-if="!selfProfile" class="pb-2">
-                            <el-tag
-                              v-if="
-                                event.members.going.includes(loggedInUserName)
-                              "
-                            >
-                              You're also going!
-                            </el-tag>
-                            <el-tag v-else> You're interested in this </el-tag>
+                            <h6>
+                              <el-tag
+                                v-if="
+                                  event.members.going.includes(loggedInUserName)
+                                "
+                              >
+                                You're also going!
+                              </el-tag>
+                              <el-tag v-else>
+                                You're interested in this
+                              </el-tag>
+                            </h6>
                           </div>
                           <div>
-                            {{ event.title }}
+                            <h6>
+                              <b> {{ event.title }}</b>
+                            </h6>
                           </div>
                           <div
                             class="d-flex justify-content-end"
@@ -176,7 +194,7 @@
                             "
                           >
                             <i class="el-icon-user pt-1"></i>
-                            <b class="pl-1">{{ event.authorId }}</b>
+                            <h6 class="pl-1">{{ event.authorId }}</h6>
                           </div>
                         </div>
                       </div>
