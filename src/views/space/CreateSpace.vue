@@ -118,14 +118,14 @@ export default defineComponent({
 
     watch([error, posted], () => {
       if (!error.value && posted.value) {
-        alert("success");
-        router.push({ name: "Home" });
+        alert("Space created successfully!");
+        router.push({ name: "Space", params: { id: id.value } });
       }
     });
 
     const onSubmit = () => {
       if (!id.value || !name.value || !description.value) {
-        alert("group id, name and description are required!");
+        alert("Space ID, name and description are required!");
         return;
       }
 

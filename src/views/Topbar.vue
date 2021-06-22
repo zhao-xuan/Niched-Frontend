@@ -53,7 +53,12 @@
           >
             <div v-if="!loggedIn" class="mx-1 my-1">Login</div>
           </button>
-          <el-popover placement="top" :width="160" v-model:visible="visible">
+          <el-popover
+            placement="top"
+            :width="160"
+            trigger="hover"
+            v-if="loggedIn"
+          >
             <div>
               <button
                 class="btn btn-outline-info w-100 my-1"
@@ -120,11 +125,12 @@ export default defineComponent({
         }
       },
       jumpToEvents() {
-        console.log("HRE");
         router.push({ name: "Events" });
       },
       onLogout() {
         unsetUserState();
+        console.log("Asdf");
+        router.go(0);
       },
       loggedIn,
       userName,
