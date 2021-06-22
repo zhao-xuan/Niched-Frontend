@@ -131,7 +131,7 @@
                       v-for="event in eventsJoined.slice(0, 5)"
                       :key="event.eventId"
                       style="cursor: pointer"
-                      @click="$emit('click-event', event.eventId)"
+                      @click="jumpToEvent(event.groupId, event.eventId)"
                     >
                       <div class="row">
                         <div
@@ -145,6 +145,8 @@
                           <i class="el-icon-time pr-1"></i
                           >{{
                             new Date(event.eventDate).toLocaleString("en-US", {
+                              month: "long",
+                              day: "numeric",
                               hour: "numeric",
                               minute: "numeric",
                               hour12: true,
