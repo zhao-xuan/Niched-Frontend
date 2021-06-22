@@ -38,20 +38,20 @@
             class="btn btn-outline-success m-2 my-sm-0"
             @click="jumpToEvents"
           >
-            <div class="mx-1 my-1">Events</div>
+            <h6 class="mx-1 my-1">Events</h6>
           </button>
           <button
             class="btn btn-outline-success m-2 my-sm-0"
             @click="jumpToCreateSpace"
           >
-            <div class="mx-1 my-1">Create&nbsp;Space</div>
+            <h6 class="mx-1 my-1">Create&nbsp;Space</h6>
           </button>
           <button
             class="btn btn-primary m-2 my-sm-0"
             @click="jumpToProfile"
             v-if="!loggedIn"
           >
-            <div v-if="!loggedIn" class="mx-1 my-1">Login</div>
+            <h6 v-if="!loggedIn" class="mx-1 my-1">Login</h6>
           </button>
           <el-popover placement="top" :width="160" v-model:visible="visible">
             <div>
@@ -60,14 +60,14 @@
                 @click="jumpToProfile"
                 v-if="loggedIn"
               >
-                <div v-if="loggedIn">My&nbsp;Profile</div>
+                <h6 v-if="loggedIn">My&nbsp;Profile</h6>
               </button>
               <button
                 class="btn btn-outline-info w-100 my-1"
                 @click="onLogout"
                 v-if="loggedIn"
               >
-                <div v-if="loggedIn">Logout</div>
+                <h6 v-if="loggedIn">Logout</h6>
               </button>
             </div>
             <template #reference>
@@ -81,7 +81,7 @@
                   icon="el-icon-user-solid"
                 />
                 <div>
-                  <span v-if="loggedIn">{{ userName }}</span>
+                  <h6 v-if="loggedIn">{{ userName }}</h6>
                 </div>
               </div>
             </template>

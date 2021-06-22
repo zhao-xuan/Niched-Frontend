@@ -36,7 +36,7 @@
             </div>
             <div class="col-sm-12 col-md-8">
               <div class="pl-4 d-flex text-left">
-                <h2>{{ name }}</h2>
+                <h4>{{ name }}</h4>
               </div>
             </div>
             <div class="col-sm-12 col-md-4">

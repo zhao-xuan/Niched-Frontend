@@ -2,7 +2,7 @@
   <el-card class="border border-light my-5" style="border-radius: 5px">
     <div>
       <div class="mb-1">
-        <h3>About the group</h3>
+        <h4>About the group</h4>
       </div>
     </div>
     <div class="container-fluid p-2">
@@ -14,7 +14,7 @@
               <i class="el-icon-user-solid" />
             </div>
             <div class="col-lg-12 col-md-8 text-center text-muted">
-              <p style="font-size: small">Members</p>
+              <h6 style="font-size: small">Members</h6>
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
               <i class="el-icon-notebook-2" />
             </div>
             <div class="col-lg-12 col-md-8 text-center text-muted">
-              <p style="font-size: small">Threads</p>
+              <h6 style="font-size: small">Threads</h6>
             </div>
           </div>
         </div>
@@ -36,20 +36,22 @@
               <i class="el-icon-map-location" />
             </div>
             <div class="col-lg-12 col-md-8 text-center text-muted">
-              <p style="font-size: small">Events</p>
+              <h6 style="font-size: small">Events</h6>
             </div>
           </div>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col">
-          {{ description }}
+          <h6>
+            {{ description }}
+          </h6>
         </div>
       </div>
       <div class="col-12 pt-2 text-muted text-right">
-        <p style="font-size: small">
+        <h6>
           Created: {{ Moment(creationDate).fromNow() }} by @{{ authorId }}
-        </p>
+        </h6>
       </div>
       <div
         style="
@@ -90,3 +92,6 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+@import "../../assets/styles/niched-styles.css";
+</style>
