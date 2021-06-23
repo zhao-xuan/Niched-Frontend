@@ -115,7 +115,7 @@ body {
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useState } from "@/state";
 import { loginUser } from "@/api/auth";
 import { AxiosError } from "axios";
@@ -127,6 +127,9 @@ export default defineComponent({
     const passwordInput = ref("");
 
     const router = useRouter();
+    const route = useRoute();
+    const redirect = (route.query.redirect as string) || "Home";
+
     const {
       setLoading,
       setLoggedIn,
@@ -152,7 +155,7 @@ export default defineComponent({
         setBio(bio || "");
         setLoading(false);
 
-        router.push({ name: "Home" });
+        router.push({ name: redirect });
       } catch (err) {
         const error = err as AxiosError;
         console.log(error.response?.status);

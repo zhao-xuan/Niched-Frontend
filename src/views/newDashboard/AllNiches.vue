@@ -28,7 +28,7 @@
             </div>
             <el-carousel
               :interval="8000"
-              initial-index="1"
+              :initial-index="1"
               type="card"
               indicator-position="outside"
             >
