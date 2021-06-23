@@ -250,7 +250,7 @@ export default defineComponent({
       if (!loading) {
         lock.value = false;
         if (!loggedIn) {
-          router.push({ name: "Login" });
+          router.push({ name: "Login", query: { redirect: route.path } });
         }
       }
     };
