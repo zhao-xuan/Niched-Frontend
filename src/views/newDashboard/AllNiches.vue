@@ -176,14 +176,14 @@ export default defineComponent({
     const mostMemberNiches = ref<Space[]>([]);
     const newNiches = ref<Space[]>([]);
     const chosenNiches = [
-      "minecraft",
+      "mahjong",
       "csgo",
       "k-drama",
       "tech",
       "drp-15",
       "anime",
       "casual-arena",
-      "bts",
+      "pokemon",
     ];
 
     const { fetched, fetching, data } = useFetch<SpacesResponse>(
@@ -220,11 +220,14 @@ export default defineComponent({
 
         newNiches.value = [...items].reverse().slice(0, 8);
 
-        // Get 6 random niches to display!
-        for (let i = 0; i < 6; i++) {
-          randomNiches.push(items[Math.floor(Math.random() * items.length)]);
-        }
-        popularNiches.value = randomNiches;
+        popularNiches.value = items
+          .sort(function (a, b) {
+            return (
+              b.members.length * b.tags.length -
+              a.members.length * a.tags.length
+            );
+          })
+          .slice(0, 8);
 
         // Get user's niches
         userNiches.value = items.filter((group) =>
