@@ -211,7 +211,7 @@ export default defineComponent({
     const groupId = route.params.groupId as string;
     const threadId = route.params.threadId as string;
 
-    const { userName } = useState();
+    const { userName, loggedIn } = useState();
 
     const {
       name,
@@ -251,6 +251,11 @@ export default defineComponent({
     });
 
     const submitComment = () => {
+      if (!loggedIn.value) {
+        alert("Please login to post any comments!");
+        return;
+      }
+
       doPostComment(commentBody.value).then(() => {
         doFetch();
       });
