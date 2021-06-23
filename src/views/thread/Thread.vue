@@ -190,7 +190,7 @@
 
 <script lang="ts">
 import TopBar from "../Topbar.vue";
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, watch } from "vue";
 import { useSpace } from "@/hooks/useSpace";
 import { useComment } from "@/hooks/useComment";
 import { useThread, useThreads } from "@/hooks/useThread";
@@ -243,6 +243,12 @@ export default defineComponent({
     const jumpToEvent = (eventId: string) => {
       router.push({ path: `/event/${groupId}/${eventId}` });
     };
+
+    watch(fetchingComments, (fc) => {
+      if (fc) {
+        commentBody.value = "";
+      }
+    });
 
     const submitComment = () => {
       doPostComment(commentBody.value).then(() => {
